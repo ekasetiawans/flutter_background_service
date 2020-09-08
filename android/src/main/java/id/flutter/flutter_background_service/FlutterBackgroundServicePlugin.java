@@ -24,7 +24,7 @@ public class FlutterBackgroundServicePlugin implements FlutterPlugin, MethodCall
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
     this.context = flutterPluginBinding.getApplicationContext();
-    channel = new MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), "flutter_background_service");
+    channel = new MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), "id.flutter/background_service", JSONMethodCodec.INSTANCE);
     channel.setMethodCallHandler(this);
   }
 

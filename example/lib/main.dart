@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 
@@ -11,6 +13,9 @@ void onStart() {
   WidgetsFlutterBinding.ensureInitialized();
 
   // do
+  Timer.periodic(Duration(seconds: 1), (timer) {
+    print("hello world ${DateTime.now().toIso8601String()}");
+  });
 }
 
 class MyApp extends StatefulWidget {
