@@ -79,7 +79,7 @@ public class BackgroundService extends Service {
             mBuilder.setContentText(content);
             mBuilder.setAutoCancel(true);
             mBuilder.setContentIntent(pendingIntent);
-            mBuilder.setSmallIcon(R.mipmap.ic_launcher);
+            //mBuilder.setSmallIcon(R.mipmap.ic_launcher);
             mBuilder.setPriority(NotificationManager.IMPORTANCE_LOW);
 
             startForeground(1, mBuilder.build());
