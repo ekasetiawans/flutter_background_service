@@ -12,22 +12,27 @@ import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.AlarmManagerCompat;
 import androidx.core.app.NotificationCompat;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import io.flutter.embedding.engine.FlutterEngine;
-import io.flutter.embedding.engine.FlutterJNI;
 import io.flutter.embedding.engine.dart.DartExecutor;
+import io.flutter.plugin.common.JSONMethodCodec;
+import io.flutter.plugin.common.MethodCall;
+import io.flutter.plugin.common.MethodChannel;
 import io.flutter.view.FlutterCallbackInformation;
 import io.flutter.view.FlutterMain;
 
-public class BackgroundService extends Service {
+public class BackgroundService extends Service implements MethodChannel.MethodCallHandler {
     private static final String TAG = "BackgroundService";
+    String notificationTitle = "Background Service";
+    String notificationContent = "Running";
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -59,30 +64,24 @@ public class BackgroundService extends Service {
             String description = "Executing process in background";
 
             int importance = NotificationManager.IMPORTANCE_LOW;
-            NotificationChannel channel = new NotificationChannel("DEFAULT", name, importance);
+            NotificationChannel channel = new NotificationChannel("FOREGROUND_DEFAULT", name, importance);
             channel.setDescription(description);
-            channel.setShowBadge(false);
+
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
     }
 
-    protected void setForegroundText(String content) {
+    protected void updateNotificationInfo() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Intent intent = new Intent();
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.setPackage(getApplicationContext().getPackageName());
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, "FOREGROUND_DEFAULT")
+                    .setSmallIcon(R.drawable.ic_bg_service_small)
+                    .setAutoCancel(true)
+                    .setOngoing(true)
+                    .setContentTitle(notificationTitle)
+                    .setContentText(notificationContent);
 
-            PendingIntent pendingIntent = PendingIntent.getActivity(this, 999, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, "DEFAULT");
-            mBuilder.setContentTitle("Service");
-            mBuilder.setContentText(content);
-            mBuilder.setAutoCancel(true);
-            mBuilder.setContentIntent(pendingIntent);
-            //mBuilder.setSmallIcon(R.mipmap.ic_launcher);
-            mBuilder.setPriority(NotificationManager.IMPORTANCE_LOW);
-
-            startForeground(1, mBuilder.build());
+            startForeground(99778, mBuilder.build());
         }
     }
 
@@ -97,9 +96,7 @@ public class BackgroundService extends Service {
     AtomicBoolean isRunning = new AtomicBoolean(false);
     private void runService(){
         if (isRunning.get()) return;
-
-        final SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
-        setForegroundText("Running since " + sdf.format(new Date()));
+        updateNotificationInfo();
 
         SharedPreferences pref = getSharedPreferences("id.flutter.background_service", MODE_PRIVATE);
         long callbackHandle = pref.getLong("callback_handle", 0);
@@ -112,7 +109,33 @@ public class BackgroundService extends Service {
 
         isRunning.set(true);
         FlutterEngine backgroundEngine = new FlutterEngine(this);
+        MethodChannel methodChannel = new MethodChannel(backgroundEngine.getDartExecutor().getBinaryMessenger(), "id.flutter/background_service_bg", JSONMethodCodec.INSTANCE);
+        methodChannel.setMethodCallHandler(this);
+
         DartExecutor.DartCallback dartCallback = new DartExecutor.DartCallback(getAssets(), FlutterMain.findAppBundlePath(), callback);
         backgroundEngine.getDartExecutor().executeDartCallback(dartCallback);
+    }
+
+    @Override
+    public void onMethodCall(@NonNull MethodCall call, @NonNull MethodChannel.Result result) {
+        String method = call.method;
+
+        try {
+            if (method.equalsIgnoreCase("setNotificationInfo")) {
+                JSONObject arg = (JSONObject) call.arguments;
+                if (arg.has("title")) {
+                    notificationTitle = arg.getString("title");
+                    notificationContent = arg.getString("content");
+                    updateNotificationInfo();
+                    result.success(true);
+                    return;
+                }
+            }
+        } catch (JSONException e){
+            Log.e(TAG, e.getMessage());
+            e.printStackTrace();
+        }
+
+        result.notImplemented();
     }
 }

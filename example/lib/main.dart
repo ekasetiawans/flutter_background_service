@@ -11,10 +11,13 @@ void main() {
 
 void onStart() {
   WidgetsFlutterBinding.ensureInitialized();
+  final service = FlutterBackgroundService();
 
-  // do
   Timer.periodic(Duration(seconds: 1), (timer) {
-    print("hello world ${DateTime.now().toIso8601String()}");
+    service.setNotificationInfo(
+      title: "My App Service",
+      content: "Updated at ${DateTime.now()}",
+    );
   });
 }
 
