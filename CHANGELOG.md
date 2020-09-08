@@ -13,3 +13,7 @@
 ## 0.0.1+3
 
 * Add ability to change notification info (Android foreground service)
+
+## 0.0.1+4
+
+* Update README

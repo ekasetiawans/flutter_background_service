@@ -1,6 +1,6 @@
 name: flutter_background_service
 description: A new flutter plugin project.
-version: 0.0.1+3
+version: 0.0.1+4
 repository: https://github.com/ekasetiawans/flutter_background_service
 
 environment:
