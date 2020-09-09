@@ -56,7 +56,7 @@ class FlutterBackgroundService {
   // Send data from UI to Service, or from Service to UI
   void sendData(Map<String, dynamic> data) async {
     if (_isFromInitialization) {
-      _mainChannel.invokeListMethod("sendData", data);
+      _mainChannel.invokeMethod("sendData", data);
       return;
     }
 
