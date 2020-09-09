@@ -17,3 +17,7 @@
 ## 0.0.1+4
 
 * Update README
+
+## 0.0.1+5
+
+* Add ability to send data from service to UI
