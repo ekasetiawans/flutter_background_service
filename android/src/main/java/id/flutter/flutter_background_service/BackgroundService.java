@@ -142,7 +142,7 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
     public void receiveData(JSONObject data){
         if (methodChannel != null){
             try {
-                methodChannel.invokeMethod("sendData", data);
+                methodChannel.invokeMethod("onReceiveData", data);
             }catch (Exception e){
                 e.printStackTrace();
             }
