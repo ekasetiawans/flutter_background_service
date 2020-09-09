@@ -45,3 +45,7 @@
 ## 0.0.1+11
 
 * iOS
+
+## 0.0.1+12
+
+* Start service immediately after initialize
