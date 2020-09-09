@@ -32,6 +32,10 @@ import io.flutter.view.FlutterMain;
 
 public class BackgroundService extends Service implements MethodChannel.MethodCallHandler {
     private static final String TAG = "BackgroundService";
+    private FlutterEngine backgroundEngine;
+    private MethodChannel methodChannel;
+    private DartExecutor.DartCallback dartCallback;
+
     String notificationTitle = "Background Service";
     String notificationContent = "Running";
 
@@ -57,6 +61,21 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
     public void onCreate() {
         super.onCreate();
         createNotificationChannel();
+        notificationContent = "Preparing";
+        updateNotificationInfo();
+    }
+
+    @Override
+    public void onDestroy() {
+        enqueue(this);
+
+        stopForeground(true);
+        isRunning.set(false);
+
+        backgroundEngine = null;
+        methodChannel = null;
+        dartCallback = null;
+        super.onDestroy();
     }
 
     private void createNotificationChannel() {
@@ -96,7 +115,7 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
 
     AtomicBoolean isRunning = new AtomicBoolean(false);
     private void runService(){
-        if (isRunning.get()) return;
+        if (isRunning.get() || (backgroundEngine != null && !backgroundEngine.getDartExecutor().isExecutingDart())) return;
         updateNotificationInfo();
 
         SharedPreferences pref = getSharedPreferences("id.flutter.background_service", MODE_PRIVATE);
@@ -109,11 +128,11 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
         }
 
         isRunning.set(true);
-        FlutterEngine backgroundEngine = new FlutterEngine(this);
-        MethodChannel methodChannel = new MethodChannel(backgroundEngine.getDartExecutor().getBinaryMessenger(), "id.flutter/background_service_bg", JSONMethodCodec.INSTANCE);
+        backgroundEngine = new FlutterEngine(this);
+        methodChannel = new MethodChannel(backgroundEngine.getDartExecutor().getBinaryMessenger(), "id.flutter/background_service_bg", JSONMethodCodec.INSTANCE);
         methodChannel.setMethodCallHandler(this);
 
-        DartExecutor.DartCallback dartCallback = new DartExecutor.DartCallback(getAssets(), FlutterMain.findAppBundlePath(), callback);
+        dartCallback = new DartExecutor.DartCallback(getAssets(), FlutterMain.findAppBundlePath(), callback);
         backgroundEngine.getDartExecutor().executeDartCallback(dartCallback);
     }
 
