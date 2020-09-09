@@ -49,3 +49,7 @@
 ## 0.0.1+12
 
 * Start service immediately after initialize
+
+## 0.0.1+13
+
+* Update example for iOS support.
