@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import org.json.JSONException;
@@ -68,6 +69,8 @@ public class FlutterBackgroundServicePlugin extends BroadcastReceiver implements
       BackgroundService.setCallbackDispatcher(context, callbackHandle);
 
       BackgroundService.enqueue(context);
+      ContextCompat.startForegroundService(context, new Intent(context, BackgroundService.class));
+
       result.success(true);
       return;
     }
