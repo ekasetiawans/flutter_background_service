@@ -1,17 +1,31 @@
 import 'dart:async';
 
+import 'package:audioplayer/audioplayer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   FlutterBackgroundService.initialize(onStart);
+
   runApp(MyApp());
 }
 
 void onStart() {
   WidgetsFlutterBinding.ensureInitialized();
   final service = FlutterBackgroundService();
+  final audioPlayer = AudioPlayer();
+
+  String url =
+      "https://www.mediacollege.com/downloads/sound-effects/nature/forest/rainforest-ambient.mp3";
+
+  audioPlayer.onPlayerStateChanged.listen((event) {
+    if (event == AudioPlayerState.COMPLETED) {
+      audioPlayer.play(url);
+    }
+  });
+
+  audioPlayer.play(url);
 
   service.onDataReceived.listen((event) {
     print(event);

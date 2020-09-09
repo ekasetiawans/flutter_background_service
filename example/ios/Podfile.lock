@@ -1,19 +1,25 @@
 PODS:
+  - audioplayer (0.0.1):
+    - Flutter
   - Flutter (1.0.0)
   - flutter_background_service (0.0.1):
     - Flutter
 
 DEPENDENCIES:
+  - audioplayer (from `.symlinks/plugins/audioplayer/ios`)
   - Flutter (from `Flutter`)
   - flutter_background_service (from `.symlinks/plugins/flutter_background_service/ios`)
 
 EXTERNAL SOURCES:
+  audioplayer:
+    :path: ".symlinks/plugins/audioplayer/ios"
   Flutter:
     :path: Flutter
   flutter_background_service:
     :path: ".symlinks/plugins/flutter_background_service/ios"
 
 SPEC CHECKSUMS:
+  audioplayer: 0584f31a697e4b0bbad405ae7903d7a93585e784
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   flutter_background_service: a4644870cc76287aaa6147b47107e52680b79c90
 
