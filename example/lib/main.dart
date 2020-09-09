@@ -18,6 +18,10 @@ void onStart() {
       title: "My App Service",
       content: "Updated at ${DateTime.now()}",
     );
+
+    service.sendData(
+      {"current_date": DateTime.now().toIso8601String()},
+    );
   });
 }
 
@@ -34,8 +38,19 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: const Text('Service App'),
         ),
-        body: Center(
-          child: Text('Hello World'),
+        body: StreamBuilder<Map<String, dynamic>>(
+          stream: FlutterBackgroundService().onDataReceived,
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+
+            final data = snapshot.data;
+            DateTime date = DateTime.tryParse(data["current_date"]);
+            return Text(date.toString());
+          },
         ),
       ),
     );

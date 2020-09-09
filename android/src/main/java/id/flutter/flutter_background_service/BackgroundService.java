@@ -15,6 +15,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.core.app.AlarmManagerCompat;
 import androidx.core.app.NotificationCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -130,6 +131,15 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
                     result.success(true);
                     return;
                 }
+            }
+
+            if (method.equalsIgnoreCase("sendData")){
+                LocalBroadcastManager manager = LocalBroadcastManager.getInstance(this);
+                Intent intent = new Intent("id.flutter/background_service");
+                intent.putExtra("data", ((JSONObject) call.arguments).toString());
+                manager.sendBroadcast(intent);
+                result.success(true);
+                return;
             }
         } catch (JSONException e){
             Log.e(TAG, e.getMessage());

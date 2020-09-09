@@ -31,3 +31,7 @@ android {
         disable 'InvalidPackage'
     }
 }
+
+dependencies {
+    implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.0.0'
+}
