@@ -72,6 +72,7 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
         stopForeground(true);
         isRunning.set(false);
 
+        backgroundEngine.getServiceControlSurface().detachFromService();
         backgroundEngine = null;
         methodChannel = null;
         dartCallback = null;
@@ -129,11 +130,23 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
 
         isRunning.set(true);
         backgroundEngine = new FlutterEngine(this);
+        backgroundEngine.getServiceControlSurface().attachToService(this, null, true);
+
         methodChannel = new MethodChannel(backgroundEngine.getDartExecutor().getBinaryMessenger(), "id.flutter/background_service_bg", JSONMethodCodec.INSTANCE);
         methodChannel.setMethodCallHandler(this);
 
         dartCallback = new DartExecutor.DartCallback(getAssets(), FlutterMain.findAppBundlePath(), callback);
         backgroundEngine.getDartExecutor().executeDartCallback(dartCallback);
+    }
+
+    public void receiveData(JSONObject data){
+        if (methodChannel != null){
+            try {
+                methodChannel.invokeMethod("sendData", data);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override

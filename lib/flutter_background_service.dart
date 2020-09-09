@@ -5,29 +5,35 @@ import 'package:flutter/services.dart';
 
 class FlutterBackgroundService {
   bool _isFromInitialization = false;
-  static const MethodChannel _channel = const MethodChannel(
+  static const MethodChannel _backgroundChannel = const MethodChannel(
       'id.flutter/background_service_bg', JSONMethodCodec());
 
-  static const MethodChannel _methodChannel =
+  static const MethodChannel _mainChannel =
       const MethodChannel('id.flutter/background_service', JSONMethodCodec());
 
   static FlutterBackgroundService _instance =
-      FlutterBackgroundService._internal();
+      FlutterBackgroundService._internal().._setupBackground();
   FlutterBackgroundService._internal();
   factory FlutterBackgroundService() => _instance;
 
-  void _setup() {
+  void _setupMain() {
     _isFromInitialization = true;
-    _methodChannel.setMethodCallHandler((call) async {
-      switch (call.method) {
-        case "onReceiveData":
-          _streamController.sink.add(call.arguments);
-          break;
-        default:
-      }
+    _mainChannel.setMethodCallHandler(_handle);
+  }
 
-      return true;
-    });
+  void _setupBackground() {
+    _backgroundChannel.setMethodCallHandler(_handle);
+  }
+
+  Future<dynamic> _handle(MethodCall call) async {
+    switch (call.method) {
+      case "onReceiveData":
+        _streamController.sink.add(call.arguments);
+        break;
+      default:
+    }
+
+    return true;
   }
 
   static Future<bool> initialize(Function onStart) async {
@@ -37,9 +43,9 @@ class FlutterBackgroundService {
     }
 
     final service = FlutterBackgroundService();
-    service._setup();
+    service._setupMain();
 
-    final r = await _methodChannel.invokeMethod(
+    final r = await _mainChannel.invokeMethod(
       "BackgroundService.start",
       handle.toRawHandle(),
     );
@@ -47,18 +53,19 @@ class FlutterBackgroundService {
     return r ?? false;
   }
 
-  // Send data to UI if available
+  // Send data from UI to Service, or from Service to UI
   void sendData(Map<String, dynamic> data) async {
     if (_isFromInitialization) {
-      throw Exception("Only allowed from service inside");
+      _mainChannel.invokeListMethod("sendData", data);
+      return;
     }
 
-    _channel.invokeMethod("sendData", data);
+    _backgroundChannel.invokeMethod("sendData", data);
   }
 
   // Set Foreground Notification Information
   void setNotificationInfo({String title, String content}) {
-    _channel.invokeMethod("setNotificationInfo", {
+    _backgroundChannel.invokeMethod("setNotificationInfo", {
       "title": title,
       "content": content,
     });

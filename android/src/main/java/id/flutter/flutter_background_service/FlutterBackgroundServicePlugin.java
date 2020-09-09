@@ -13,6 +13,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
+import io.flutter.embedding.engine.plugins.service.ServiceAware;
+import io.flutter.embedding.engine.plugins.service.ServicePluginBinding;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
@@ -21,13 +23,12 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
 import io.flutter.plugin.common.JSONMethodCodec;
 
 /** FlutterBackgroundServicePlugin */
-public class FlutterBackgroundServicePlugin extends BroadcastReceiver implements FlutterPlugin, MethodCallHandler {
-  /// The MethodChannel that will the communication between Flutter and native Android
-  ///
-  /// This local reference serves to register the plugin with the Flutter Engine and unregister it
-  /// when the Flutter Engine is detached from the Activity
+public class FlutterBackgroundServicePlugin extends BroadcastReceiver implements FlutterPlugin, MethodCallHandler, ServiceAware {
+  private static final String TAG = "BackgroundServicePlugin";
+
   private MethodChannel channel;
   private Context context;
+  private BackgroundService service;
 
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
@@ -39,15 +40,6 @@ public class FlutterBackgroundServicePlugin extends BroadcastReceiver implements
     channel.setMethodCallHandler(this);
   }
 
-  // This static function is optional and equivalent to onAttachedToEngine. It supports the old
-  // pre-Flutter-1.12 Android projects. You are encouraged to continue supporting
-  // plugin registration via this function while apps migrate to use the new Android APIs
-  // post-flutter-1.12 via https://flutter.dev/go/android-project-migration.
-  //
-  // It is encouraged to share logic between onAttachedToEngine and registerWith to keep
-  // them functionally equivalent. Only one of onAttachedToEngine or registerWith will be called
-  // depending on the user's project. onAttachedToEngine or registerWith must both be defined
-  // in the same class.
   public static void registerWith(Registrar registrar) {
     LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(registrar.context());
     final FlutterBackgroundServicePlugin plugin = new FlutterBackgroundServicePlugin();
@@ -72,6 +64,14 @@ public class FlutterBackgroundServicePlugin extends BroadcastReceiver implements
       return;
     }
 
+    if (method.equalsIgnoreCase("sendData")){
+      if (service != null){
+        service.receiveData((JSONObject) call.arguments);
+      }
+
+      result.success(true);
+      return;
+    }
 
     result.notImplemented();
   }
@@ -101,5 +101,18 @@ public class FlutterBackgroundServicePlugin extends BroadcastReceiver implements
         e.printStackTrace();
       }
     }
+  }
+
+  @Override
+  public void onAttachedToService(@NonNull ServicePluginBinding binding) {
+    Log.d(TAG, "onAttachedToService");
+
+    this.service = (BackgroundService) binding.getService();
+  }
+
+  @Override
+  public void onDetachedFromService() {
+    this.service = null;
+    Log.d(TAG, "onDetachedFromService");
   }
 }
