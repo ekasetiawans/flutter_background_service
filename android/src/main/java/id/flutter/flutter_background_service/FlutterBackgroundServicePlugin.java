@@ -12,6 +12,9 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.embedding.engine.plugins.service.ServiceAware;
 import io.flutter.embedding.engine.plugins.service.ServicePluginBinding;
@@ -25,6 +28,11 @@ import io.flutter.plugin.common.JSONMethodCodec;
 /** FlutterBackgroundServicePlugin */
 public class FlutterBackgroundServicePlugin extends BroadcastReceiver implements FlutterPlugin, MethodCallHandler, ServiceAware {
   private static final String TAG = "BackgroundServicePlugin";
+  private static final List<FlutterBackgroundServicePlugin> _instances = new ArrayList<>();
+
+  public FlutterBackgroundServicePlugin(){
+    _instances.add(this);
+  }
 
   private MethodChannel channel;
   private Context context;
@@ -65,8 +73,11 @@ public class FlutterBackgroundServicePlugin extends BroadcastReceiver implements
     }
 
     if (method.equalsIgnoreCase("sendData")){
-      if (service != null){
-        service.receiveData((JSONObject) call.arguments);
+      for (FlutterBackgroundServicePlugin plugin: _instances) {
+        if (plugin.service != null){
+          plugin.service.receiveData((JSONObject) call.arguments);
+          break;
+        }
       }
 
       result.success(true);

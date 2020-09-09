@@ -13,6 +13,10 @@ void onStart() {
   WidgetsFlutterBinding.ensureInitialized();
   final service = FlutterBackgroundService();
 
+  service.onDataReceived.listen((event) {
+    print(event);
+  });
+
   Timer.periodic(Duration(seconds: 1), (timer) {
     service.setNotificationInfo(
       title: "My App Service",
@@ -51,6 +55,14 @@ class _MyAppState extends State<MyApp> {
             DateTime date = DateTime.tryParse(data["current_date"]);
             return Text(date.toString());
           },
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            FlutterBackgroundService().sendData({
+              "hello": "world",
+            });
+          },
+          child: Icon(Icons.play_arrow),
         ),
       ),
     );
