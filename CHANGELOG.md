@@ -29,3 +29,7 @@
 ## 0.0.1+7
 
 * Add ability to send data from UI to Service
+
+## 0.0.1+8
+
+* bug fix
