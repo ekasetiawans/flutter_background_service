@@ -53,3 +53,7 @@
 ## 0.0.1+13
 
 * Update example for iOS support.
+
+## 0.0.1+14
+
+* Bugfix BootReceiver
