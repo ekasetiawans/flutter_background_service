@@ -62,32 +62,44 @@ public class FlutterBackgroundServicePlugin extends BroadcastReceiver implements
   @Override
   public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
     String method = call.method;
-    Object arguments = call.arguments;
+    JSONObject arg = (JSONObject) call.arguments;
 
-    if ("BackgroundService.start".equals(method)) {
-      long callbackHandle = (Long) arguments;
-      BackgroundService.setCallbackDispatcher(context, callbackHandle);
+    try {
 
-      BackgroundService.enqueue(context);
-      ContextCompat.startForegroundService(context, new Intent(context, BackgroundService.class));
+      if ("BackgroundService.start".equals(method)) {
+        long callbackHandle = arg.getLong("handle");
+        boolean isForeground = arg.getBoolean("is_foreground_mode");
 
-      result.success(true);
-      return;
-    }
+        BackgroundService.setCallbackDispatcher(context, callbackHandle, isForeground);
+        BackgroundService.enqueue(context);
 
-    if (method.equalsIgnoreCase("sendData")){
-      for (FlutterBackgroundServicePlugin plugin: _instances) {
-        if (plugin.service != null){
-          plugin.service.receiveData((JSONObject) call.arguments);
-          break;
+        Intent intent = new Intent(context, BackgroundService.class);
+        if (isForeground){
+          ContextCompat.startForegroundService(context, intent);
+        } else {
+          context.startService(intent);
         }
+
+        result.success(true);
+        return;
       }
 
-      result.success(true);
-      return;
-    }
+      if (method.equalsIgnoreCase("sendData")) {
+        for (FlutterBackgroundServicePlugin plugin : _instances) {
+          if (plugin.service != null) {
+            plugin.service.receiveData((JSONObject) call.arguments);
+            break;
+          }
+        }
 
-    result.notImplemented();
+        result.success(true);
+        return;
+      }
+
+      result.notImplemented();
+    }catch (Exception e){
+      result.error("100", "Failed read arguments", null);
+    }
   }
 
   @Override

@@ -22,8 +22,10 @@ import org.json.JSONObject;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import io.flutter.FlutterInjector;
 import io.flutter.embedding.engine.FlutterEngine;
 import io.flutter.embedding.engine.dart.DartExecutor;
+import io.flutter.embedding.engine.loader.FlutterLoader;
 import io.flutter.plugin.common.JSONMethodCodec;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
@@ -52,9 +54,19 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
         AlarmManagerCompat.setAndAllowWhileIdle(manager, AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, pIntent);
     }
 
-    public static void setCallbackDispatcher(Context context, long callbackHandleId){
+    public static void setCallbackDispatcher(Context context, long callbackHandleId, boolean isForeground){
         SharedPreferences pref = context.getSharedPreferences("id.flutter.background_service", MODE_PRIVATE);
-        pref.edit().putLong("callback_handle", callbackHandleId).apply();
+        pref.edit().putLong("callback_handle", callbackHandleId).putBoolean("is_foreground", isForeground).apply();
+    }
+
+    public void setForegroundServiceMode(boolean value){
+        SharedPreferences pref = getSharedPreferences("id.flutter.background_service", MODE_PRIVATE);
+        pref.edit().putBoolean("is_foreground", value).apply();
+    }
+
+    public static boolean isForegroundService(Context context){
+        SharedPreferences pref = context.getSharedPreferences("id.flutter.background_service", MODE_PRIVATE);
+        return pref.getBoolean("is_foreground", true);
     }
 
     @Override
@@ -94,15 +106,17 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
     }
 
     protected void updateNotificationInfo() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, "FOREGROUND_DEFAULT")
-                    .setSmallIcon(R.drawable.ic_bg_service_small)
-                    .setAutoCancel(true)
-                    .setOngoing(true)
-                    .setContentTitle(notificationTitle)
-                    .setContentText(notificationContent);
+        if (isForegroundService(this)){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, "FOREGROUND_DEFAULT")
+                        .setSmallIcon(R.drawable.ic_bg_service_small)
+                        .setAutoCancel(true)
+                        .setOngoing(true)
+                        .setContentTitle(notificationTitle)
+                        .setContentText(notificationContent);
 
-            startForeground(99778, mBuilder.build());
+                startForeground(99778, mBuilder.build());
+            }
         }
     }
 
@@ -122,7 +136,7 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
         SharedPreferences pref = getSharedPreferences("id.flutter.background_service", MODE_PRIVATE);
         long callbackHandle = pref.getLong("callback_handle", 0);
 
-        FlutterMain.ensureInitializationComplete(getApplicationContext(), null);
+        FlutterInjector.instance().flutterLoader().ensureInitializationComplete(getApplicationContext(), null);
         FlutterCallbackInformation callback =  FlutterCallbackInformation.lookupCallbackInformation(callbackHandle);
         if (callback == null){
             Log.e(TAG, "callback handle not found");
@@ -164,6 +178,15 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
                     result.success(true);
                     return;
                 }
+            }
+
+            if (method.equalsIgnoreCase("setForegroundMode")){
+                JSONObject arg = (JSONObject) call.arguments;
+                boolean value = arg.getBoolean("value");
+                setForegroundServiceMode(value);
+                updateNotificationInfo();
+                result.success(true);
+                return;
             }
 
             if (method.equalsIgnoreCase("sendData")){

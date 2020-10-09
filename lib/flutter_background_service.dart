@@ -36,7 +36,10 @@ class FlutterBackgroundService {
     return true;
   }
 
-  static Future<bool> initialize(Function onStart) async {
+  static Future<bool> initialize(
+    Function onStart, {
+    bool foreground = true,
+  }) async {
     final CallbackHandle handle = PluginUtilities.getCallbackHandle(onStart);
     if (handle == null) {
       return false;
@@ -47,7 +50,10 @@ class FlutterBackgroundService {
 
     final r = await _mainChannel.invokeMethod(
       "BackgroundService.start",
-      handle.toRawHandle(),
+      {
+        "handle": handle.toRawHandle(),
+        "is_foreground_mode": foreground,
+      },
     );
 
     return r ?? false;
@@ -64,11 +70,22 @@ class FlutterBackgroundService {
   }
 
   // Set Foreground Notification Information
+  // Only available when foreground mode is true
   void setNotificationInfo({String title, String content}) {
-    _backgroundChannel.invokeMethod("setNotificationInfo", {
-      "title": title,
-      "content": content,
-    });
+    if (Platform.isAndroid)
+      _backgroundChannel.invokeMethod("setNotificationInfo", {
+        "title": title,
+        "content": content,
+      });
+  }
+
+  // Set Foreground Mode
+  // Only for Android
+  void setForegroundMode(bool value) {
+    if (Platform.isAndroid)
+      _backgroundChannel.invokeMethod("setForegroundMode", {
+        "value": value,
+      });
   }
 
   StreamController<Map<String, dynamic>> _streamController =

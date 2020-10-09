@@ -17,6 +17,9 @@ void onStart() {
     print(event);
   });
 
+  // bring to foreground
+  service.setForegroundMode(true);
+
   Timer.periodic(Duration(seconds: 1), (timer) {
     service.setNotificationInfo(
       title: "My App Service",
