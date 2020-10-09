@@ -38,7 +38,8 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
     
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
         if (call.method == "BackgroundService.start"){
-            let callbackHandleID = call.arguments as? NSNumber
+            let args = call.arguments as? Dictionary<String, Any>
+            let callbackHandleID = arg["handle"] as? NSNumber
             
             let defaults = UserDefaults.standard
             defaults.set(callbackHandleID?.int64Value, forKey: "callback_handle")
@@ -83,6 +84,11 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
                         self.mainChannel?.invokeMethod("onReceiveData", arguments: call.arguments)
                     }
                     
+                    result(true);
+                    return;
+                }
+                
+                if (call.method == "setForegroundMode"){
                     result(true);
                     return;
                 }
