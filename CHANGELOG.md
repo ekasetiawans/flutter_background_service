@@ -57,3 +57,7 @@
 ## 0.0.1+14
 
 * Bugfix BootReceiver
+
+## 0.0.1+15
+
+* Add ability to change Background or Foreground mode (Android Only)
