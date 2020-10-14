@@ -61,3 +61,7 @@
 ## 0.0.1+15
 
 * Add ability to change Background or Foreground mode (Android Only)
+
+## 0.0.1+16
+
+* Set Foreground Mode to false will remove notification. BugFix #4.

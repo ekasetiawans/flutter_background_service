@@ -184,7 +184,12 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
                 JSONObject arg = (JSONObject) call.arguments;
                 boolean value = arg.getBoolean("value");
                 setForegroundServiceMode(value);
-                updateNotificationInfo();
+                if (value){
+                    updateNotificationInfo();
+                } else {
+                    stopForeground(true);
+                }
+
                 result.success(true);
                 return;
             }
