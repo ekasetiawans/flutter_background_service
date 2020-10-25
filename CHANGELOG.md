@@ -65,3 +65,7 @@
 ## 0.0.1+16
 
 * Set Foreground Mode to false will remove notification. BugFix #4.
+
+## 0.0.1+17
+
+* Add preference autoStart on Boot, default is true.
