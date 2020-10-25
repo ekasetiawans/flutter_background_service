@@ -40,6 +40,7 @@ class FlutterBackgroundService {
   static Future<bool> initialize(
     Function onStart, {
     bool foreground = true,
+    bool autoStart = true,
   }) async {
     final CallbackHandle handle = PluginUtilities.getCallbackHandle(onStart);
     if (handle == null) {
@@ -54,6 +55,7 @@ class FlutterBackgroundService {
       {
         "handle": handle.toRawHandle(),
         "is_foreground_mode": foreground,
+        "auto_start_on_boot": autoStart,
       },
     );
 
@@ -85,6 +87,13 @@ class FlutterBackgroundService {
   void setForegroundMode(bool value) {
     if (Platform.isAndroid)
       _backgroundChannel.invokeMethod("setForegroundMode", {
+        "value": value,
+      });
+  }
+
+  void setAutoStartOnBootMode(bool value) {
+    if (Platform.isAndroid)
+      _backgroundChannel.invokeMethod("setAutoStartOnBootMode", {
         "value": value,
       });
   }

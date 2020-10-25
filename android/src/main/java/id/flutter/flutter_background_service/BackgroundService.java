@@ -54,9 +54,23 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
         AlarmManagerCompat.setAndAllowWhileIdle(manager, AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, pIntent);
     }
 
-    public static void setCallbackDispatcher(Context context, long callbackHandleId, boolean isForeground){
+    public static void setCallbackDispatcher(Context context, long callbackHandleId, boolean isForeground, boolean autoStartOnBoot){
         SharedPreferences pref = context.getSharedPreferences("id.flutter.background_service", MODE_PRIVATE);
-        pref.edit().putLong("callback_handle", callbackHandleId).putBoolean("is_foreground", isForeground).apply();
+        pref.edit()
+                .putLong("callback_handle", callbackHandleId)
+                .putBoolean("is_foreground", isForeground)
+                .putBoolean("auto_start_on_boot", autoStartOnBoot)
+                .apply();
+    }
+
+    public void setAutoStartOnBootMode(boolean value){
+        SharedPreferences pref = getSharedPreferences("id.flutter.background_service", MODE_PRIVATE);
+        pref.edit().putBoolean("auto_start_on_boot", value).apply();
+    }
+
+    public static boolean isAutoStartOnBootMode(Context context){
+        SharedPreferences pref = context.getSharedPreferences("id.flutter.background_service", MODE_PRIVATE);
+        return pref.getBoolean("auto_start_on_boot", true);
     }
 
     public void setForegroundServiceMode(boolean value){
@@ -178,6 +192,14 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
                     result.success(true);
                     return;
                 }
+            }
+            
+            if (method.equalsIgnoreCase("setAutoStartOnBootMode")){
+                JSONObject arg = (JSONObject) call.arguments;
+                boolean value = arg.getBoolean("value");
+                setAutoStartOnBootMode(value);
+                result.success(true);
+                return;
             }
 
             if (method.equalsIgnoreCase("setForegroundMode")){
