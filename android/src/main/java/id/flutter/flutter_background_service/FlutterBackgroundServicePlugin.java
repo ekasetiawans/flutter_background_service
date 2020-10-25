@@ -69,8 +69,9 @@ public class FlutterBackgroundServicePlugin extends BroadcastReceiver implements
       if ("BackgroundService.start".equals(method)) {
         long callbackHandle = arg.getLong("handle");
         boolean isForeground = arg.getBoolean("is_foreground_mode");
+        boolean autoStartOnBoot = arg.getBoolean("auto_start_on_boot");
 
-        BackgroundService.setCallbackDispatcher(context, callbackHandle, isForeground);
+        BackgroundService.setCallbackDispatcher(context, callbackHandle, isForeground, autoStartOnBoot);
         BackgroundService.enqueue(context);
 
         Intent intent = new Intent(context, BackgroundService.class);
