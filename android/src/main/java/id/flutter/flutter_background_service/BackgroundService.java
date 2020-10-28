@@ -216,6 +216,16 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
                 return;
             }
 
+            if (method.equalsIgnoreCase("stopService")) {
+                Intent intent = new Intent(this, WatchdogReceiver.class);
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 1253, intent, 0);
+                AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+                alarmManager.cancel(pendingIntent);
+                stopSelf();
+                result.success(true);
+                return;
+            }
+
             if (method.equalsIgnoreCase("sendData")){
                 LocalBroadcastManager manager = LocalBroadcastManager.getInstance(this);
                 Intent intent = new Intent("id.flutter/background_service");

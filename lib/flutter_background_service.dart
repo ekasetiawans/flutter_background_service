@@ -91,6 +91,12 @@ class FlutterBackgroundService {
       });
   }
 
+  // StopBackgroundService from Running
+  void stopBackgroundService() {
+    //TODO: Remove this check once implemented for IOS.
+    if (Platform.isAndroid) _backgroundChannel.invokeMethod("stopService");
+  }
+
   void setAutoStartOnBootMode(bool value) {
     if (Platform.isAndroid)
       _backgroundChannel.invokeMethod("setAutoStartOnBootMode", {
