@@ -69,3 +69,7 @@
 ## 0.0.1+17
 
 * Add preference autoStart on Boot, default is true.
+
+## 0.0.1+18
+
+* Added stopService Method(Currently Works on Android Only).
