@@ -22,12 +22,17 @@ void onStart() {
     if (event["action"] == "setAsBackground") {
       service.setForegroundMode(false);
     }
+
+    if (event["action"] == "stopService") {
+      service.stopBackgroundService();
+    }
   });
 
   // bring to foreground
   service.setForegroundMode(true);
 
-  Timer.periodic(Duration(seconds: 1), (timer) {
+  Timer.periodic(Duration(seconds: 1), (timer) async {
+    if (!(await service.isServiceRunning())) timer.cancel();
     service.setNotificationInfo(
       title: "My App Service",
       content: "Updated at ${DateTime.now()}",
@@ -45,6 +50,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  String text = "Stop Service";
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -80,6 +86,26 @@ class _MyAppState extends State<MyApp> {
               onPressed: () {
                 FlutterBackgroundService()
                     .sendData({"action": "setAsBackground"});
+              },
+            ),
+            RaisedButton(
+              child: Text(text),
+              onPressed: () async {
+                var isRunning =
+                    await FlutterBackgroundService().isServiceRunning();
+                if (isRunning) {
+                  FlutterBackgroundService().sendData(
+                    {"action": "stopService"},
+                  );
+                } else {
+                  FlutterBackgroundService.initialize(onStart);
+                }
+                if (!isRunning) {
+                  text = 'Stop Service';
+                } else {
+                  text = 'Start Service';
+                }
+                setState(() {});
               },
             ),
           ],

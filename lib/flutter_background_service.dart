@@ -6,6 +6,8 @@ import 'package:flutter/services.dart';
 
 class FlutterBackgroundService {
   bool _isFromInitialization = false;
+  bool _isRunning = false;
+  bool _isMainChannel = false;
   static const MethodChannel _backgroundChannel = const MethodChannel(
       'id.flutter/background_service_bg', JSONMethodCodec());
 
@@ -19,10 +21,13 @@ class FlutterBackgroundService {
 
   void _setupMain() {
     _isFromInitialization = true;
+    _isRunning = true;
+    _isMainChannel = true;
     _mainChannel.setMethodCallHandler(_handle);
   }
 
   void _setupBackground() {
+    _isRunning = true;
     _backgroundChannel.setMethodCallHandler(_handle);
   }
 
@@ -64,6 +69,10 @@ class FlutterBackgroundService {
 
   // Send data from UI to Service, or from Service to UI
   void sendData(Map<String, dynamic> data) async {
+    if (!(await isServiceRunning())) {
+      dispose();
+      return;
+    }
     if (_isFromInitialization) {
       _mainChannel.invokeMethod("sendData", data);
       return;
@@ -91,10 +100,20 @@ class FlutterBackgroundService {
       });
   }
 
+  Future<bool> isServiceRunning() async {
+    if (_isMainChannel) {
+      var result = await _mainChannel.invokeMethod("isServiceRunning");
+      return result;
+    } else {
+      return _isRunning;
+    }
+  }
+
   // StopBackgroundService from Running
   void stopBackgroundService() {
     //TODO: Remove this check once implemented for IOS.
     if (Platform.isAndroid) _backgroundChannel.invokeMethod("stopService");
+    _isRunning = false;
   }
 
   void setAutoStartOnBootMode(bool value) {

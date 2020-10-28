@@ -37,6 +37,7 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
     private FlutterEngine backgroundEngine;
     private MethodChannel methodChannel;
     private DartExecutor.DartCallback dartCallback;
+    private boolean isManuallyStopped = false;
 
     String notificationTitle = "Background Service";
     String notificationContent = "Running";
@@ -83,6 +84,16 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
         return pref.getBoolean("is_foreground", true);
     }
 
+    public void setManuallyStopped(boolean value){
+        SharedPreferences pref = getSharedPreferences("id.flutter.background_service", MODE_PRIVATE);
+        pref.edit().putBoolean("is_manually_stopped", value).apply();
+    }
+
+    public static boolean isManuallyStopped(Context context){
+        SharedPreferences pref = context.getSharedPreferences("id.flutter.background_service", MODE_PRIVATE);
+        return pref.getBoolean("is_manually_stopped", false);
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -93,8 +104,11 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
 
     @Override
     public void onDestroy() {
-        enqueue(this);
-
+        if(!isManuallyStopped) {
+            enqueue(this);
+        } else {
+            setManuallyStopped(true);
+        }
         stopForeground(true);
         isRunning.set(false);
 
@@ -136,6 +150,7 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        setManuallyStopped(false);
         enqueue(this);
         runService();
 
@@ -217,8 +232,9 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
             }
 
             if (method.equalsIgnoreCase("stopService")) {
+                isManuallyStopped = true;
                 Intent intent = new Intent(this, WatchdogReceiver.class);
-                PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 1253, intent, 0);
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 111, intent, 0);
                 AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
                 alarmManager.cancel(pendingIntent);
                 stopSelf();
