@@ -1,5 +1,7 @@
 package id.flutter.flutter_background_service;
 
+import android.app.ActivityManager;
+import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -94,6 +96,18 @@ public class FlutterBackgroundServicePlugin extends BroadcastReceiver implements
         }
 
         result.success(true);
+        return;
+      }
+
+      if (method.equalsIgnoreCase("isServiceRunning")) {
+        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+          if (BackgroundService.class.getName().equals(service.service.getClassName())) {
+            result.success(true);
+            return;
+          }
+        }
+        result.success(false);
         return;
       }
 

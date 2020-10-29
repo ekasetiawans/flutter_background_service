@@ -9,10 +9,12 @@ import androidx.core.content.ContextCompat;
 public class WatchdogReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (BackgroundService.isForegroundService(context)){
-            ContextCompat.startForegroundService(context, new Intent(context, BackgroundService.class));
-        } else {
-            context.startService(new Intent(context, BackgroundService.class));
+        if(!BackgroundService.isManuallyStopped(context)){
+            if (BackgroundService.isForegroundService(context)){
+                ContextCompat.startForegroundService(context, new Intent(context, BackgroundService.class));
+            } else {
+                context.startService(new Intent(context, BackgroundService.class));
+            }
         }
     }
 }
