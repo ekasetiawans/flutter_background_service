@@ -39,7 +39,7 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
         if (call.method == "BackgroundService.start"){
             let args = call.arguments as? Dictionary<String, Any>
-            let callbackHandleID = args["handle"] as? NSNumber
+            let callbackHandleID = args?["handle"] as? NSNumber
             
             let defaults = UserDefaults.standard
             defaults.set(callbackHandleID?.int64Value, forKey: "callback_handle")
