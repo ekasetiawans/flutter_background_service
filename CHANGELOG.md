@@ -73,3 +73,7 @@
 ## 0.0.1+18
 
 * Added stopService Method(Currently Works on Android Only).
+
+## 0.1.0-nullsafety.0
+
+* Added support to nullsafety
