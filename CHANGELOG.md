@@ -73,3 +73,11 @@
 ## 0.0.1+18
 
 * Added stopService Method(Currently Works on Android Only).
+
+## 0.0.1+19
+
+* Fix SwiftFlutterBackgroundServicePlugin.swift:42:36: error: value of optional type 'Dictionary<String, Any>?.
+
+## 0.0.1+20
+
+* Added isServiceRunning on iOS (issue #19).
