@@ -56,6 +56,12 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
             
             result(true);
         }
+                
+        if (call.method == "isServiceRunning"){
+            result(self.backgroundChannel != nil);
+            return;
+        }
+        
     }
     
     public func beginFetch(){
