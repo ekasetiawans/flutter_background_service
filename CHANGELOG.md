@@ -77,3 +77,7 @@
 ## 0.1.0-nullsafety.0
 
 * Added support to nullsafety
+
+## 0.1.0-nullsafety.1
+
+* Added isServiceRunning on iOS (issue #19)
