@@ -81,3 +81,7 @@
 ## 0.0.1+20
 
 * Added isServiceRunning on iOS (issue #19).
+
+## 0.0.1+21
+
+* Fix #23.
