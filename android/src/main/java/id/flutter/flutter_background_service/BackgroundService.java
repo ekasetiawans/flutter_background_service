@@ -112,8 +112,11 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
         stopForeground(true);
         isRunning.set(false);
 
-        backgroundEngine.getServiceControlSurface().detachFromService();
-        backgroundEngine = null;
+        if (backgroundEngine != null){
+            backgroundEngine.getServiceControlSurface().detachFromService();
+            backgroundEngine = null;
+        }
+        
         methodChannel = null;
         dartCallback = null;
         super.onDestroy();
