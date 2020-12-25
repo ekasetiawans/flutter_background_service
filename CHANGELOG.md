@@ -81,3 +81,7 @@
 ## 0.1.0-nullsafety.1
 
 * Added isServiceRunning on iOS (issue #19)
+
+## 0.1.0-nullsafety.2
+
+* Fix #23
