@@ -85,3 +85,7 @@
 ## 0.1.0-nullsafety.2
 
 * Fix #23
+
+## 0.1.0
+
+* Bump flutter 2

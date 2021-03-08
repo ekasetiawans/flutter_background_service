@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'dart:ui';
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:flutter/services.dart';
 
@@ -9,10 +9,14 @@ class FlutterBackgroundService {
   bool _isRunning = false;
   bool _isMainChannel = false;
   static const MethodChannel _backgroundChannel = const MethodChannel(
-      'id.flutter/background_service_bg', JSONMethodCodec());
+    'id.flutter/background_service_bg',
+    JSONMethodCodec(),
+  );
 
-  static const MethodChannel _mainChannel =
-      const MethodChannel('id.flutter/background_service', JSONMethodCodec());
+  static const MethodChannel _mainChannel = const MethodChannel(
+    'id.flutter/background_service',
+    JSONMethodCodec(),
+  );
 
   static FlutterBackgroundService _instance =
       FlutterBackgroundService._internal().._setupBackground();
