@@ -11,6 +11,9 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
     var backgroundChannel: FlutterMethodChannel? = nil
     
     public override func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) -> Bool {
+        
+        self.beginFetch()
+        completionHandler(.newData)
         return true
     }
     
@@ -77,7 +80,7 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
             let uri = callbackHandle?.callbackLibraryPath
             
             self.backgroundEngine = FlutterEngine(name: "FlutterService", project: nil, allowHeadlessExecution: true)
-            self.backgroundEngine?.run(withEntrypoint: callbackName, libraryURI: uri)
+            self.backgroundEngine!.run(withEntrypoint: callbackName, libraryURI: uri)
             SwiftFlutterBackgroundServicePlugin.flutterPluginRegistrantCallback?(self.backgroundEngine!)
             
             let binaryMessenger = self.backgroundEngine?.binaryMessenger
@@ -104,8 +107,6 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
                     return;
                 }
             })
-            
-            
         }
     }
 }

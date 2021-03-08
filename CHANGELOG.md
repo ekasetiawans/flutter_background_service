@@ -74,14 +74,18 @@
 
 * Added stopService Method(Currently Works on Android Only).
 
-## 0.0.1+19
+## 0.1.0-nullsafety.0
 
-* Fix SwiftFlutterBackgroundServicePlugin.swift:42:36: error: value of optional type 'Dictionary<String, Any>?.
+* Added support to nullsafety
 
-## 0.0.1+20
+## 0.1.0-nullsafety.1
 
-* Added isServiceRunning on iOS (issue #19).
+* Added isServiceRunning on iOS (issue #19)
 
-## 0.0.1+21
+## 0.1.0-nullsafety.2
 
-* Fix #23.
+* Fix #23
+
+## 0.1.0
+
+* Bump flutter 2

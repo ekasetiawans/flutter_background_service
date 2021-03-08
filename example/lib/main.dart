@@ -74,21 +74,21 @@ class _MyAppState extends State<MyApp> {
                 return Text(date.toString());
               },
             ),
-            RaisedButton(
+            ElevatedButton(
               child: Text("Foreground Mode"),
               onPressed: () {
                 FlutterBackgroundService()
                     .sendData({"action": "setAsForeground"});
               },
             ),
-            RaisedButton(
+            ElevatedButton(
               child: Text("Background Mode"),
               onPressed: () {
                 FlutterBackgroundService()
                     .sendData({"action": "setAsBackground"});
               },
             ),
-            RaisedButton(
+            ElevatedButton(
               child: Text(text),
               onPressed: () async {
                 var isRunning =
