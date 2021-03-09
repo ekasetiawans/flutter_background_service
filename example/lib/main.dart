@@ -14,7 +14,7 @@ void onStart() {
   WidgetsFlutterBinding.ensureInitialized();
   final service = FlutterBackgroundService();
   service.onDataReceived.listen((event) {
-    if (event["action"] == "setAsForeground") {
+    if (event!["action"] == "setAsForeground") {
       service.setForegroundMode(true);
       return;
     }
@@ -30,7 +30,6 @@ void onStart() {
 
   // bring to foreground
   service.setForegroundMode(true);
-
   Timer.periodic(Duration(seconds: 1), (timer) async {
     if (!(await service.isServiceRunning())) timer.cancel();
     service.setNotificationInfo(
@@ -60,7 +59,7 @@ class _MyAppState extends State<MyApp> {
         ),
         body: Column(
           children: [
-            StreamBuilder<Map<String, dynamic>>(
+            StreamBuilder<Map<String, dynamic>?>(
               stream: FlutterBackgroundService().onDataReceived,
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
@@ -69,8 +68,8 @@ class _MyAppState extends State<MyApp> {
                   );
                 }
 
-                final data = snapshot.data;
-                DateTime date = DateTime.tryParse(data["current_date"]);
+                final data = snapshot.data!;
+                DateTime? date = DateTime.tryParse(data["current_date"]);
                 return Text(date.toString());
               },
             ),
