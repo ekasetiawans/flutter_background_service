@@ -1,3 +1,6 @@
+## 0.1.2
+
+* Open app from notification (Issue #30)
 ## 0.1.1
 
 * Fix #29 (DartVM not terminated when service stop)
