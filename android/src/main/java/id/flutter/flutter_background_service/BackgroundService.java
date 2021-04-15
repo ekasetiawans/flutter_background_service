@@ -128,7 +128,7 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
             CharSequence name = "Background Service";
             String description = "Executing process in background";
 
-            int importance = NotificationManager.IMPORTANCE_LOW;
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel("FOREGROUND_DEFAULT", name, importance);
             channel.setDescription(description);
 
