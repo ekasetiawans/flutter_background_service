@@ -1,3 +1,6 @@
+##
+
+* Fix notification not showing on android 7 and prior (Issue #26)
 ## 0.1.2
 
 * Open app from notification (Issue #30)
