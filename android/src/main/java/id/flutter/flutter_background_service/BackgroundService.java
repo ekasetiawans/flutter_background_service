@@ -47,7 +47,7 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
         return null;
     }
 
-    public static void enqueue(Context context){
+    public static void enqueue(Context context) {
         Intent intent = new Intent(context, WatchdogReceiver.class);
         AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
@@ -55,7 +55,7 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
         AlarmManagerCompat.setAndAllowWhileIdle(manager, AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, pIntent);
     }
 
-    public static void setCallbackDispatcher(Context context, long callbackHandleId, boolean isForeground, boolean autoStartOnBoot){
+    public static void setCallbackDispatcher(Context context, long callbackHandleId, boolean isForeground, boolean autoStartOnBoot) {
         SharedPreferences pref = context.getSharedPreferences("id.flutter.background_service", MODE_PRIVATE);
         pref.edit()
                 .putLong("callback_handle", callbackHandleId)
@@ -64,32 +64,32 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
                 .apply();
     }
 
-    public void setAutoStartOnBootMode(boolean value){
+    public void setAutoStartOnBootMode(boolean value) {
         SharedPreferences pref = getSharedPreferences("id.flutter.background_service", MODE_PRIVATE);
         pref.edit().putBoolean("auto_start_on_boot", value).apply();
     }
 
-    public static boolean isAutoStartOnBootMode(Context context){
+    public static boolean isAutoStartOnBootMode(Context context) {
         SharedPreferences pref = context.getSharedPreferences("id.flutter.background_service", MODE_PRIVATE);
         return pref.getBoolean("auto_start_on_boot", true);
     }
 
-    public void setForegroundServiceMode(boolean value){
+    public void setForegroundServiceMode(boolean value) {
         SharedPreferences pref = getSharedPreferences("id.flutter.background_service", MODE_PRIVATE);
         pref.edit().putBoolean("is_foreground", value).apply();
     }
 
-    public static boolean isForegroundService(Context context){
+    public static boolean isForegroundService(Context context) {
         SharedPreferences pref = context.getSharedPreferences("id.flutter.background_service", MODE_PRIVATE);
         return pref.getBoolean("is_foreground", true);
     }
 
-    public void setManuallyStopped(boolean value){
+    public void setManuallyStopped(boolean value) {
         SharedPreferences pref = getSharedPreferences("id.flutter.background_service", MODE_PRIVATE);
         pref.edit().putBoolean("is_manually_stopped", value).apply();
     }
 
-    public static boolean isManuallyStopped(Context context){
+    public static boolean isManuallyStopped(Context context) {
         SharedPreferences pref = context.getSharedPreferences("id.flutter.background_service", MODE_PRIVATE);
         return pref.getBoolean("is_manually_stopped", false);
     }
@@ -104,7 +104,7 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
 
     @Override
     public void onDestroy() {
-        if(!isManuallyStopped) {
+        if (!isManuallyStopped) {
             enqueue(this);
         } else {
             setManuallyStopped(true);
@@ -112,12 +112,12 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
         stopForeground(true);
         isRunning.set(false);
 
-        if (backgroundEngine != null){
+        if (backgroundEngine != null) {
             backgroundEngine.getServiceControlSurface().detachFromService();
             backgroundEngine.destroy();
             backgroundEngine = null;
         }
-        
+
         methodChannel = null;
         dartCallback = null;
         super.onDestroy();
@@ -138,22 +138,21 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
     }
 
     protected void updateNotificationInfo() {
-        if (isForegroundService(this)){
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                String packageName = getApplicationContext().getPackageName();
-                Intent i = getPackageManager().getLaunchIntentForPackage(packageName);
+        if (isForegroundService(this)) {
 
-                PendingIntent pi = PendingIntent.getActivity(BackgroundService.this, 0, i, PendingIntent.FLAG_CANCEL_CURRENT);
-                NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, "FOREGROUND_DEFAULT")
-                        .setSmallIcon(R.drawable.ic_bg_service_small)
-                        .setAutoCancel(true)
-                        .setOngoing(true)
-                        .setContentTitle(notificationTitle)
-                        .setContentText(notificationContent)
-                        .setContentIntent(pi);
+            String packageName = getApplicationContext().getPackageName();
+            Intent i = getPackageManager().getLaunchIntentForPackage(packageName);
 
-                startForeground(99778, mBuilder.build());
-            }
+            PendingIntent pi = PendingIntent.getActivity(BackgroundService.this, 0, i, PendingIntent.FLAG_CANCEL_CURRENT);
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, "FOREGROUND_DEFAULT")
+                    .setSmallIcon(R.drawable.ic_bg_service_small)
+                    .setAutoCancel(true)
+                    .setOngoing(true)
+                    .setContentTitle(notificationTitle)
+                    .setContentText(notificationContent)
+                    .setContentIntent(pi);
+
+            startForeground(99778, mBuilder.build());
         }
     }
 
@@ -167,16 +166,18 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
     }
 
     AtomicBoolean isRunning = new AtomicBoolean(false);
-    private void runService(){
-        if (isRunning.get() || (backgroundEngine != null && !backgroundEngine.getDartExecutor().isExecutingDart())) return;
+
+    private void runService() {
+        if (isRunning.get() || (backgroundEngine != null && !backgroundEngine.getDartExecutor().isExecutingDart()))
+            return;
         updateNotificationInfo();
 
         SharedPreferences pref = getSharedPreferences("id.flutter.background_service", MODE_PRIVATE);
         long callbackHandle = pref.getLong("callback_handle", 0);
 
         FlutterInjector.instance().flutterLoader().ensureInitializationComplete(getApplicationContext(), null);
-        FlutterCallbackInformation callback =  FlutterCallbackInformation.lookupCallbackInformation(callbackHandle);
-        if (callback == null){
+        FlutterCallbackInformation callback = FlutterCallbackInformation.lookupCallbackInformation(callbackHandle);
+        if (callback == null) {
             Log.e(TAG, "callback handle not found");
             return;
         }
@@ -192,11 +193,11 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
         backgroundEngine.getDartExecutor().executeDartCallback(dartCallback);
     }
 
-    public void receiveData(JSONObject data){
-        if (methodChannel != null){
+    public void receiveData(JSONObject data) {
+        if (methodChannel != null) {
             try {
                 methodChannel.invokeMethod("onReceiveData", data);
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -217,8 +218,8 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
                     return;
                 }
             }
-            
-            if (method.equalsIgnoreCase("setAutoStartOnBootMode")){
+
+            if (method.equalsIgnoreCase("setAutoStartOnBootMode")) {
                 JSONObject arg = (JSONObject) call.arguments;
                 boolean value = arg.getBoolean("value");
                 setAutoStartOnBootMode(value);
@@ -226,11 +227,11 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
                 return;
             }
 
-            if (method.equalsIgnoreCase("setForegroundMode")){
+            if (method.equalsIgnoreCase("setForegroundMode")) {
                 JSONObject arg = (JSONObject) call.arguments;
                 boolean value = arg.getBoolean("value");
                 setForegroundServiceMode(value);
-                if (value){
+                if (value) {
                     updateNotificationInfo();
                 } else {
                     stopForeground(true);
@@ -251,7 +252,7 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
                 return;
             }
 
-            if (method.equalsIgnoreCase("sendData")){
+            if (method.equalsIgnoreCase("sendData")) {
                 LocalBroadcastManager manager = LocalBroadcastManager.getInstance(this);
                 Intent intent = new Intent("id.flutter/background_service");
                 intent.putExtra("data", ((JSONObject) call.arguments).toString());
@@ -259,7 +260,7 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
                 result.success(true);
                 return;
             }
-        } catch (JSONException e){
+        } catch (JSONException e) {
             Log.e(TAG, e.getMessage());
             e.printStackTrace();
         }
