@@ -1,4 +1,4 @@
-##
+## 0.1.3
 
 * Fix notification not showing on android 7 and prior (Issue #26)
 ## 0.1.2
