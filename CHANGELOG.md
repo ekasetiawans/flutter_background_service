@@ -1,3 +1,6 @@
+## 0.1.4
+
+* fixes UnsatisfiedLinkError when running as foreground service with autostart #32
 ## 0.1.3
 
 * Fix notification not showing on android 7 and prior (Issue #26)
