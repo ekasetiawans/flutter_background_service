@@ -21,6 +21,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.lang.UnsatisfiedLinkError;
 
 import io.flutter.FlutterInjector;
 import io.flutter.embedding.engine.FlutterEngine;
@@ -168,29 +169,32 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
     AtomicBoolean isRunning = new AtomicBoolean(false);
 
     private void runService() {
-        if (isRunning.get() || (backgroundEngine != null && !backgroundEngine.getDartExecutor().isExecutingDart()))
-            return;
-        updateNotificationInfo();
+        try {
+            if (isRunning.get() || (backgroundEngine != null && !backgroundEngine.getDartExecutor().isExecutingDart()))
+                return;
+            updateNotificationInfo();
 
-        SharedPreferences pref = getSharedPreferences("id.flutter.background_service", MODE_PRIVATE);
-        long callbackHandle = pref.getLong("callback_handle", 0);
+            SharedPreferences pref = getSharedPreferences("id.flutter.background_service", MODE_PRIVATE);
+            long callbackHandle = pref.getLong("callback_handle", 0);
 
-        FlutterInjector.instance().flutterLoader().ensureInitializationComplete(getApplicationContext(), null);
-        FlutterCallbackInformation callback = FlutterCallbackInformation.lookupCallbackInformation(callbackHandle);
-        if (callback == null) {
-            Log.e(TAG, "callback handle not found");
-            return;
+            FlutterCallbackInformation callback = FlutterCallbackInformation.lookupCallbackInformation(callbackHandle);
+            if (callback == null) {
+                Log.e(TAG, "callback handle not found");
+                return;
+            }
+
+            isRunning.set(true);
+            backgroundEngine = new FlutterEngine(this);
+            backgroundEngine.getServiceControlSurface().attachToService(BackgroundService.this, null, isForegroundService(this));
+
+            methodChannel = new MethodChannel(backgroundEngine.getDartExecutor().getBinaryMessenger(), "id.flutter/background_service_bg", JSONMethodCodec.INSTANCE);
+            methodChannel.setMethodCallHandler(this);
+
+            dartCallback = new DartExecutor.DartCallback(getAssets(), FlutterInjector.instance().flutterLoader().findAppBundlePath(), callback);
+            backgroundEngine.getDartExecutor().executeDartCallback(dartCallback);
+        } catch (UnsatisfiedLinkError e) {
+            Log.w(TAG, "UnsatisfiedLinkError: After a reboot this may happen for a short period and it is ok to ignore then!" + e.getMessage());
         }
-
-        isRunning.set(true);
-        backgroundEngine = new FlutterEngine(this);
-        backgroundEngine.getServiceControlSurface().attachToService(BackgroundService.this, null, isForegroundService(this));
-
-        methodChannel = new MethodChannel(backgroundEngine.getDartExecutor().getBinaryMessenger(), "id.flutter/background_service_bg", JSONMethodCodec.INSTANCE);
-        methodChannel.setMethodCallHandler(this);
-
-        dartCallback = new DartExecutor.DartCallback(getAssets(), FlutterInjector.instance().flutterLoader().findAppBundlePath(), callback);
-        backgroundEngine.getDartExecutor().executeDartCallback(dartCallback);
     }
 
     public void receiveData(JSONObject data) {
