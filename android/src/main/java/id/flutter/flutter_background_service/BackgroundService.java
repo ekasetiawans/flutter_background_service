@@ -129,7 +129,7 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
             CharSequence name = "Background Service";
             String description = "Executing process in background";
 
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            int importance = NotificationManager.IMPORTANCE_LOW;
             NotificationChannel channel = new NotificationChannel("FOREGROUND_DEFAULT", name, importance);
             channel.setDescription(description);
 
@@ -144,7 +144,7 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
             String packageName = getApplicationContext().getPackageName();
             Intent i = getPackageManager().getLaunchIntentForPackage(packageName);
 
-            PendingIntent pi = PendingIntent.getActivity(BackgroundService.this, 0, i, PendingIntent.FLAG_CANCEL_CURRENT);
+            PendingIntent pi = PendingIntent.getActivity(BackgroundService.this, 99778, i, PendingIntent.FLAG_CANCEL_CURRENT);
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, "FOREGROUND_DEFAULT")
                     .setSmallIcon(R.drawable.ic_bg_service_small)
                     .setAutoCancel(true)

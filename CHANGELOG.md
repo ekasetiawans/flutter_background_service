@@ -1,3 +1,6 @@
+## 0.1.5
+
+* Rollback foreground notification importance
 ## 0.1.4
 
 * fixes UnsatisfiedLinkError when running as foreground service with autostart #32
