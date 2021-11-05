@@ -6,8 +6,11 @@
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <application>
         <service android:name=".BackgroundService"/>
-        <receiver android:name=".WatchdogReceiver"/>
-        <receiver android:name=".BootReceiver">
+        <receiver 
+            android:name=".WatchdogReceiver"
+            android:exported="false" />
+        <receiver android:name=".BootReceiver"
+            android:exported="false" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
