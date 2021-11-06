@@ -1,3 +1,6 @@
+## 0.1.6
+
+* Android 12 Compatibility Changes 
 ## 0.1.5
 
 * Rollback foreground notification importance
