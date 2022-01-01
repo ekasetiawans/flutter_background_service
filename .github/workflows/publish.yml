@@ -35,7 +35,9 @@ jobs:
         run: flutter pub run bin/update
 
       - name: Prepare pub credentials
-        run: echo '${{ secrets.PUB_CREDENTIAL }}' > "$XDG_CONFIG_HOME/dart/pub-credentials.json"
+        run: |
+          mkdir -p $XDG_CONFIG_HOME/.config/dart
+          echo '${{ secrets.PUB_CREDENTIAL }}' > "$XDG_CONFIG_HOME/dart/pub-credentials.json"
 
       - name: Publish
         run: flutter pub publish -f
