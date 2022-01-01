@@ -34,8 +34,8 @@ jobs:
       - name: Evaluate version
         run: flutter pub run bin/update
 
+      - name: Prepare pub credentials
+        run: echo '${{ secrets.PUB_CREDENTIAL }}' > "$XDG_CONFIG_HOME/dart/pub-credentials.json"
+
       - name: Publish
-        uses: sakebook/actions-flutter-pub-publisher@v1.4.0
-        with:
-          credential: ${{ secrets.PUB_CREDENTIAL }}
-          skip_test: true
+        run: flutter pub publish -f
