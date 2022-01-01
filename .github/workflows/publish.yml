@@ -8,7 +8,7 @@ name: Pub Publish
 on:
   push:
     tags:
-      - v1.*
+      - v0.*
 
 jobs:
   build:
