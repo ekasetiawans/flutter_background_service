@@ -1,3 +1,7 @@
+## 0.1.7
+
+* Fix : cannot start service on android 12
+* Fix : not started on boot completed
 ## 0.1.6
 
 * Android 12 Compatibility Changes 
