@@ -1,3 +1,6 @@
+## 0.2.0+1
+* UPDATE README
+
 ## 0.2.0
 * [BREAKING]: FlutterBackgroundService.initialize renamed to FlutterBackgroundService.configure
 * [BREAKING]: use FlutterBackgroundService.start to start or restart after you call stopService.
