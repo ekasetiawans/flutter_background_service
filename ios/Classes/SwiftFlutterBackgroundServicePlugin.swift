@@ -29,6 +29,16 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
         
         registrar.addMethodCallDelegate(instance, channel: instance.mainChannel!)
         registrar.addApplicationDelegate(instance)
+        
+        instance.autoStart(isForeground: true)
+    }
+    
+    private func autoStart(isForeground: Bool) {
+        let defaults = UserDefaults.standard
+        let autoStart = defaults.bool(forKey: "auto_start")
+        if (autoStart){
+            self.beginFetch(isForeground: isForeground)
+        }
     }
     
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
@@ -36,11 +46,14 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
             let args = call.arguments as? Dictionary<String, Any>
             let foregroundCallbackHandleID = args?["foreground_handle"] as? NSNumber
             let backgroundCallbackHandleID = args?["background_handle"] as? NSNumber
+            let autoStart = args?["auto_start"] as? Bool
             
             let defaults = UserDefaults.standard
             defaults.set(foregroundCallbackHandleID?.int64Value, forKey: "foreground_callback_handle")
             defaults.set(backgroundCallbackHandleID?.int64Value, forKey: "background_callback_handle")
+            defaults.set(autoStart, forKey: "auto_start")
             
+            self.autoStart(isForeground: true)
             result(true)
             return
         }

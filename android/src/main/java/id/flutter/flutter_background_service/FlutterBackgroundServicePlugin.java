@@ -72,6 +72,16 @@ public class FlutterBackgroundServicePlugin extends BroadcastReceiver implements
             .apply();
   }
 
+  private void start() {
+    BackgroundService.enqueue(context);
+    boolean isForeground = BackgroundService.isForegroundService(context);
+    Intent intent = new Intent(context, BackgroundService.class);
+    if (isForeground){
+      ContextCompat.startForegroundService(context, intent);
+    } else {
+      context.startService(intent);
+    }
+  }
 
 
   @Override
@@ -86,21 +96,16 @@ public class FlutterBackgroundServicePlugin extends BroadcastReceiver implements
         boolean autoStartOnBoot = arg.getBoolean("auto_start_on_boot");
 
         configure(context, callbackHandle, isForeground, autoStartOnBoot);
+        if (autoStartOnBoot){
+          start();
+        }
+
         result.success(true);
         return;
       }
 
       if ("start".equals(method)){
-        BackgroundService.enqueue(context);
-        boolean isForeground = BackgroundService.isForegroundService(context);
-
-        Intent intent = new Intent(context, BackgroundService.class);
-        if (isForeground){
-          ContextCompat.startForegroundService(context, intent);
-        } else {
-          context.startService(intent);
-        }
-
+        start();
         result.success(true);
         return;
       }

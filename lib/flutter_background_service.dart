@@ -14,9 +14,14 @@ class IosConfiguration {
   /// make sure you don't execute long running task there because of limitations on ios
   /// recommended maximum executed duration is only 15-20 seconds.
   final Function onBackground;
+
+  /// wheter service auto start after configure.
+  final bool autoStart;
+
   IosConfiguration({
     required this.onForeground,
     required this.onBackground,
+    this.autoStart = true,
   });
 }
 
@@ -24,7 +29,7 @@ class AndroidConfiguration {
   /// must be a top level or static method
   final Function onStart;
 
-  /// wheter service can started automatically when app closed
+  /// wheter service can started automatically on boot and after configure
   final bool autoStart;
 
   /// wheter service is foreground or background mode
@@ -35,7 +40,7 @@ class AndroidConfiguration {
 
   AndroidConfiguration({
     required this.onStart,
-    required this.autoStart,
+    this.autoStart = true,
     required this.isForegroundMode,
     this.foregroundServiceNotificationContent,
     this.foregroundServiceNotificationTitle,
@@ -108,7 +113,6 @@ class FlutterBackgroundService {
 
       final service = FlutterBackgroundService();
       service._setupMain();
-
       final result = await _mainChannel.invokeMethod(
         "configure",
         {
@@ -142,6 +146,7 @@ class FlutterBackgroundService {
         {
           "background_handle": backgroundHandle.toRawHandle(),
           "foreground_handle": foregroundHandle.toRawHandle(),
+          "auto_start": iosConfiguration.autoStart,
         },
       );
 
