@@ -1,3 +1,5 @@
+## 0.2.3
+* ADDED: Using `BGTaskScheduler` on iOS 13. See readme for configuration.
 ## 0.2.2
 * ADDED: `autoStart` to `IosConfiguration` 
 ## 0.2.1

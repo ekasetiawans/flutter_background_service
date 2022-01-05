@@ -11,6 +11,15 @@ A flutter plugin for execute dart code in background.
 
 - Enable `background_fetch` capability in xcode (optional), if you wise ios to execute `IosConfiguration.onBackground` callback.
 
+- For iOS 13 (using `BGTaskScheduler`), insert lines below into your ios/Runner/Info.plist
+
+```plist
+<key>BGTaskSchedulerPermittedIdentifiers</key>
+<array>
+    <string>dev.flutter.background.refresh</string>
+</array>
+```
+
 ## Usage
 
 - Call `FlutterBackgroundService.configure` to configure handler that will be executed by the Service.
