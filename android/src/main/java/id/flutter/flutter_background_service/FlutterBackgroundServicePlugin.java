@@ -1,11 +1,13 @@
 package id.flutter.flutter_background_service;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.app.ActivityManager;
-import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -61,20 +63,36 @@ public class FlutterBackgroundServicePlugin extends BroadcastReceiver implements
     plugin.channel = channel;
   }
 
+  private static void configure(Context context, long callbackHandleId, boolean isForeground, boolean autoStartOnBoot) {
+    SharedPreferences pref = context.getSharedPreferences("id.flutter.background_service", MODE_PRIVATE);
+    pref.edit()
+            .putLong("callback_handle", callbackHandleId)
+            .putBoolean("is_foreground", isForeground)
+            .putBoolean("auto_start_on_boot", autoStartOnBoot)
+            .apply();
+  }
+
+
+
   @Override
   public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
     String method = call.method;
     JSONObject arg = (JSONObject) call.arguments;
 
     try {
-
-      if ("BackgroundService.start".equals(method)) {
+      if ("configure".equals(method)) {
         long callbackHandle = arg.getLong("handle");
         boolean isForeground = arg.getBoolean("is_foreground_mode");
         boolean autoStartOnBoot = arg.getBoolean("auto_start_on_boot");
 
-        BackgroundService.setCallbackDispatcher(context, callbackHandle, isForeground, autoStartOnBoot);
+        configure(context, callbackHandle, isForeground, autoStartOnBoot);
+        result.success(true);
+        return;
+      }
+
+      if ("start".equals(method)){
         BackgroundService.enqueue(context);
+        boolean isForeground = BackgroundService.isForegroundService(context);
 
         Intent intent = new Intent(context, BackgroundService.class);
         if (isForeground){

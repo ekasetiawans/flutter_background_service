@@ -4,6 +4,44 @@ import 'dart:ui';
 
 import 'package:flutter/services.dart';
 
+class IosConfiguration {
+  /// must be a top level or static method
+  /// this method will be executed when app is in foreground
+  final Function onForeground;
+
+  /// must be a top level or static method
+  /// this method will be executed by background fetch
+  /// make sure you don't execute long running task there because of limitations on ios
+  /// recommended maximum executed duration is only 15-20 seconds.
+  final Function onBackground;
+  IosConfiguration({
+    required this.onForeground,
+    required this.onBackground,
+  });
+}
+
+class AndroidConfiguration {
+  /// must be a top level or static method
+  final Function onStart;
+
+  /// wheter service can started automatically when app closed
+  final bool autoStart;
+
+  /// wheter service is foreground or background mode
+  final bool isForegroundMode;
+
+  final String? foregroundServiceNotificationTitle;
+  final String? foregroundServiceNotificationContent;
+
+  AndroidConfiguration({
+    required this.onStart,
+    required this.autoStart,
+    required this.isForegroundMode,
+    this.foregroundServiceNotificationContent,
+    this.foregroundServiceNotificationTitle,
+  });
+}
+
 class FlutterBackgroundService {
   bool _isFromInitialization = false;
   bool _isRunning = false;
@@ -20,6 +58,7 @@ class FlutterBackgroundService {
 
   static FlutterBackgroundService _instance =
       FlutterBackgroundService._internal().._setupBackground();
+
   FlutterBackgroundService._internal();
   factory FlutterBackgroundService() => _instance;
 
@@ -46,29 +85,70 @@ class FlutterBackgroundService {
     return true;
   }
 
-  static Future<bool> initialize(
-    Function onStart, {
-    bool foreground = true,
-    bool autoStart = true,
-  }) async {
-    final CallbackHandle? handle = PluginUtilities.getCallbackHandle(onStart);
-    if (handle == null) {
-      return false;
+  Future<bool> start() async {
+    if (!_isMainChannel) {
+      throw Exception(
+          'This method only allowed from UI. Please call configure() first.');
     }
 
-    final service = FlutterBackgroundService();
-    service._setupMain();
+    final result = await _mainChannel.invokeMethod('start');
+    return result ?? false;
+  }
 
-    final r = await _mainChannel.invokeMethod(
-      "BackgroundService.start",
-      {
-        "handle": handle.toRawHandle(),
-        "is_foreground_mode": foreground,
-        "auto_start_on_boot": autoStart,
-      },
-    );
+  Future<bool> configure({
+    required IosConfiguration iosConfiguration,
+    required AndroidConfiguration androidConfiguration,
+  }) async {
+    if (Platform.isAndroid) {
+      final CallbackHandle? handle =
+          PluginUtilities.getCallbackHandle(androidConfiguration.onStart);
+      if (handle == null) {
+        return false;
+      }
 
-    return r ?? false;
+      final service = FlutterBackgroundService();
+      service._setupMain();
+
+      final result = await _mainChannel.invokeMethod(
+        "configure",
+        {
+          "handle": handle.toRawHandle(),
+          "is_foreground_mode": androidConfiguration.isForegroundMode,
+          "auto_start_on_boot": androidConfiguration.autoStart,
+        },
+      );
+
+      return result ?? false;
+    }
+
+    if (Platform.isIOS) {
+      final CallbackHandle? backgroundHandle =
+          PluginUtilities.getCallbackHandle(iosConfiguration.onBackground);
+      if (backgroundHandle == null) {
+        return false;
+      }
+
+      final CallbackHandle? foregroundHandle =
+          PluginUtilities.getCallbackHandle(iosConfiguration.onForeground);
+      if (foregroundHandle == null) {
+        return false;
+      }
+
+      final service = FlutterBackgroundService();
+      service._setupMain();
+
+      final result = await _mainChannel.invokeMethod(
+        "configure",
+        {
+          "background_handle": backgroundHandle.toRawHandle(),
+          "foreground_handle": foregroundHandle.toRawHandle(),
+        },
+      );
+
+      return result ?? false;
+    }
+
+    return false;
   }
 
   // Send data from UI to Service, or from Service to UI
@@ -77,6 +157,7 @@ class FlutterBackgroundService {
       dispose();
       return;
     }
+
     if (_isFromInitialization) {
       _mainChannel.invokeMethod("sendData", data);
       return;
@@ -116,7 +197,7 @@ class FlutterBackgroundService {
   // StopBackgroundService from Running
   void stopBackgroundService() {
     //TODO: Remove this check once implemented for IOS.
-    if (Platform.isAndroid) _backgroundChannel.invokeMethod("stopService");
+    _backgroundChannel.invokeMethod("stopService");
     _isRunning = false;
   }
 

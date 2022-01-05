@@ -65,15 +65,6 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
         AlarmManagerCompat.setAndAllowWhileIdle(manager, AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, pIntent);
     }
 
-    public static void setCallbackDispatcher(Context context, long callbackHandleId, boolean isForeground, boolean autoStartOnBoot) {
-        SharedPreferences pref = context.getSharedPreferences("id.flutter.background_service", MODE_PRIVATE);
-        pref.edit()
-                .putLong("callback_handle", callbackHandleId)
-                .putBoolean("is_foreground", isForeground)
-                .putBoolean("auto_start_on_boot", autoStartOnBoot)
-                .apply();
-    }
-
     public void setAutoStartOnBootMode(boolean value) {
         SharedPreferences pref = getSharedPreferences("id.flutter.background_service", MODE_PRIVATE);
         pref.edit().putBoolean("auto_start_on_boot", value).apply();

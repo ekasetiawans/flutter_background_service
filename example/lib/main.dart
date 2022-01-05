@@ -5,9 +5,39 @@ import 'package:flutter_background_service/flutter_background_service.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  FlutterBackgroundService.initialize(onStart);
-
+  initializeService();
   runApp(MyApp());
+}
+
+Future<void> initializeService() async {
+  final service = FlutterBackgroundService();
+  final result = await service.configure(
+    androidConfiguration: AndroidConfiguration(
+      // this will executed when app is in foreground or background in separated isolate
+      onStart: onStart,
+
+      autoStart: true,
+      isForegroundMode: true,
+    ),
+    iosConfiguration: IosConfiguration(
+      // this will executed when app is in foreground in separated isolate
+      onForeground: onStart,
+
+      // you have to enable background fetch capability on xcode project
+      onBackground: onIosBackground,
+    ),
+  );
+
+  if (result) {
+    service.start();
+  }
+}
+
+// to ensure this executed
+// run app from xcode, then from xcode menu, select Simulate Background Fetch
+void onIosBackground() {
+  WidgetsFlutterBinding.ensureInitialized();
+  print('FLUTTER BACKGROUND FETCH');
 }
 
 void onStart() {
@@ -90,15 +120,16 @@ class _MyAppState extends State<MyApp> {
             ElevatedButton(
               child: Text(text),
               onPressed: () async {
-                var isRunning =
-                    await FlutterBackgroundService().isServiceRunning();
+                final service = FlutterBackgroundService();
+                var isRunning = await service.isServiceRunning();
                 if (isRunning) {
-                  FlutterBackgroundService().sendData(
+                  service.sendData(
                     {"action": "stopService"},
                   );
                 } else {
-                  FlutterBackgroundService.initialize(onStart);
+                  service.start();
                 }
+
                 if (!isRunning) {
                   text = 'Stop Service';
                 } else {
