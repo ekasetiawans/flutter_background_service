@@ -196,7 +196,6 @@ class FlutterBackgroundService {
 
   // StopBackgroundService from Running
   void stopBackgroundService() {
-    //TODO: Remove this check once implemented for IOS.
     _backgroundChannel.invokeMethod("stopService");
     _isRunning = false;
   }

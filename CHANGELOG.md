@@ -1,3 +1,6 @@
+## 0.2.1
+* UPDATE README
+* UPDATE: Flutter Version Constraint
 ## 0.2.0+1
 * UPDATE README
 
