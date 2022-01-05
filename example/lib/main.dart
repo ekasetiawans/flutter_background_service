@@ -11,15 +11,19 @@ void main() {
 
 Future<void> initializeService() async {
   final service = FlutterBackgroundService();
-  final result = await service.configure(
+  await service.configure(
     androidConfiguration: AndroidConfiguration(
       // this will executed when app is in foreground or background in separated isolate
       onStart: onStart,
 
+      // auto start service
       autoStart: true,
       isForegroundMode: true,
     ),
     iosConfiguration: IosConfiguration(
+      // auto start service
+      autoStart: true,
+
       // this will executed when app is in foreground in separated isolate
       onForeground: onStart,
 
@@ -27,10 +31,6 @@ Future<void> initializeService() async {
       onBackground: onIosBackground,
     ),
   );
-
-  if (result) {
-    service.start();
-  }
 }
 
 // to ensure this executed

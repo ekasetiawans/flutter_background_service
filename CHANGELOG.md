@@ -1,3 +1,5 @@
+## 0.2.2
+* ADDED: `autoStart` to `IosConfiguration` 
 ## 0.2.1
 * UPDATE README
 * UPDATE: Flutter Version Constraint

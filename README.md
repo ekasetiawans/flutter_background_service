@@ -14,7 +14,7 @@ A flutter plugin for execute dart code in background.
 ## Usage
 
 - Call `FlutterBackgroundService.configure` to configure handler that will be executed by the Service.
-- Call `FlutterBackgroundService.start` to start the Service.
+- Call `FlutterBackgroundService.start` to start the Service if `autoStart` is not enabled.
 - Since the Service using Isolates, You won't be able to share reference between UI and Service. You can communicate between UI and Service using `sendData()` and `onDataReceived`.
 
 ## FAQ
