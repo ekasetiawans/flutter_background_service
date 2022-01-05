@@ -1,3 +1,7 @@
+## 0.2.0
+* [BREAKING]: FlutterBackgroundService.initialize renamed to FlutterBackgroundService.configure
+* [BREAKING]: use FlutterBackgroundService.start to start or restart after you call stopService.
+* [ADDED]: IOS Background fetch is now supported you have to enable background fetch from xcode.
 ## 0.1.7
 
 * Fix : cannot start service on android 12
