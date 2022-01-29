@@ -47,6 +47,20 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
 
     String notificationTitle = "Background Service";
     String notificationContent = "Running";
+    private static final String LOCK_NAME = BackgroundService.class.getName()
+            + ".Lock";
+    private static volatile WakeLock lockStatic = null; // notice static
+
+    synchronized private static PowerManager.WakeLock getLock(Context context) {
+        if (lockStatic == null) {
+            PowerManager mgr = (PowerManager) context
+                    .getSystemService(Context.POWER_SERVICE);
+            lockStatic = mgr.newWakeLock(PowerManager.FULL_WAKE_LOCK,
+                    LOCK_NAME);
+            lockStatic.setReferenceCounted(true);
+        }
+        return (lockStatic);
+    }
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -101,7 +115,7 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
     public void onCreate() {
         super.onCreate();
         PowerManager pm = (PowerManager)getSystemService(POWER_SERVICE);
-        mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "systemService");
+        mWakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK, "systemService");
         createNotificationChannel();
         notificationContent = "Preparing";
         updateNotificationInfo();
@@ -172,7 +186,8 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
         setManuallyStopped(false);
         enqueue(this);
         runService();
-        mWakelock.acquire();
+        mWakeLock.acquire();
+        getLock(getApplicationContext()).acquire();
 
         return START_STICKY;
     }
