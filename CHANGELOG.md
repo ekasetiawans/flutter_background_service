@@ -1,3 +1,5 @@
+## 0.2.4
+* FIX: (Android) run service background when charger not connected and screen lock (#92)
 ## 0.2.3
 * ADDED: Using `BGTaskScheduler` on iOS 13. See readme for configuration.
 ## 0.2.2
