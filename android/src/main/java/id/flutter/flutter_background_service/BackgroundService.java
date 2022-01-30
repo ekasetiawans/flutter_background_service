@@ -12,8 +12,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.IBinder;
+import android.os.PowerManager;
+import android.os.PowerManager.WakeLock;
 import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.core.app.AlarmManagerCompat;
 import androidx.core.app.NotificationCompat;
@@ -45,6 +46,20 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
 
     String notificationTitle = "Background Service";
     String notificationContent = "Running";
+    private static final String LOCK_NAME = BackgroundService.class.getName()
+            + ".Lock";
+    private static volatile WakeLock lockStatic = null; // notice static
+
+    synchronized private static PowerManager.WakeLock getLock(Context context) {
+        if (lockStatic == null) {
+            PowerManager mgr = (PowerManager) context
+                    .getSystemService(Context.POWER_SERVICE);
+            lockStatic = mgr.newWakeLock(PowerManager.FULL_WAKE_LOCK,
+                    LOCK_NAME);
+            lockStatic.setReferenceCounted(true);
+        }
+        return (lockStatic);
+    }
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -168,6 +183,7 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
         setManuallyStopped(false);
         enqueue(this);
         runService();
+        getLock(getApplicationContext()).acquire();
 
         return START_STICKY;
     }
