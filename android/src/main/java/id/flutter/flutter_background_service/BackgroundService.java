@@ -43,7 +43,6 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
     private MethodChannel methodChannel;
     private DartExecutor.DartCallback dartCallback;
     private boolean isManuallyStopped = false;
-    private PowerManager.WakeLock mWakeLock;
 
     String notificationTitle = "Background Service";
     String notificationContent = "Running";
@@ -114,8 +113,6 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
     @Override
     public void onCreate() {
         super.onCreate();
-        PowerManager pm = (PowerManager)getSystemService(POWER_SERVICE);
-        mWakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK, "systemService");
         createNotificationChannel();
         notificationContent = "Preparing";
         updateNotificationInfo();
@@ -186,7 +183,6 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
         setManuallyStopped(false);
         enqueue(this);
         runService();
-        mWakeLock.acquire();
         getLock(getApplicationContext()).acquire();
 
         return START_STICKY;
