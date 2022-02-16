@@ -5,6 +5,8 @@ import BackgroundTasks
 
 public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDelegate, FlutterPlugin  {
     
+    private static var flutterPluginRegistrantCallback: FlutterPluginRegistrantCallback?
+    
     var backgroundEngine: FlutterEngine? = nil
     var mainChannel: FlutterMethodChannel? = nil
     var backgroundChannel: FlutterMethodChannel? = nil
@@ -65,9 +67,13 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
             let callbackName = callbackHandleInfo?.callbackName
             let uri = callbackHandleInfo?.callbackLibraryPath
             
-            let backgroundEngine = FlutterEngine(name: "FlutterBackgroundFetch", project: nil, allowHeadlessExecution: true)
+            let backgroundEngine = FlutterEngine(name: "FlutterBackgroundFetch")
             let isRunning = backgroundEngine.run(withEntrypoint: callbackName, libraryURI: uri)
             if (isRunning){
+                
+                let registrantCallback = SwiftFlutterBackgroundServicePlugin.flutterPluginRegistrantCallback
+                registrantCallback?(backgroundEngine)
+                
                 let binaryMessenger = backgroundEngine.binaryMessenger
                 let backgroundChannel = FlutterMethodChannel(name: "id.flutter/background_service_bg", binaryMessenger: binaryMessenger, codec: FlutterJSONMethodCodec())
                 backgroundChannel.setMethodCallHandler(self.handleBackgroundMethodCall)
@@ -83,15 +89,20 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
     }
     
     public static func register(with registrar: FlutterPluginRegistrar) {
-        let channel = FlutterMethodChannel(name: "id.flutter/background_service", binaryMessenger: registrar.messenger(), codec: FlutterJSONMethodCodec())
+        let channel = FlutterMethodChannel(
+            name: "id.flutter/background_service",
+            binaryMessenger: registrar.messenger(),
+            codec: FlutterJSONMethodCodec())
         
         let instance = SwiftFlutterBackgroundServicePlugin()
         instance.mainChannel = channel
         
-        registrar.addMethodCallDelegate(instance, channel: instance.mainChannel!)
+        registrar.addMethodCallDelegate(instance, channel: channel)
         registrar.addApplicationDelegate(instance)
-        
-        instance.autoStart(isForeground: true)
+    }
+    
+    public static func setPluginRegistrantCallback(_ callback: @escaping FlutterPluginRegistrantCallback) {
+        flutterPluginRegistrantCallback = callback
     }
     
     private func autoStart(isForeground: Bool) {
@@ -182,9 +193,13 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
             let callbackName = callbackHandle?.callbackName
             let uri = callbackHandle?.callbackLibraryPath
             
-            let backgroundEngine = FlutterEngine(name: "FlutterService", project: nil, allowHeadlessExecution: true)
+            let backgroundEngine = FlutterEngine(name: "FlutterService")
             let isRunning = backgroundEngine.run(withEntrypoint: callbackName, libraryURI: uri)
+            
             if (isRunning){
+                let registrantCallback = SwiftFlutterBackgroundServicePlugin.flutterPluginRegistrantCallback
+                registrantCallback?(backgroundEngine)
+                
                 let binaryMessenger = backgroundEngine.binaryMessenger
                 let backgroundChannel = FlutterMethodChannel(name: "id.flutter/background_service_bg", binaryMessenger: binaryMessenger, codec: FlutterJSONMethodCodec())
                 

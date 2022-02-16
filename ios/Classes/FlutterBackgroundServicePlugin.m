@@ -12,4 +12,8 @@
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
   [SwiftFlutterBackgroundServicePlugin registerWithRegistrar:registrar];
 }
+
++ (void)setPluginRegistrantCallback:(FlutterPluginRegistrantCallback)callback {
+    [SwiftFlutterBackgroundServicePlugin setPluginRegistrantCallback:callback];
+}
 @end

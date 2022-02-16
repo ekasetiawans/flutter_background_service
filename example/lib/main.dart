@@ -1,12 +1,14 @@
 import 'dart:async';
+import 'dart:io';
 
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  initializeService();
-  runApp(MyApp());
+  await initializeService();
+  runApp(const MyApp());
 }
 
 Future<void> initializeService() async {
@@ -42,6 +44,7 @@ void onIosBackground() {
 
 void onStart() {
   WidgetsFlutterBinding.ensureInitialized();
+
   final service = FlutterBackgroundService();
   service.onDataReceived.listen((event) {
     if (event!["action"] == "setAsForeground") {
@@ -60,20 +63,38 @@ void onStart() {
 
   // bring to foreground
   service.setForegroundMode(true);
-  Timer.periodic(Duration(seconds: 1), (timer) async {
+  Timer.periodic(const Duration(seconds: 1), (timer) async {
     if (!(await service.isServiceRunning())) timer.cancel();
     service.setNotificationInfo(
       title: "My App Service",
       content: "Updated at ${DateTime.now()}",
     );
 
+    // test using external plugin
+    final deviceInfo = DeviceInfoPlugin();
+    String? device;
+    if (Platform.isAndroid) {
+      final androidInfo = await deviceInfo.androidInfo;
+      device = androidInfo.model;
+    }
+
+    if (Platform.isIOS) {
+      final iosInfo = await deviceInfo.iosInfo;
+      device = iosInfo.model;
+    }
+
     service.sendData(
-      {"current_date": DateTime.now().toIso8601String()},
+      {
+        "current_date": DateTime.now().toIso8601String(),
+        "device": device,
+      },
     );
   });
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -93,25 +114,31 @@ class _MyAppState extends State<MyApp> {
               stream: FlutterBackgroundService().onDataReceived,
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
-                  return Center(
+                  return const Center(
                     child: CircularProgressIndicator(),
                   );
                 }
 
                 final data = snapshot.data!;
+                String? device = data["device"];
                 DateTime? date = DateTime.tryParse(data["current_date"]);
-                return Text(date.toString());
+                return Column(
+                  children: [
+                    Text(device ?? 'Unknown'),
+                    Text(date.toString()),
+                  ],
+                );
               },
             ),
             ElevatedButton(
-              child: Text("Foreground Mode"),
+              child: const Text("Foreground Mode"),
               onPressed: () {
                 FlutterBackgroundService()
                     .sendData({"action": "setAsForeground"});
               },
             ),
             ElevatedButton(
-              child: Text("Background Mode"),
+              child: const Text("Background Mode"),
               onPressed: () {
                 FlutterBackgroundService()
                     .sendData({"action": "setAsBackground"});
@@ -146,7 +173,7 @@ class _MyAppState extends State<MyApp> {
               "hello": "world",
             });
           },
-          child: Icon(Icons.play_arrow),
+          child: const Icon(Icons.play_arrow),
         ),
       ),
     );

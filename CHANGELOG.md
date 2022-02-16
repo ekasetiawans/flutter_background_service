@@ -1,3 +1,5 @@
+## 0.2.5
+* FIX: (iOS) using other plugins
 ## 0.2.4
 * FIX: (Android) run service background when charger not connected and screen lock (#92)
 ## 0.2.3
