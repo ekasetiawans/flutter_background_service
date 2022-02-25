@@ -1,3 +1,5 @@
+## 0.2.6
+* FIX: (Android) flutter initialization
 ## 0.2.5
 * FIX: (iOS) using other plugins
 ## 0.2.4
