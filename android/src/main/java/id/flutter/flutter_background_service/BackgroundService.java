@@ -192,7 +192,7 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
 
     private void runService() {
         try {
-            Log.d(TAG, "runService");
+//             Log.d(TAG, "runService");
             if (isRunning.get() || (backgroundEngine != null && !backgroundEngine.getDartExecutor().isExecutingDart()))
                 return;
             updateNotificationInfo();
