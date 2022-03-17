@@ -49,7 +49,7 @@ public class FlutterBackgroundServicePlugin extends BroadcastReceiver implements
     LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this.context);
     localBroadcastManager.registerReceiver(this, new IntentFilter("id.flutter/background_service"));
 
-    channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "id.flutter/background_service", JSONMethodCodec.INSTANCE);
+    channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "id.flutter/background_service_android", JSONMethodCodec.INSTANCE);
     channel.setMethodCallHandler(this);
   }
 
@@ -58,7 +58,7 @@ public class FlutterBackgroundServicePlugin extends BroadcastReceiver implements
     final FlutterBackgroundServicePlugin plugin = new FlutterBackgroundServicePlugin();
     localBroadcastManager.registerReceiver(plugin, new IntentFilter("id.flutter/background_service"));
 
-    final MethodChannel channel = new MethodChannel(registrar.messenger(), "id.flutter/background_service", JSONMethodCodec.INSTANCE);
+    final MethodChannel channel = new MethodChannel(registrar.messenger(), "id.flutter/background_service_android", JSONMethodCodec.INSTANCE);
     channel.setMethodCallHandler(plugin);
     plugin.channel = channel;
   }

@@ -75,7 +75,7 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
                 registrantCallback?(backgroundEngine)
                 
                 let binaryMessenger = backgroundEngine.binaryMessenger
-                let backgroundChannel = FlutterMethodChannel(name: "id.flutter/background_service_bg", binaryMessenger: binaryMessenger, codec: FlutterJSONMethodCodec())
+                let backgroundChannel = FlutterMethodChannel(name: "id.flutter/background_service_ios_bg", binaryMessenger: binaryMessenger, codec: FlutterJSONMethodCodec())
                 backgroundChannel.setMethodCallHandler(self.handleBackgroundMethodCall)
             }
             
@@ -90,7 +90,7 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
     
     public static func register(with registrar: FlutterPluginRegistrar) {
         let channel = FlutterMethodChannel(
-            name: "id.flutter/background_service",
+            name: "id.flutter/background_service_ios",
             binaryMessenger: registrar.messenger(),
             codec: FlutterJSONMethodCodec())
         
@@ -201,7 +201,7 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
                 registrantCallback?(backgroundEngine)
                 
                 let binaryMessenger = backgroundEngine.binaryMessenger
-                let backgroundChannel = FlutterMethodChannel(name: "id.flutter/background_service_bg", binaryMessenger: binaryMessenger, codec: FlutterJSONMethodCodec())
+                let backgroundChannel = FlutterMethodChannel(name: "id.flutter/background_service_ios_bg", binaryMessenger: binaryMessenger, codec: FlutterJSONMethodCodec())
                 
                 backgroundChannel.setMethodCallHandler(self.handleBackgroundMethodCall)
                 if (isForeground){

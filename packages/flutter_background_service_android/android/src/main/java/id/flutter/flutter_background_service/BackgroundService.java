@@ -216,7 +216,7 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
             backgroundEngine = new FlutterEngine(this);
             backgroundEngine.getServiceControlSurface().attachToService(BackgroundService.this, null, isForegroundService(this));
 
-            methodChannel = new MethodChannel(backgroundEngine.getDartExecutor().getBinaryMessenger(), "id.flutter/background_service_bg", JSONMethodCodec.INSTANCE);
+            methodChannel = new MethodChannel(backgroundEngine.getDartExecutor().getBinaryMessenger(), "id.flutter/background_service_android_bg", JSONMethodCodec.INSTANCE);
             methodChannel.setMethodCallHandler(this);
 
             dartCallback = new DartExecutor.DartCallback(getAssets(), FlutterInjector.instance().flutterLoader().findAppBundlePath(), callback);

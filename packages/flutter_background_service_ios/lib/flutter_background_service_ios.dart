@@ -14,12 +14,12 @@ class FlutterBackgroundServiceIOS extends FlutterBackgroundServicePlatform {
   bool _isRunning = false;
   bool _isMainChannel = false;
   static const MethodChannel _backgroundChannel = const MethodChannel(
-    'id.flutter/background_service_bg',
+    'id.flutter/background_service_ios_bg',
     JSONMethodCodec(),
   );
 
   static const MethodChannel _mainChannel = const MethodChannel(
-    'id.flutter/background_service',
+    'id.flutter/background_service_ios',
     JSONMethodCodec(),
   );
 
@@ -72,9 +72,7 @@ class FlutterBackgroundServiceIOS extends FlutterBackgroundServicePlatform {
       return false;
     }
 
-    final service = FlutterBackgroundServiceIOS();
-    service.setupAsMain();
-
+    setupAsMain();
     final result = await _mainChannel.invokeMethod(
       "configure",
       {
