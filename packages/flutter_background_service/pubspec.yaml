@@ -11,9 +11,9 @@ dependencies:
   flutter:
     sdk: flutter
 
-  flutter_background_service_platform_interface: ^0.0.1+3
-  flutter_background_service_android: ^0.0.2
-  flutter_background_service_ios: ^0.0.2
+  flutter_background_service_platform_interface: ^1.0.0
+  flutter_background_service_android: ^1.0.0
+  flutter_background_service_ios: ^1.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
