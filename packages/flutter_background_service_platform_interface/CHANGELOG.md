@@ -1,3 +1,7 @@
+## 1.0.2
+
+ - **DOCS**: readme link. ([1479b91c](https://github.com/ekasetiawans/flutter_background_service/commit/1479b91cd80d637335de1314a528bcf51ebb7c0f))
+
 ## 1.0.1
 
  - **DOCS**: update README. ([fbf5e0ab](https://github.com/ekasetiawans/flutter_background_service/commit/fbf5e0abeeb9296ba32361b8af0a298ee9e71527))
