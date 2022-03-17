@@ -1,0 +1,43 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Pub Publish
+
+on:
+  push:
+    tags:
+      - v0.*
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set env
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/v}" >> $GITHUB_ENV
+
+      - uses: actions/checkout@v2
+      - name: Install Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: "12.x"
+
+      - name: Install Flutter
+        uses: subosito/flutter-action@v1
+        with:
+          channel: "stable"
+
+      - name: Flutter Pub Get
+        run: flutter pub get
+
+      - name: Evaluate version
+        run: flutter pub run bin/update
+
+      - name: Prepare pub credentials
+        run: |
+          mkdir -p $XDG_CONFIG_HOME/.config/dart
+          echo '${{ secrets.PUB_CREDENTIAL }}' > "$XDG_CONFIG_HOME/dart/pub-credentials.json"
+
+      - name: Publish
+        run: flutter pub publish -f
