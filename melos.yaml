@@ -1,0 +1,4 @@
+name: flutter_background_service
+
+packages:
+  - packages/**
