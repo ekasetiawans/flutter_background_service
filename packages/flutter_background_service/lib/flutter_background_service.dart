@@ -23,29 +23,40 @@ class FlutterBackgroundService {
   FlutterBackgroundService._internal();
   factory FlutterBackgroundService() => _instance;
 
-  Future<bool> start() => _platform.start();
+  /// Starts the background service.
+  Future<bool> startService() => _platform.start();
 
-  // Send data from UI to Service, or from Service to UI
+  /// Send data from UI to Service, or from Service to UI
+  /// the [data] will be received in [onDataReceived]
   void sendData(Map<String, dynamic> data) => _platform.sendData(data);
 
-  // Set Foreground Notification Information
-  // Only available when foreground mode is true
+  /// Set Foreground Notification Information
+  /// Only available for Foreground Service in Android.
   void setNotificationInfo({String? title, String? content}) =>
       _platform.setNotificationInfo(title: title, content: content);
 
-  // Set Foreground Mode
-  // Only for Android
-  void setForegroundMode(bool value) => _platform.setForegroundMode(value);
+  /// Set the service as foreground service.
+  /// Foreground service requires a notification.
+  /// Only for Android.
+  void setAsForegroundService() => _platform.setForegroundMode(true);
 
-  Future<bool> isServiceRunning() => _platform.isServiceRunning();
+  /// Set the service as background service.
+  /// Only for Android.
+  void setAsBackgroundService() => _platform.setForegroundMode(false);
 
-  // StopBackgroundService from Running
-  void stopBackgroundService() => _platform.stopBackgroundService();
+  /// Wheter the service is running
+  Future<bool> isRunning() => _platform.isServiceRunning();
 
+  /// Stop the background service
+  void stopService() => _platform.stopBackgroundService();
+
+  /// Wheter service will started on boot
   void setAutoStartOnBootMode(bool value) =>
       _platform.setAutoStartOnBootMode(value);
 
+  /// Receive data sent by [sendData].
   Stream<Map<String, dynamic>?> get onDataReceived => _platform.onDataReceived;
 
+  /// Dispose the background service
   void dispose() => _platform.dispose();
 }

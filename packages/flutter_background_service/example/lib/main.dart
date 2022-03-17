@@ -53,23 +53,23 @@ void onStart() {
   final service = FlutterBackgroundService();
   service.onDataReceived.listen((event) {
     if (event!["action"] == "setAsForeground") {
-      service.setForegroundMode(true);
+      service.setAsForegroundService();
       return;
     }
 
     if (event["action"] == "setAsBackground") {
-      service.setForegroundMode(false);
+      service.setAsBackgroundService();
     }
 
     if (event["action"] == "stopService") {
-      service.stopBackgroundService();
+      service.stopService();
     }
   });
 
   // bring to foreground
-  service.setForegroundMode(true);
+  service.setAsForegroundService();
   Timer.periodic(const Duration(seconds: 1), (timer) async {
-    if (!(await service.isServiceRunning())) timer.cancel();
+    if (!(await service.isRunning())) timer.cancel();
     service.setNotificationInfo(
       title: "My App Service",
       content: "Updated at ${DateTime.now()}",
@@ -153,13 +153,13 @@ class _MyAppState extends State<MyApp> {
               child: Text(text),
               onPressed: () async {
                 final service = FlutterBackgroundService();
-                var isRunning = await service.isServiceRunning();
+                var isRunning = await service.isRunning();
                 if (isRunning) {
                   service.sendData(
                     {"action": "stopService"},
                   );
                 } else {
-                  service.start();
+                  service.startService();
                 }
 
                 if (!isRunning) {
