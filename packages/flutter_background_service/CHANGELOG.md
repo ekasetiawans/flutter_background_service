@@ -1,3 +1,7 @@
+## 0.2.8+5
+
+ - Update a dependency to the latest release.
+
 ## 0.2.8+4
 
  - **FIX**: errors. ([13a6f841](https://github.com/ekasetiawans/flutter_background_service/commit/13a6f841f5d677ceb0010e8ba1bf9d7af53adbcf))
