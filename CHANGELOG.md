@@ -15,6 +15,32 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`flutter_background_service` - `v0.2.8+3`](#flutter_background_service---v0283)
+ - [`flutter_background_service_ios` - `v0.0.1+3`](#flutter_background_service_ios---v0013)
+
+---
+
+#### `flutter_background_service` - `v0.2.8+3`
+
+ - **FIX**: podspec. ([b46f9a3f](https://github.com/ekasetiawans/flutter_background_service/commit/b46f9a3f425f66e6bda34650e713da299f922a73))
+
+#### `flutter_background_service_ios` - `v0.0.1+3`
+
+ - **FIX**: podspec. ([b46f9a3f](https://github.com/ekasetiawans/flutter_background_service/commit/b46f9a3f425f66e6bda34650e713da299f922a73))
+
+
+## 2022-03-17
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`flutter_background_service_platform_interface` - `v0.0.1+2`](#flutter_background_service_platform_interface---v0012)
  - [`flutter_background_service_ios` - `v0.0.1+2`](#flutter_background_service_ios---v0012)
  - [`flutter_background_service_android` - `v0.0.1+2`](#flutter_background_service_android---v0012)
