@@ -1,3 +1,7 @@
+## 1.0.1
+
+ - **DOCS**: update README. ([fbf5e0ab](https://github.com/ekasetiawans/flutter_background_service/commit/fbf5e0abeeb9296ba32361b8af0a298ee9e71527))
+
 ## 0.0.2
 
  - **FEAT**: migrate to plugin platform interface. ([70e08ff0](https://github.com/ekasetiawans/flutter_background_service/commit/70e08ff03232c31946cc8eb7896f69c830f23322))

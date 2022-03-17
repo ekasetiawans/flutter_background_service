@@ -15,6 +15,44 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`flutter_background_service_android` - `v1.0.1`](#flutter_background_service_android---v101)
+ - [`flutter_background_service_ios` - `v1.0.1`](#flutter_background_service_ios---v101)
+ - [`flutter_background_service_platform_interface` - `v1.0.1`](#flutter_background_service_platform_interface---v101)
+ - [`flutter_background_service` - `v1.0.2`](#flutter_background_service---v102)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `flutter_background_service` - `v1.0.2`
+
+---
+
+#### `flutter_background_service_android` - `v1.0.1`
+
+ - **DOCS**: update README. ([fbf5e0ab](https://github.com/ekasetiawans/flutter_background_service/commit/fbf5e0abeeb9296ba32361b8af0a298ee9e71527))
+
+#### `flutter_background_service_ios` - `v1.0.1`
+
+ - **DOCS**: update README. ([fbf5e0ab](https://github.com/ekasetiawans/flutter_background_service/commit/fbf5e0abeeb9296ba32361b8af0a298ee9e71527))
+
+#### `flutter_background_service_platform_interface` - `v1.0.1`
+
+ - **DOCS**: update README. ([fbf5e0ab](https://github.com/ekasetiawans/flutter_background_service/commit/fbf5e0abeeb9296ba32361b8af0a298ee9e71527))
+
+
+## 2022-03-18
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`flutter_background_service` - `v1.0.1`](#flutter_background_service---v101)
 
 ---
