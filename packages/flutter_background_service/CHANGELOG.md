@@ -1,3 +1,7 @@
+## 1.0.4
+
+ - **DOCS**: update README. ([88917672](https://github.com/ekasetiawans/flutter_background_service/commit/88917672c617b47691f71f964ee7ff8bd9f1d6f3))
+
 ## 1.0.3
 
  - Update a dependency to the latest release.
