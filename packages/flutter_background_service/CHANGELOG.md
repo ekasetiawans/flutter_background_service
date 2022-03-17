@@ -1,3 +1,7 @@
+## 1.0.1
+
+ - **DOCS**: change method name. ([9f05e7f6](https://github.com/ekasetiawans/flutter_background_service/commit/9f05e7f6a260d8f63788cb21e8e7c2cdc91769eb))
+
 ## 0.2.8+5
 
  - Update a dependency to the latest release.

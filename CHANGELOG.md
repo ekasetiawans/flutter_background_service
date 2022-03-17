@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`flutter_background_service` - `v1.0.1`](#flutter_background_service---v101)
+
+---
+
+#### `flutter_background_service` - `v1.0.1`
+
+ - **DOCS**: change method name. ([9f05e7f6](https://github.com/ekasetiawans/flutter_background_service/commit/9f05e7f6a260d8f63788cb21e8e7c2cdc91769eb))
+
+
+## 2022-03-18
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`flutter_background_service_android` - `v0.0.2`](#flutter_background_service_android---v002)
  - [`flutter_background_service_ios` - `v0.0.2`](#flutter_background_service_ios---v002)
  - [`flutter_background_service` - `v0.2.8+5`](#flutter_background_service---v0285)
