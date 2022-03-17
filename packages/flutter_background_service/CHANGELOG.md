@@ -1,3 +1,7 @@
+## 0.2.8+1
+
+ - **FIX**: dependencies version.
+
 ## 0.2.8
 
  - **FEAT**: update dependencies.
