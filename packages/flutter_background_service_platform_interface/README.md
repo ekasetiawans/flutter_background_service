@@ -23,4 +23,4 @@ See https://flutter.dev/go/platform-interface-breaking-changes for a discussion
 on why a less-clean interface is preferable to a breaking change.
 
 [1]: ../
-[2]: lib/path_provider_platform_interface.dart
+[2]: lib/flutter_background_service_platform_interface.dart
