@@ -15,6 +15,42 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`flutter_background_service` - `v0.2.8+4`](#flutter_background_service---v0284)
+ - [`flutter_background_service_android` - `v0.0.1+3`](#flutter_background_service_android---v0013)
+ - [`flutter_background_service_ios` - `v0.0.1+4`](#flutter_background_service_ios---v0014)
+ - [`flutter_background_service_platform_interface` - `v0.0.1+3`](#flutter_background_service_platform_interface---v0013)
+
+---
+
+#### `flutter_background_service` - `v0.2.8+4`
+
+ - **FIX**: errors. ([13a6f841](https://github.com/ekasetiawans/flutter_background_service/commit/13a6f841f5d677ceb0010e8ba1bf9d7af53adbcf))
+
+#### `flutter_background_service_android` - `v0.0.1+3`
+
+ - **FIX**: errors. ([13a6f841](https://github.com/ekasetiawans/flutter_background_service/commit/13a6f841f5d677ceb0010e8ba1bf9d7af53adbcf))
+
+#### `flutter_background_service_ios` - `v0.0.1+4`
+
+ - **FIX**: errors. ([13a6f841](https://github.com/ekasetiawans/flutter_background_service/commit/13a6f841f5d677ceb0010e8ba1bf9d7af53adbcf))
+
+#### `flutter_background_service_platform_interface` - `v0.0.1+3`
+
+ - **FIX**: errors. ([13a6f841](https://github.com/ekasetiawans/flutter_background_service/commit/13a6f841f5d677ceb0010e8ba1bf9d7af53adbcf))
+
+
+## 2022-03-17
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`flutter_background_service` - `v0.2.8+3`](#flutter_background_service---v0283)
  - [`flutter_background_service_ios` - `v0.0.1+3`](#flutter_background_service_ios---v0013)
 
