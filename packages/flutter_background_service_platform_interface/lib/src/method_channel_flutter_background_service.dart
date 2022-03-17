@@ -130,8 +130,11 @@ class MethodChannelFlutterBackgroundService
   }
 
   @override
-  Future<bool> configure({required IosConfiguration iosConfiguration, required AndroidConfiguration androidConfiguration}) {
-    // TODO: implement configure
-    throw UnimplementedError();
+  Future<bool> configure({
+    required IosConfiguration iosConfiguration,
+    required AndroidConfiguration androidConfiguration,
+  }) async {
+    _setupMain();
+    return false;
   }
 }
