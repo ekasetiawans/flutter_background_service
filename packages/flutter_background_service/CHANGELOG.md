@@ -1,3 +1,8 @@
+## 0.2.7
+
+ - **REFACTOR**: initialize melos.
+ - **FEAT**: managed with melos.
+
 ## 0.2.6
 * FIX: (Android) flutter initialization
 ## 0.2.5
