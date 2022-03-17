@@ -4,6 +4,8 @@ import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
+import 'package:flutter_background_service_android/flutter_background_service_android.dart';
+import 'package:flutter_background_service_ios/flutter_background_service_ios.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,6 +46,9 @@ void onIosBackground() {
 
 void onStart() {
   WidgetsFlutterBinding.ensureInitialized();
+
+  if (Platform.isIOS) FlutterBackgroundServiceIOS.registerWith();
+  if (Platform.isAndroid) FlutterBackgroundServiceAndroid.registerWith();
 
   final service = FlutterBackgroundService();
   service.onDataReceived.listen((event) {

@@ -1,10 +1,10 @@
 #
 # To learn more about a Podspec see http://guides.cocoapods.org/syntax/podspec.html.
-# Run `pod lib lint flutter_background_service_ios.podspec' to validate before publishing.
+# Run `pod lib lint flutter_background_service.podspec' to validate before publishing.
 #
 Pod::Spec.new do |s|
   s.name             = 'flutter_background_service_ios'
-  s.version          = '0.0.1'
+  s.version          = '0.0.3'
   s.summary          = 'A new flutter plugin project.'
   s.description      = <<-DESC
 A new flutter plugin project.

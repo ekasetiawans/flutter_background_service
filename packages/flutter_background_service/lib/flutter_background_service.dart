@@ -18,6 +18,11 @@ class FlutterBackgroundService {
         androidConfiguration: androidConfiguration,
       );
 
+  static FlutterBackgroundService _instance =
+      FlutterBackgroundService._internal().._platform.setupAsBackground();
+  FlutterBackgroundService._internal();
+  factory FlutterBackgroundService() => _instance;
+
   Future<bool> start() => _platform.start();
 
   // Send data from UI to Service, or from Service to UI

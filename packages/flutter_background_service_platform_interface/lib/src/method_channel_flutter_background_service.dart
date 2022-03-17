@@ -19,20 +19,16 @@ class MethodChannelFlutterBackgroundService
     JSONMethodCodec(),
   );
 
-  static final MethodChannelFlutterBackgroundService _instance =
-      MethodChannelFlutterBackgroundService._internal().._setupBackground();
-
-  MethodChannelFlutterBackgroundService._internal();
-  factory MethodChannelFlutterBackgroundService() => _instance;
-
-  void _setupMain() {
+  @override
+  void setupAsMain() {
     _isFromInitialization = true;
     _isRunning = true;
     _isMainChannel = true;
     _mainChannel.setMethodCallHandler(_handle);
   }
 
-  void _setupBackground() {
+  @override
+  void setupAsBackground() {
     _isRunning = true;
     _backgroundChannel.setMethodCallHandler(_handle);
   }
@@ -134,7 +130,7 @@ class MethodChannelFlutterBackgroundService
     required IosConfiguration iosConfiguration,
     required AndroidConfiguration androidConfiguration,
   }) async {
-    _setupMain();
+    setupAsMain();
     return false;
   }
 }

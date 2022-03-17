@@ -23,21 +23,14 @@ class FlutterBackgroundServiceIOS extends FlutterBackgroundServicePlatform {
     JSONMethodCodec(),
   );
 
-  static FlutterBackgroundServiceIOS _instance =
-      FlutterBackgroundServiceIOS._internal().._setupBackground();
-
-  static Object token = Object();
-  FlutterBackgroundServiceIOS._internal() : super(token: token);
-  factory FlutterBackgroundServiceIOS() => _instance;
-
-  void _setupMain() {
+  void setupAsMain() {
     _isFromInitialization = true;
     _isRunning = true;
     _isMainChannel = true;
     _mainChannel.setMethodCallHandler(_handle);
   }
 
-  void _setupBackground() {
+  void setupAsBackground() {
     _isRunning = true;
     _backgroundChannel.setMethodCallHandler(_handle);
   }
@@ -80,7 +73,7 @@ class FlutterBackgroundServiceIOS extends FlutterBackgroundServicePlatform {
     }
 
     final service = FlutterBackgroundServiceIOS();
-    service._setupMain();
+    service.setupAsMain();
 
     final result = await _mainChannel.invokeMethod(
       "configure",

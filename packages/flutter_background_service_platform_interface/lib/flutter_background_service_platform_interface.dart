@@ -7,10 +7,7 @@ import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 export 'src/configs.dart';
 
 abstract class FlutterBackgroundServicePlatform extends PlatformInterface {
-  
-  FlutterBackgroundServicePlatform({required Object token})
-      : super(token: token);
-
+  FlutterBackgroundServicePlatform() : super(token: _token);
   static final Object _token = Object();
 
   static FlutterBackgroundServicePlatform _instance =
@@ -24,6 +21,9 @@ abstract class FlutterBackgroundServicePlatform extends PlatformInterface {
     PlatformInterface.verify(instance, _token);
     _instance = instance;
   }
+
+  void setupAsBackground();
+  void setupAsMain();
 
   Future<bool> configure({
     required IosConfiguration iosConfiguration,
