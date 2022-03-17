@@ -1,3 +1,7 @@
+## 0.2.8
+
+ - **FEAT**: update dependencies.
+
 ## 0.2.7
 
  - **REFACTOR**: initialize melos.
