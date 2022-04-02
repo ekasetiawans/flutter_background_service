@@ -83,6 +83,9 @@ public class FlutterBackgroundServicePlugin extends BroadcastReceiver implements
     }
   }
 
+  private void stop() {
+    context.stopService(new Intent(context, BackgroundService.class));
+  }
 
   @Override
   public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
@@ -131,6 +134,12 @@ public class FlutterBackgroundServicePlugin extends BroadcastReceiver implements
           }
         }
         result.success(false);
+        return;
+      }
+
+      if ("stopService".equalsIgnoreCase(method)) {
+        stop();
+        result.success(true);
         return;
       }
 
