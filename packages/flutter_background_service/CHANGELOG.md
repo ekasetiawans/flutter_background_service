@@ -1,3 +1,7 @@
+## 2.0.0-dev.1
+
+ - **DOCS**: update README. ([caf8125c](https://github.com/ekasetiawans/flutter_background_service/commit/caf8125cf557b009e06995fcc7ea8a006eba3dae))
+
 ## 2.0.0-dev.0
 
 > Note: This release has breaking changes.

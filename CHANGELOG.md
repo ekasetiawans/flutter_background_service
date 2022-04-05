@@ -11,6 +11,27 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 Packages with breaking changes:
 
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`flutter_background_service` - `v2.0.0-dev.1`](#flutter_background_service---v200-dev1)
+
+---
+
+#### `flutter_background_service` - `v2.0.0-dev.1`
+
+ - **DOCS**: update README. ([caf8125c](https://github.com/ekasetiawans/flutter_background_service/commit/caf8125cf557b009e06995fcc7ea8a006eba3dae))
+
+
+## 2022-04-05
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
  - [`flutter_background_service` - `v2.0.0-dev.0`](#flutter_background_service---v200-dev0)
  - [`flutter_background_service_android` - `v2.0.0-dev.0`](#flutter_background_service_android---v200-dev0)
  - [`flutter_background_service_ios` - `v2.0.0-dev.0`](#flutter_background_service_ios---v200-dev0)
