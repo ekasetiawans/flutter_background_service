@@ -63,10 +63,11 @@ public class FlutterBackgroundServicePlugin extends BroadcastReceiver implements
     plugin.channel = channel;
   }
 
-  private static void configure(Context context, long callbackHandleId, boolean isForeground, boolean autoStartOnBoot) {
+  private static void configure(Context context, long entrypointHandle, long backgroundHandle, boolean isForeground, boolean autoStartOnBoot) {
     SharedPreferences pref = context.getSharedPreferences("id.flutter.background_service", MODE_PRIVATE);
     pref.edit()
-            .putLong("callback_handle", callbackHandleId)
+            .putLong("entrypoint_handle", entrypointHandle)
+            .putLong("background_handle", backgroundHandle)
             .putBoolean("is_foreground", isForeground)
             .putBoolean("auto_start_on_boot", autoStartOnBoot)
             .apply();
@@ -91,11 +92,12 @@ public class FlutterBackgroundServicePlugin extends BroadcastReceiver implements
 
     try {
       if ("configure".equals(method)) {
-        long callbackHandle = arg.getLong("handle");
+        long entrypointHandle = arg.getLong("entrypoint_handle");
+        long backgroundHandle = arg.getLong("background_handle");
         boolean isForeground = arg.getBoolean("is_foreground_mode");
         boolean autoStartOnBoot = arg.getBoolean("auto_start_on_boot");
 
-        configure(context, callbackHandle, isForeground, autoStartOnBoot);
+        configure(context, entrypointHandle, backgroundHandle, isForeground, autoStartOnBoot);
         if (autoStartOnBoot){
           start();
         }

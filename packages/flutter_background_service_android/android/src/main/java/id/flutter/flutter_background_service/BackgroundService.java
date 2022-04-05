@@ -198,7 +198,7 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
             updateNotificationInfo();
 
             SharedPreferences pref = getSharedPreferences("id.flutter.background_service", MODE_PRIVATE);
-            long callbackHandle = pref.getLong("callback_handle", 0);
+            long entrypointHandle = pref.getLong("entrypoint_handle", 0);
 
             // initialize flutter if its not initialized yet
             if (!FlutterInjector.instance().flutterLoader().initialized()) {
@@ -206,7 +206,7 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
             }
 
             FlutterInjector.instance().flutterLoader().ensureInitializationComplete(getApplicationContext(), null);
-            FlutterCallbackInformation callback = FlutterCallbackInformation.lookupCallbackInformation(callbackHandle);
+            FlutterCallbackInformation callback = FlutterCallbackInformation.lookupCallbackInformation(entrypointHandle);
             if (callback == null) {
                 Log.e(TAG, "callback handle not found");
                 return;
@@ -244,6 +244,13 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
         String method = call.method;
 
         try {
+            if (method.equalsIgnoreCase("getHandler")){
+                SharedPreferences pref = getSharedPreferences("id.flutter.background_service", MODE_PRIVATE);
+                long backgroundHandle = pref.getLong("background_handle", 0);
+                result.success(backgroundHandle);
+                return;
+            }
+
             if (method.equalsIgnoreCase("setNotificationInfo")) {
                 JSONObject arg = (JSONObject) call.arguments;
                 if (arg.has("title")) {

@@ -5,7 +5,6 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_background_service_android/flutter_background_service_android.dart';
-import 'package:flutter_background_service_ios/flutter_background_service_ios.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,45 +34,44 @@ Future<void> initializeService() async {
       onBackground: onIosBackground,
     ),
   );
+  service.startService();
 }
 
 // to ensure this executed
 // run app from xcode, then from xcode menu, select Simulate Background Fetch
-void onIosBackground() {
+bool onIosBackground(ServiceInstance service) {
   WidgetsFlutterBinding.ensureInitialized();
   print('FLUTTER BACKGROUND FETCH');
+
+  return true;
 }
 
-void onStart() {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  if (Platform.isIOS) FlutterBackgroundServiceIOS.registerWith();
-  if (Platform.isAndroid) FlutterBackgroundServiceAndroid.registerWith();
-
-  final service = FlutterBackgroundService();
-  service.onDataReceived.listen((event) {
-    if (event!["action"] == "setAsForeground") {
+void onStart(ServiceInstance service) {
+  if (service is AndroidServiceInstance) {
+    service.on('setAsForeground').listen((event) {
       service.setAsForegroundService();
-      return;
-    }
+    });
 
-    if (event["action"] == "setAsBackground") {
+    service.on('setAsBackground').listen((event) {
       service.setAsBackgroundService();
-    }
+    });
+  }
 
-    if (event["action"] == "stopService") {
-      service.stopService();
-    }
+  service.on('stopService').listen((event) {
+    service.stopSelf();
   });
 
   // bring to foreground
-  service.setAsForegroundService();
   Timer.periodic(const Duration(seconds: 1), (timer) async {
-    if (!(await service.isRunning())) timer.cancel();
-    service.setNotificationInfo(
-      title: "My App Service",
-      content: "Updated at ${DateTime.now()}",
-    );
+    if (service is AndroidServiceInstance) {
+      service.setForegroundNotificationInfo(
+        title: "My App Service",
+        content: "Updated at ${DateTime.now()}",
+      );
+    }
+
+    /// you can see this log in logcat
+    print('FLUTTER BACKGROUND SERVICE: ${DateTime.now()}');
 
     // test using external plugin
     final deviceInfo = DeviceInfoPlugin();
@@ -88,7 +86,8 @@ void onStart() {
       device = iosInfo.model;
     }
 
-    service.sendData(
+    service.invoke(
+      'update',
       {
         "current_date": DateTime.now().toIso8601String(),
         "device": device,
@@ -116,7 +115,7 @@ class _MyAppState extends State<MyApp> {
         body: Column(
           children: [
             StreamBuilder<Map<String, dynamic>?>(
-              stream: FlutterBackgroundService().onDataReceived,
+              stream: FlutterBackgroundService().on('update'),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
                   return const Center(
@@ -138,15 +137,13 @@ class _MyAppState extends State<MyApp> {
             ElevatedButton(
               child: const Text("Foreground Mode"),
               onPressed: () {
-                FlutterBackgroundService()
-                    .sendData({"action": "setAsForeground"});
+                FlutterBackgroundService().invoke("setAsForeground");
               },
             ),
             ElevatedButton(
               child: const Text("Background Mode"),
               onPressed: () {
-                FlutterBackgroundService()
-                    .sendData({"action": "setAsBackground"});
+                FlutterBackgroundService().invoke("setAsBackground");
               },
             ),
             ElevatedButton(
@@ -155,9 +152,7 @@ class _MyAppState extends State<MyApp> {
                 final service = FlutterBackgroundService();
                 var isRunning = await service.isRunning();
                 if (isRunning) {
-                  service.sendData(
-                    {"action": "stopService"},
-                  );
+                  service.invoke("stopService");
                 } else {
                   service.startService();
                 }
@@ -173,11 +168,7 @@ class _MyAppState extends State<MyApp> {
           ],
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            FlutterBackgroundService().sendData({
-              "hello": "world",
-            });
-          },
+          onPressed: () {},
           child: const Icon(Icons.play_arrow),
         ),
       ),
