@@ -3,6 +3,42 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-04-05
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - [`flutter_background_service` - `v2.0.0-dev.0`](#flutter_background_service---v200-dev0)
+ - [`flutter_background_service_android` - `v2.0.0-dev.0`](#flutter_background_service_android---v200-dev0)
+ - [`flutter_background_service_ios` - `v2.0.0-dev.0`](#flutter_background_service_ios---v200-dev0)
+ - [`flutter_background_service_platform_interface` - `v2.0.0-dev.0`](#flutter_background_service_platform_interface---v200-dev0)
+
+Packages with other changes:
+
+ - There are no other changes in this release.
+
+---
+
+#### `flutter_background_service` - `v2.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: implement new concept. ([c8ce9c0b](https://github.com/ekasetiawans/flutter_background_service/commit/c8ce9c0bab82137dea031af124b84510286661f7))
+
+#### `flutter_background_service_android` - `v2.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: implement new concept. ([c8ce9c0b](https://github.com/ekasetiawans/flutter_background_service/commit/c8ce9c0bab82137dea031af124b84510286661f7))
+
+#### `flutter_background_service_ios` - `v2.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: implement new concept. ([c8ce9c0b](https://github.com/ekasetiawans/flutter_background_service/commit/c8ce9c0bab82137dea031af124b84510286661f7))
+
+#### `flutter_background_service_platform_interface` - `v2.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: introduce ServiceInstance. ([425279b0](https://github.com/ekasetiawans/flutter_background_service/commit/425279b09378fbcd8e66295ce526f2c4f15d741c))
+
+
 ## 2022-03-18
 
 ### Changes

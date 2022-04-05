@@ -1,3 +1,9 @@
+## 2.0.0-dev.0
+
+> Note: This release has breaking changes.
+
+ - **BREAKING** **FEAT**: introduce ServiceInstance. ([425279b0](https://github.com/ekasetiawans/flutter_background_service/commit/425279b09378fbcd8e66295ce526f2c4f15d741c))
+
 ## 1.0.2
 
  - **DOCS**: readme link. ([1479b91c](https://github.com/ekasetiawans/flutter_background_service/commit/1479b91cd80d637335de1314a528bcf51ebb7c0f))

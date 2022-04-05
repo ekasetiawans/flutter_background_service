@@ -1,3 +1,9 @@
+## 2.0.0-dev.0
+
+> Note: This release has breaking changes.
+
+ - **BREAKING** **FEAT**: implement new concept. ([c8ce9c0b](https://github.com/ekasetiawans/flutter_background_service/commit/c8ce9c0bab82137dea031af124b84510286661f7))
+
 ## 1.0.4
 
  - **DOCS**: update README. ([88917672](https://github.com/ekasetiawans/flutter_background_service/commit/88917672c617b47691f71f964ee7ff8bd9f1d6f3))
