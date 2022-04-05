@@ -6,7 +6,13 @@ import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 export 'src/configs.dart';
 
-abstract class FlutterBackgroundServicePlatform extends PlatformInterface {
+abstract class Observable {
+  void invoke(String method, [Map<String, dynamic>? args]);
+  Stream<Map<String, dynamic>?> on(String method);
+}
+
+abstract class FlutterBackgroundServicePlatform extends PlatformInterface
+    implements Observable {
   FlutterBackgroundServicePlatform() : super(token: _token);
   static final Object _token = Object();
 
@@ -22,9 +28,6 @@ abstract class FlutterBackgroundServicePlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  void setupAsBackground();
-  void setupAsMain();
-
   Future<bool> configure({
     required IosConfiguration iosConfiguration,
     required AndroidConfiguration androidConfiguration,
@@ -32,30 +35,10 @@ abstract class FlutterBackgroundServicePlatform extends PlatformInterface {
 
   Future<bool> start();
 
-  // Send data from UI to Service, or from Service to UI
-  void sendData(Map<String, dynamic> data);
-
-  // Set Foreground Notification Information
-  // Only available when foreground mode is true
-  void setNotificationInfo({String? title, String? content});
-
-  // Set Foreground Mode
-  // Only for Android
-  void setForegroundMode(bool value);
-
   Future<bool> isServiceRunning();
+}
 
-  // StopBackgroundService from Running
-  void stopBackgroundService();
-
-  void setAutoStartOnBootMode(bool value);
-
-  final StreamController<Map<String, dynamic>?> _streamController =
-      StreamController.broadcast();
-
-  Stream<Map<String, dynamic>?> get onDataReceived => _streamController.stream;
-
-  void dispose() {
-    _streamController.close();
-  }
+abstract class ServiceInstance implements Observable {
+  /// Stop the service
+  Future<void> stopSelf();
 }
