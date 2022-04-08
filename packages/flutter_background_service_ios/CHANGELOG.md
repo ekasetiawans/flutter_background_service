@@ -1,3 +1,7 @@
+## 2.0.0-dev.1
+
+ - **REFACTOR**: update BGTaskScheduler flow. ([414bb21b](https://github.com/ekasetiawans/flutter_background_service/commit/414bb21b4d0af6112491fb81ee3246b7ef8a5c5b))
+
 ## 2.0.0-dev.0
 
 > Note: This release has breaking changes.
