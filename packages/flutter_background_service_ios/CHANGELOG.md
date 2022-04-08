@@ -1,3 +1,7 @@
+## 2.0.0-dev.2
+
+ - **FIX**: swift compile error. ([b75128ad](https://github.com/ekasetiawans/flutter_background_service/commit/b75128ad3100b4e505e4a3f8a037b07b9be547ad))
+
 ## 2.0.0-dev.1
 
  - **REFACTOR**: update BGTaskScheduler flow. ([414bb21b](https://github.com/ekasetiawans/flutter_background_service/commit/414bb21b4d0af6112491fb81ee3246b7ef8a5c5b))

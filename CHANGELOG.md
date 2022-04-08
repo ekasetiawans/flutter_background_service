@@ -15,6 +15,32 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`flutter_background_service` - `v2.0.0-dev.3`](#flutter_background_service---v200-dev3)
+ - [`flutter_background_service_ios` - `v2.0.0-dev.2`](#flutter_background_service_ios---v200-dev2)
+
+---
+
+#### `flutter_background_service` - `v2.0.0-dev.3`
+
+ - **REFACTOR**: fix sampe project dependency version. ([a83b9f62](https://github.com/ekasetiawans/flutter_background_service/commit/a83b9f62dd0d16f8bd23657ef1f36cb7d51fb0fa))
+
+#### `flutter_background_service_ios` - `v2.0.0-dev.2`
+
+ - **FIX**: swift compile error. ([b75128ad](https://github.com/ekasetiawans/flutter_background_service/commit/b75128ad3100b4e505e4a3f8a037b07b9be547ad))
+
+
+## 2022-04-08
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`flutter_background_service_ios` - `v2.0.0-dev.1`](#flutter_background_service_ios---v200-dev1)
  - [`flutter_background_service` - `v2.0.0-dev.2`](#flutter_background_service---v200-dev2)
 
