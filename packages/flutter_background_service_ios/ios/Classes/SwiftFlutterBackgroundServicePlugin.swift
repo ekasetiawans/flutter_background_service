@@ -14,6 +14,7 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
     var tmpEngine: FlutterEngine? = nil
     var tmpChannel: FlutterMethodChannel? = nil
     var tmpCompletionHandler: ((UIBackgroundFetchResult) -> Void)? = nil
+    var tmpTask: BGAppRefreshTask? = nil
     
     public override func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) -> Bool {
         // execute callback handle
@@ -57,38 +58,15 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
     @available(iOS 13.0, *)
     func handleAppRefresh(task: BGAppRefreshTask){
         scheduleAppRefresh()
-        
-        var engine: FlutterEngine? = nil
-        let defaults = UserDefaults.standard
-        let callbackHandle = defaults.object(forKey: "background_entrypoint_callback_handle")
-        if callbackHandle == nil {
-            task.setTaskCompleted(success: false)
-            return
-        }
-        
-        if let callbackHandleID = callbackHandle as? Int64 {
-            let callbackHandleInfo = FlutterCallbackCache.lookupCallbackInformation(callbackHandleID)
-            let callbackName = callbackHandleInfo?.callbackName
-            let uri = callbackHandleInfo?.callbackLibraryPath
-            
-            let backgroundEngine = FlutterEngine(name: "FlutterBackgroundFetch")
-            let isRunning = backgroundEngine.run(withEntrypoint: callbackName, libraryURI: uri)
-            if (isRunning){
-                
-                let registrantCallback = SwiftFlutterBackgroundServicePlugin.flutterPluginRegistrantCallback
-                registrantCallback?(backgroundEngine)
-                
-                let binaryMessenger = backgroundEngine.binaryMessenger
-                let backgroundChannel = FlutterMethodChannel(name: "id.flutter/background_service_ios_bg", binaryMessenger: binaryMessenger, codec: FlutterJSONMethodCodec())
-                backgroundChannel.setMethodCallHandler(self.handleBackgroundMethodCall)
-            }
-            
-            engine = backgroundEngine
-            task.setTaskCompleted(success: isRunning)
-        }
+
+        self.tmpTask = task
+        self.beginFetch(isForeground: false)
         
         task.expirationHandler = {
-            engine?.destroyContext()
+            self.tmpEngine?.destroyContext()
+            self.tmpEngine = nil
+            self.tmpTask = nil
+            self.tmpChannel = nil
         }
     }
     
@@ -134,16 +112,20 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
         
         if (call.method == "setBackgroundFetchResult" && tmpCompletionHandler != nil){
             let result = call.arguments as! Bool
+            
             if (result){
-                tmpCompletionHandler!(.newData)
+                self.tmpCompletionHandler?(.newData)
+                self.tmpTask?.setTaskCompleted(success: true)
             } else {
-                tmpCompletionHandler!(.noData)
+                self.tmpCompletionHandler?(.noData)
+                self.tmpTask?.setTaskCompleted(success: false)
             }
             
             if (self.tmpEngine != nil){
                 self.tmpEngine!.destroyContext()
                 self.tmpEngine = nil
                 self.tmpChannel = nil
+                self.tmpTask = nil
             }
         }
         
@@ -152,16 +134,6 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
                 self.mainChannel?.invokeMethod("onReceiveData", arguments: call.arguments)
             }
             
-            result(true);
-            return;
-        }
-        
-        if (call.method == "setForegroundMode"){
-            result(true);
-            return;
-        }
-        
-        if (call.method == "setNotificationInfo"){
             result(true);
             return;
         }
@@ -193,6 +165,11 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
             defaults.set(autoStart, forKey: "auto_start")
             
             self.autoStart(isForeground: true)
+            UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplication.backgroundFetchIntervalMinimum)        
+            if #available(iOS 13.0, *) {
+                registerBackgroundTasks()
+            }
+
             result(true)
             return
         }
@@ -248,12 +225,12 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
                 
                 backgroundChannel.setMethodCallHandler(self.handleBackgroundMethodCall)
                 
-                self.tmpEngine = backgroundEngine
-                self.tmpChannel = backgroundChannel
-                
                 if (isForeground){
                     self.foregroundEngine = backgroundEngine
                     self.foregroundChannel = backgroundChannel
+                } else {
+                    self.tmpEngine = backgroundEngine
+                    self.tmpChannel = backgroundChannel
                 }
             }
         }
