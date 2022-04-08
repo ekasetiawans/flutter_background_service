@@ -14,7 +14,9 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
     var tmpEngine: FlutterEngine? = nil
     var tmpChannel: FlutterMethodChannel? = nil
     var tmpCompletionHandler: ((UIBackgroundFetchResult) -> Void)? = nil
-    var tmpTask: BGAppRefreshTask? = nil
+
+    @available(iOS 13.0, *)
+    private(set) lazy var tmpTask: BGAppRefreshTask? = nil
     
     public override func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) -> Bool {
         // execute callback handle
@@ -31,6 +33,7 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
         if #available(iOS 13.0, *) {
             registerBackgroundTasks()
         }
+        
         return true
     }
     
@@ -115,17 +118,26 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
             
             if (result){
                 self.tmpCompletionHandler?(.newData)
-                self.tmpTask?.setTaskCompleted(success: true)
+
+                if #available(iOS 13.0, *) {
+                    self.tmpTask?.setTaskCompleted(success: true)
+                }
             } else {
                 self.tmpCompletionHandler?(.noData)
-                self.tmpTask?.setTaskCompleted(success: false)
+
+                if #available(iOS 13.0, *) {
+                    self.tmpTask?.setTaskCompleted(success: false)
+                }
             }
             
             if (self.tmpEngine != nil){
                 self.tmpEngine!.destroyContext()
                 self.tmpEngine = nil
                 self.tmpChannel = nil
-                self.tmpTask = nil
+
+                if #available(iOS 13.0, *) {
+                    self.tmpTask = nil
+                }
             }
         }
         
@@ -165,11 +177,7 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
             defaults.set(autoStart, forKey: "auto_start")
             
             self.autoStart(isForeground: true)
-            UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplication.backgroundFetchIntervalMinimum)        
-            if #available(iOS 13.0, *) {
-                registerBackgroundTasks()
-            }
-
+            
             result(true)
             return
         }
