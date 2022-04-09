@@ -1,3 +1,7 @@
+## 2.0.0
+
+ - Graduate package to a stable release. See pre-releases prior to this version for changelog entries.
+
 ## 2.0.0-dev.3
 
  - **REFACTOR**: fix sampe project dependency version. ([a83b9f62](https://github.com/ekasetiawans/flutter_background_service/commit/a83b9f62dd0d16f8bd23657ef1f36cb7d51fb0fa))

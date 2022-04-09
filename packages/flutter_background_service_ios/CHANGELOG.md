@@ -1,3 +1,7 @@
+## 2.0.0
+
+ - Graduate package to a stable release. See pre-releases prior to this version for changelog entries.
+
 ## 2.0.0-dev.2
 
  - **FIX**: swift compile error. ([b75128ad](https://github.com/ekasetiawans/flutter_background_service/commit/b75128ad3100b4e505e4a3f8a037b07b9be547ad))

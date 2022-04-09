@@ -3,6 +3,41 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-04-10
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - [`flutter_background_service` - `v2.0.0`](#flutter_background_service---v200)
+ - [`flutter_background_service_android` - `v2.0.0`](#flutter_background_service_android---v200)
+ - [`flutter_background_service_ios` - `v2.0.0`](#flutter_background_service_ios---v200)
+ - [`flutter_background_service_platform_interface` - `v2.0.0`](#flutter_background_service_platform_interface---v200)
+
+Packages with other changes:
+
+ - There are no other changes in this release.
+
+Packages graduated to a stable release (see pre-releases prior to the stable version for changelog entries):
+
+ - `flutter_background_service` - `v2.0.0`
+ - `flutter_background_service_android` - `v2.0.0`
+ - `flutter_background_service_ios` - `v2.0.0`
+ - `flutter_background_service_platform_interface` - `v2.0.0`
+
+---
+
+#### `flutter_background_service` - `v2.0.0`
+
+#### `flutter_background_service_android` - `v2.0.0`
+
+#### `flutter_background_service_ios` - `v2.0.0`
+
+#### `flutter_background_service_platform_interface` - `v2.0.0`
+
+
 ## 2022-04-08
 
 ### Changes
