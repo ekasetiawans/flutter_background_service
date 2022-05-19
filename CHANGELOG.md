@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-05-19
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`flutter_background_service` - `v2.1.0`](#flutter_background_service---v210)
+ - [`flutter_background_service_ios` - `v2.1.0`](#flutter_background_service_ios---v210)
+
+---
+
+#### `flutter_background_service` - `v2.1.0`
+
+ - **FEAT**: automatically register plugins. ([3a0d0d53](https://github.com/ekasetiawans/flutter_background_service/commit/3a0d0d53110cdaf92caf4f329cd80034121c9ea6))
+
+#### `flutter_background_service_ios` - `v2.1.0`
+
+ - **FEAT**: automatically register plugins. ([3a0d0d53](https://github.com/ekasetiawans/flutter_background_service/commit/3a0d0d53110cdaf92caf4f329cd80034121c9ea6))
+
+
 ## 2022-04-10
 
 ### Changes
