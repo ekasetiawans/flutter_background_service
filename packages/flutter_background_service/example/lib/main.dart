@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_background_service_android/flutter_background_service_android.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -46,7 +48,18 @@ bool onIosBackground(ServiceInstance service) {
   return true;
 }
 
-void onStart(ServiceInstance service) {
+void onStart(ServiceInstance service) async {
+
+  // Only available for flutter 3.0.0 and later
+  DartPluginRegistrant.ensureInitialized();
+
+  // For flutter prior to version 3.0.0
+  // We have to register the plugin manually
+  
+
+  SharedPreferences preferences = await SharedPreferences.getInstance();
+  await preferences.setString("hello", "world");
+
   if (service is AndroidServiceInstance) {
     service.on('setAsForeground').listen((event) {
       service.setAsForegroundService();
@@ -63,6 +76,9 @@ void onStart(ServiceInstance service) {
 
   // bring to foreground
   Timer.periodic(const Duration(seconds: 1), (timer) async {
+    final hello = preferences.getString("hello");
+    print(hello);
+
     if (service is AndroidServiceInstance) {
       service.setForegroundNotificationInfo(
         title: "My App Service",

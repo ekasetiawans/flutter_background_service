@@ -5,8 +5,6 @@ import BackgroundTasks
 
 public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDelegate, FlutterPlugin  {
     
-    private static var flutterPluginRegistrantCallback: FlutterPluginRegistrantCallback?
-    
     var foregroundEngine: FlutterEngine? = nil
     var mainChannel: FlutterMethodChannel? = nil
     var foregroundChannel: FlutterMethodChannel? = nil
@@ -84,10 +82,6 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
         
         registrar.addMethodCallDelegate(instance, channel: channel)
         registrar.addApplicationDelegate(instance)
-    }
-    
-    public static func setPluginRegistrantCallback(_ callback: @escaping FlutterPluginRegistrantCallback) {
-        flutterPluginRegistrantCallback = callback
     }
     
     private func autoStart(isForeground: Bool) {
@@ -225,8 +219,7 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
             let isRunning = backgroundEngine.run(withEntrypoint: callbackName, libraryURI: uri)
             
             if (isRunning){
-                let registrantCallback = SwiftFlutterBackgroundServicePlugin.flutterPluginRegistrantCallback
-                registrantCallback?(backgroundEngine)
+                FlutterBackgroundServicePlugin.register(backgroundEngine)
                 
                 let binaryMessenger = backgroundEngine.binaryMessenger
                 let backgroundChannel = FlutterMethodChannel(name: "id.flutter/background_service_ios_bg", binaryMessenger: binaryMessenger, codec: FlutterJSONMethodCodec())

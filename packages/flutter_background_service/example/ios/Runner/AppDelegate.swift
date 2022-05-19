@@ -1,6 +1,5 @@
 import UIKit
 import Flutter
-import flutter_background_service_ios
 
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate {
@@ -9,10 +8,6 @@ import flutter_background_service_ios
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
     GeneratedPluginRegistrant.register(with: self)
-    FlutterBackgroundServicePlugin.setPluginRegistrantCallback { registry in
-        GeneratedPluginRegistrant.register(with: registry)
-    }
-
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 }

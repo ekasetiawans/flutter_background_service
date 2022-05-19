@@ -8,6 +8,11 @@
 #import "flutter_background_service_ios-Swift.h"
 #endif
 
+@interface GeneratedPluginRegistrant : NSObject
++ (void)registerWithRegistry:(NSObject<FlutterPluginRegistry>*)registry;
+@end
+
+
 @implementation FlutterBackgroundServicePlugin
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
   [SwiftFlutterBackgroundServicePlugin registerWithRegistrar:registrar];
@@ -15,5 +20,14 @@
 
 + (void)setPluginRegistrantCallback:(FlutterPluginRegistrantCallback)callback {
     [SwiftFlutterBackgroundServicePlugin setPluginRegistrantCallback:callback];
+}
+
++ (nullable Class)lookupGeneratedPluginRegistrant {
+    NSString* classNameToCompare = @"GeneratedPluginRegistrant";
+    return NSClassFromString(classNameToCompare);
+}
+
++ (void)registerEngine:(FlutterEngine*)engine {
+    [[FlutterBackgroundServicePlugin lookupGeneratedPluginRegistrant] registerWithRegistry:engine];
 }
 @end
