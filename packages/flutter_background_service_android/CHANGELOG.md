@@ -1,3 +1,7 @@
+## 2.0.1
+
+ - **FIX**: release wakelock. ([c0830250](https://github.com/ekasetiawans/flutter_background_service/commit/c0830250b90a1ba6e2543a1bb25a13fba59a56b7))
+
 ## 2.0.0
 
  - Graduate package to a stable release. See pre-releases prior to this version for changelog entries.

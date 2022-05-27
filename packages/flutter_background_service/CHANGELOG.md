@@ -1,3 +1,7 @@
+## 2.1.1
+
+ - Update a dependency to the latest release.
+
 ## 2.1.0
 
  - **FEAT**: automatically register plugins. ([3a0d0d53](https://github.com/ekasetiawans/flutter_background_service/commit/3a0d0d53110cdaf92caf4f329cd80034121c9ea6))
