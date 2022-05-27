@@ -183,7 +183,7 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
         setManuallyStopped(false);
         enqueue(this);
         runService();
-        getLock(getApplicationContext()).acquire();
+        getLock(getApplicationContext()).acquire(10*60*1000L /*10 minutes*/);
 
         return START_STICKY;
     }
@@ -248,6 +248,10 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
                 SharedPreferences pref = getSharedPreferences("id.flutter.background_service", MODE_PRIVATE);
                 long backgroundHandle = pref.getLong("background_handle", 0);
                 result.success(backgroundHandle);
+
+                if (lockStatic != null){
+                    lockStatic.release();
+                }
                 return;
             }
 
