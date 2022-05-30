@@ -78,8 +78,6 @@ class FlutterBackgroundServiceAndroid extends FlutterBackgroundServicePlatform {
     return result ?? false;
   }
 
-  void setAutoStartOnBootMode(bool value) {}
-
   final _controller = StreamController.broadcast(sync: true);
 
   void dispose() {
@@ -178,5 +176,11 @@ class AndroidServiceInstance extends ServiceInstance {
 
   Future<int> _getHandler() async {
     return await _channel.invokeMethod('getHandler');
+  }
+
+  Future<void> setAutoStartOnBootMode(bool value) async {
+    await _channel.invokeMethod("setAutoStartOnBootMode", {
+      "value": value,
+    });
   }
 }
