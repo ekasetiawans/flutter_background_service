@@ -18,7 +18,7 @@ Future<void> initializeService() async {
   final service = FlutterBackgroundService();
   await service.configure(
     androidConfiguration: AndroidConfiguration(
-      // this will executed when app is in foreground or background in separated isolate
+      // this will be executed when app is in foreground or background in separated isolate
       onStart: onStart,
 
       // auto start service
@@ -29,7 +29,7 @@ Future<void> initializeService() async {
       // auto start service
       autoStart: true,
 
-      // this will executed when app is in foreground in separated isolate
+      // this will be executed when app is in foreground in separated isolate
       onForeground: onStart,
 
       // you have to enable background fetch capability on xcode project
@@ -39,7 +39,7 @@ Future<void> initializeService() async {
   service.startService();
 }
 
-// to ensure this executed
+// to ensure this is executed
 // run app from xcode, then from xcode menu, select Simulate Background Fetch
 bool onIosBackground(ServiceInstance service) {
   WidgetsFlutterBinding.ensureInitialized();
