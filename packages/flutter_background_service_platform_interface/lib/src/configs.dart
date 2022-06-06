@@ -13,7 +13,7 @@ class IosConfiguration {
   /// recommended maximum executed duration is only 15-20 seconds.
   final FutureOr<bool> Function(ServiceInstance service) onBackground;
 
-  /// wheter service auto start after configure.
+  /// whether service auto start after configure.
   final bool autoStart;
 
   IosConfiguration({
@@ -27,10 +27,10 @@ class AndroidConfiguration {
   /// must be a top level or static method
   final Function(ServiceInstance service) onStart;
 
-  /// wheter service can started automatically on boot and after configure
+  /// whether service can start automatically on boot and after configure
   final bool autoStart;
 
-  /// wheter service is foreground or background mode
+  /// whether service is foreground or background mode
   final bool isForegroundMode;
 
   final String? foregroundServiceNotificationTitle;
