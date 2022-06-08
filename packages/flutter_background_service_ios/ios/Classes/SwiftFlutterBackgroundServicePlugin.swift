@@ -36,7 +36,7 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
     }
     
     @available(iOS 13.0, *)
-    func registerBackgroundTasks(){
+    func registerBackgroundTasks() {
         BGTaskScheduler.shared.register(forTaskWithIdentifier: "dev.flutter.background.refresh", using: nil) { task in
             self.handleAppRefresh(task: task as! BGAppRefreshTask)
         }
@@ -57,7 +57,7 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
     }
     
     @available(iOS 13.0, *)
-    func handleAppRefresh(task: BGAppRefreshTask){
+    func handleAppRefresh(task: BGAppRefreshTask) {
         scheduleAppRefresh()
 
         self.tmpTask = task
@@ -87,30 +87,30 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
     private func autoStart(isForeground: Bool) {
         let defaults = UserDefaults.standard
         let autoStart = defaults.bool(forKey: "auto_start")
-        if (autoStart){
+        if (autoStart) {
             self.beginFetch(isForeground: isForeground)
         }
     }
     
-    private func handleBackgroundMethodCall(_ call: FlutterMethodCall, result: @escaping FlutterResult){
-        if (call.method == "getForegroundHandler"){
+    private func handleBackgroundMethodCall(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
+        if (call.method == "getForegroundHandler") {
             let defaults = UserDefaults.standard
             let callbackHandle = defaults.object(forKey: "foreground_callback_handle") as! Int64
             result(callbackHandle)
             return
         }
         
-        if (call.method == "getBackgroundHandler"){
+        if (call.method == "getBackgroundHandler") {
             let defaults = UserDefaults.standard
             let callbackHandle = defaults.object(forKey: "background_callback_handle") as! Int64
             result(callbackHandle)
             return
         }
         
-        if (call.method == "setBackgroundFetchResult" && tmpCompletionHandler != nil){
+        if (call.method == "setBackgroundFetchResult" && tmpCompletionHandler != nil) {
             let result = call.arguments as! Bool
             
-            if (result){
+            if (result) {
                 self.tmpCompletionHandler?(.newData)
 
                 if #available(iOS 13.0, *) {
@@ -124,7 +124,7 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
                 }
             }
             
-            if (self.tmpEngine != nil){
+            if (self.tmpEngine != nil) {
                 self.tmpEngine!.destroyContext()
                 self.tmpEngine = nil
                 self.tmpChannel = nil
@@ -135,8 +135,8 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
             }
         }
         
-        if (call.method == "sendData"){
-            if (self.mainChannel != nil){
+        if (call.method == "sendData") {
+            if (self.mainChannel != nil) {
                 self.mainChannel?.invokeMethod("onReceiveData", arguments: call.arguments)
             }
             
@@ -144,7 +144,7 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
             return;
         }
         
-        if (call.method == "stopService"){
+        if (call.method == "stopService") {
             self.foregroundEngine?.destroyContext();
             self.foregroundEngine = nil;
             result(true);
@@ -153,7 +153,7 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
     }
     
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-        if (call.method == "configure"){
+        if (call.method == "configure") {
             let args = call.arguments as? Dictionary<String, Any>
             let foregroundEntrypointCallbackHandleID = args?["foreground_entrypoint_handle"] as? NSNumber
             let backgroundEntrypointCallbackHandleID = args?["background_entrypoint_handle"] as? NSNumber
@@ -181,15 +181,15 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
             result(true)
         }
         
-        if (call.method == "sendData"){
-            if (self.foregroundChannel != nil){
+        if (call.method == "sendData") {
+            if (self.foregroundChannel != nil) {
                 self.foregroundChannel?.invokeMethod("onReceiveData", arguments: call.arguments)
             }
             
             result(true);
         }
                 
-        if (call.method == "isServiceRunning"){
+        if (call.method == "isServiceRunning") {
             let value = self.foregroundEngine != nil;
             result(value);
             return;
@@ -197,12 +197,12 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
     }
     
     // isForeground will be false if this method is executed by background fetch.
-    private func beginFetch(isForeground: Bool){
-        if (isForeground && self.foregroundEngine != nil){
+    private func beginFetch(isForeground: Bool) {
+        if (isForeground && self.foregroundEngine != nil) {
             return
         }
         
-        if (!isForeground && self.tmpEngine != nil){
+        if (!isForeground && self.tmpEngine != nil) {
             self.tmpEngine?.destroyContext()
         }
         
@@ -218,7 +218,7 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
             let backgroundEngine = FlutterEngine(name: "FlutterService")
             let isRunning = backgroundEngine.run(withEntrypoint: callbackName, libraryURI: uri)
             
-            if (isRunning){
+            if (isRunning) {
                 FlutterBackgroundServicePlugin.register(backgroundEngine)
                 
                 let binaryMessenger = backgroundEngine.binaryMessenger
@@ -226,7 +226,7 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
                 
                 backgroundChannel.setMethodCallHandler(self.handleBackgroundMethodCall)
                 
-                if (isForeground){
+                if (isForeground) {
                     self.foregroundEngine = backgroundEngine
                     self.foregroundChannel = backgroundChannel
                 } else {

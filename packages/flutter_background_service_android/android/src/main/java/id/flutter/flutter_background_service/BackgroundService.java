@@ -70,7 +70,7 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
         Intent intent = new Intent(context, WatchdogReceiver.class);
         AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             PendingIntent pIntent = PendingIntent.getBroadcast(context, 111, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
             AlarmManagerCompat.setAndAllowWhileIdle(manager, AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, pIntent);
             return;
@@ -160,7 +160,7 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
             Intent i = getPackageManager().getLaunchIntentForPackage(packageName);
 
             PendingIntent pi;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 pi = PendingIntent.getActivity(BackgroundService.this, 99778, i, PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_MUTABLE);
             } else {
                 pi = PendingIntent.getActivity(BackgroundService.this, 99778, i, PendingIntent.FLAG_CANCEL_CURRENT);
@@ -200,7 +200,7 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
             SharedPreferences pref = getSharedPreferences("id.flutter.background_service", MODE_PRIVATE);
             long entrypointHandle = pref.getLong("entrypoint_handle", 0);
 
-            // initialize flutter if its not initialized yet
+            // initialize flutter if it's not initialized yet
             if (!FlutterInjector.instance().flutterLoader().initialized()) {
                 FlutterInjector.instance().flutterLoader().startInitialization(getApplicationContext());
             }
@@ -244,12 +244,12 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
         String method = call.method;
 
         try {
-            if (method.equalsIgnoreCase("getHandler")){
+            if (method.equalsIgnoreCase("getHandler")) {
                 SharedPreferences pref = getSharedPreferences("id.flutter.background_service", MODE_PRIVATE);
                 long backgroundHandle = pref.getLong("background_handle", 0);
                 result.success(backgroundHandle);
 
-                if (lockStatic != null){
+                if (lockStatic != null) {
                     lockStatic.release();
                 }
                 return;

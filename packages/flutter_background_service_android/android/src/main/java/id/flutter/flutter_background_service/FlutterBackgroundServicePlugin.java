@@ -35,7 +35,7 @@ public class FlutterBackgroundServicePlugin extends BroadcastReceiver implements
   private static final String TAG = "BackgroundServicePlugin";
   private static final List<FlutterBackgroundServicePlugin> _instances = new ArrayList<>();
 
-  public FlutterBackgroundServicePlugin(){
+  public FlutterBackgroundServicePlugin() {
     _instances.add(this);
   }
 
@@ -77,7 +77,7 @@ public class FlutterBackgroundServicePlugin extends BroadcastReceiver implements
     BackgroundService.enqueue(context);
     boolean isForeground = BackgroundService.isForegroundService(context);
     Intent intent = new Intent(context, BackgroundService.class);
-    if (isForeground){
+    if (isForeground) {
       ContextCompat.startForegroundService(context, intent);
     } else {
       context.startService(intent);
@@ -98,7 +98,7 @@ public class FlutterBackgroundServicePlugin extends BroadcastReceiver implements
         boolean autoStartOnBoot = arg.getBoolean("auto_start_on_boot");
 
         configure(context, entrypointHandle, backgroundHandle, isForeground, autoStartOnBoot);
-        if (autoStartOnBoot){
+        if (autoStartOnBoot) {
           start();
         }
 
@@ -106,7 +106,7 @@ public class FlutterBackgroundServicePlugin extends BroadcastReceiver implements
         return;
       }
 
-      if ("start".equals(method)){
+      if ("start".equals(method)) {
         start();
         result.success(true);
         return;
@@ -137,7 +137,7 @@ public class FlutterBackgroundServicePlugin extends BroadcastReceiver implements
       }
 
       result.notImplemented();
-    }catch (Exception e){
+    }catch (Exception e) {
       result.error("100", "Failed read arguments", null);
     }
   }
@@ -154,16 +154,16 @@ public class FlutterBackgroundServicePlugin extends BroadcastReceiver implements
   public void onReceive(Context context, Intent intent) {
     if (intent.getAction() == null) return;
 
-    if (intent.getAction().equalsIgnoreCase("id.flutter/background_service")){
+    if (intent.getAction().equalsIgnoreCase("id.flutter/background_service")) {
       String data = intent.getStringExtra("data");
       try {
         JSONObject jData = new JSONObject(data);
-        if (channel != null){
+        if (channel != null) {
           channel.invokeMethod("onReceiveData", jData);
         }
-      }catch (JSONException e){
+      }catch (JSONException e) {
         e.printStackTrace();
-      } catch (Exception e){
+      } catch (Exception e) {
         e.printStackTrace();
       }
     }
