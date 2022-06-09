@@ -260,8 +260,8 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
                     notificationContent = arg.getString("content");
                     updateNotificationInfo();
                     result.success(true);
-                    return;
                 }
+                return;
             }
 
             if (method.equalsIgnoreCase("setAutoStartOnBootMode")) {

@@ -84,7 +84,6 @@ public class FlutterBackgroundServicePlugin extends BroadcastReceiver implements
     }
   }
 
-
   @Override
   public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
     String method = call.method;
@@ -137,7 +136,7 @@ public class FlutterBackgroundServicePlugin extends BroadcastReceiver implements
       }
 
       result.notImplemented();
-    }catch (Exception e) {
+    } catch (Exception e) {
       result.error("100", "Failed read arguments", null);
     }
   }
@@ -161,7 +160,7 @@ public class FlutterBackgroundServicePlugin extends BroadcastReceiver implements
         if (channel != null) {
           channel.invokeMethod("onReceiveData", jData);
         }
-      }catch (JSONException e) {
+      } catch (JSONException e) {
         e.printStackTrace();
       } catch (Exception e) {
         e.printStackTrace();
