@@ -70,13 +70,12 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
         Intent intent = new Intent(context, WatchdogReceiver.class);
         AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
+        int flags = PendingIntent.FLAG_UPDATE_CURRENT;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            PendingIntent pIntent = PendingIntent.getBroadcast(context, 111, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
-            AlarmManagerCompat.setAndAllowWhileIdle(manager, AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, pIntent);
-            return;
+            flags |= PendingIntent.FLAG_MUTABLE;
         }
 
-        PendingIntent pIntent = PendingIntent.getBroadcast(context, 111, intent,  PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pIntent = PendingIntent.getBroadcast(context, 111, intent, flags);
         AlarmManagerCompat.setAndAllowWhileIdle(manager, AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, pIntent);
     }
 
@@ -159,12 +158,12 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
             String packageName = getApplicationContext().getPackageName();
             Intent i = getPackageManager().getLaunchIntentForPackage(packageName);
 
-            PendingIntent pi;
+            int flags = PendingIntent.FLAG_CANCEL_CURRENT;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                pi = PendingIntent.getActivity(BackgroundService.this, 99778, i, PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_MUTABLE);
-            } else {
-                pi = PendingIntent.getActivity(BackgroundService.this, 99778, i, PendingIntent.FLAG_CANCEL_CURRENT);
+                flags |= PendingIntent.FLAG_MUTABLE;
             }
+
+            PendingIntent pi = PendingIntent.getActivity(BackgroundService.this, 99778, i, flags);
 
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, "FOREGROUND_DEFAULT")
                     .setSmallIcon(R.drawable.ic_bg_service_small)
@@ -222,7 +221,7 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
             dartCallback = new DartExecutor.DartCallback(getAssets(), FlutterInjector.instance().flutterLoader().findAppBundlePath(), callback);
             backgroundEngine.getDartExecutor().executeDartCallback(dartCallback);
         } catch (UnsatisfiedLinkError e) {
-            notificationContent = "Error " +e.getMessage();
+            notificationContent = "Error " + e.getMessage();
             updateNotificationInfo();
 
             Log.w(TAG, "UnsatisfiedLinkError: After a reboot this may happen for a short period and it is ok to ignore then!" + e.getMessage());
@@ -291,12 +290,13 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
             if (method.equalsIgnoreCase("stopService")) {
                 isManuallyStopped = true;
                 Intent intent = new Intent(this, WatchdogReceiver.class);
-                PendingIntent pi;
+
+                int flags = PendingIntent.FLAG_CANCEL_CURRENT;
                 if (SDK_INT >= Build.VERSION_CODES.S) {
-                    pi = PendingIntent.getBroadcast(getApplicationContext(), 111, intent, PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_MUTABLE);
-                } else {
-                    pi = PendingIntent.getBroadcast(getApplicationContext(), 111, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+                    flags |= PendingIntent.FLAG_MUTABLE;
                 }
+
+                PendingIntent pi = PendingIntent.getBroadcast(getApplicationContext(), 111, intent, flags);
 
                 AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
                 alarmManager.cancel(pi);
