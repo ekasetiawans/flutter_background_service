@@ -27,7 +27,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.lang.UnsatisfiedLinkError;
 
 import io.flutter.FlutterInjector;
-import io.flutter.app.FlutterApplication;
 import io.flutter.embedding.engine.FlutterEngine;
 import io.flutter.embedding.engine.dart.DartExecutor;
 import io.flutter.embedding.engine.loader.FlutterLoader;
@@ -35,7 +34,6 @@ import io.flutter.plugin.common.JSONMethodCodec;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.view.FlutterCallbackInformation;
-import io.flutter.view.FlutterMain;
 
 public class BackgroundService extends Service implements MethodChannel.MethodCallHandler {
     private static final String TAG = "BackgroundService";
@@ -199,12 +197,13 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
             SharedPreferences pref = getSharedPreferences("id.flutter.background_service", MODE_PRIVATE);
             long entrypointHandle = pref.getLong("entrypoint_handle", 0);
 
+            FlutterLoader flutterLoader = FlutterInjector.instance().flutterLoader();
             // initialize flutter if it's not initialized yet
-            if (!FlutterInjector.instance().flutterLoader().initialized()) {
-                FlutterInjector.instance().flutterLoader().startInitialization(getApplicationContext());
+            if (!flutterLoader.initialized()) {
+                flutterLoader.startInitialization(getApplicationContext());
             }
 
-            FlutterInjector.instance().flutterLoader().ensureInitializationComplete(getApplicationContext(), null);
+            flutterLoader.ensureInitializationComplete(getApplicationContext(), null);
             FlutterCallbackInformation callback = FlutterCallbackInformation.lookupCallbackInformation(entrypointHandle);
             if (callback == null) {
                 Log.e(TAG, "callback handle not found");
@@ -218,7 +217,7 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
             methodChannel = new MethodChannel(backgroundEngine.getDartExecutor().getBinaryMessenger(), "id.flutter/background_service_android_bg", JSONMethodCodec.INSTANCE);
             methodChannel.setMethodCallHandler(this);
 
-            dartCallback = new DartExecutor.DartCallback(getAssets(), FlutterInjector.instance().flutterLoader().findAppBundlePath(), callback);
+            dartCallback = new DartExecutor.DartCallback(getAssets(), flutterLoader.findAppBundlePath(), callback);
             backgroundEngine.getDartExecutor().executeDartCallback(dartCallback);
         } catch (UnsatisfiedLinkError e) {
             notificationContent = "Error " + e.getMessage();
