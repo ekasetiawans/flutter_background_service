@@ -308,7 +308,7 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
             if (method.equalsIgnoreCase("sendData")) {
                 LocalBroadcastManager manager = LocalBroadcastManager.getInstance(this);
                 Intent intent = new Intent("id.flutter/background_service");
-                intent.putExtra("data", ((JSONObject) call.arguments).toString());
+                intent.putExtra("data", call.arguments.toString());
                 manager.sendBroadcast(intent);
                 result.success(true);
                 return;
