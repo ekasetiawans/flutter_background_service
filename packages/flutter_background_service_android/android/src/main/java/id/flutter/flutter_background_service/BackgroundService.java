@@ -46,9 +46,9 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
     String notificationContent = "Running";
     private static final String LOCK_NAME = BackgroundService.class.getName()
             + ".Lock";
-    private static volatile WakeLock lockStatic = null; // notice static
+    public static volatile WakeLock lockStatic = null; // notice static
 
-    synchronized private static PowerManager.WakeLock getLock(Context context) {
+    synchronized public static PowerManager.WakeLock getLock(Context context) {
         if (lockStatic == null) {
             PowerManager mgr = (PowerManager) context
                     .getSystemService(Context.POWER_SERVICE);
@@ -180,7 +180,6 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
         setManuallyStopped(false);
         enqueue(this);
         runService();
-        getLock(getApplicationContext()).acquire(10*60*1000L /*10 minutes*/);
 
         return START_STICKY;
     }
@@ -192,6 +191,11 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
             Log.d(TAG, "runService");
             if (isRunning.get() || (backgroundEngine != null && !backgroundEngine.getDartExecutor().isExecutingDart()))
                 return;
+
+            if (lockStatic == null){
+                getLock(getApplicationContext()).acquire(10*60*1000L /*10 minutes*/);
+            }
+
             updateNotificationInfo();
 
             SharedPreferences pref = getSharedPreferences("id.flutter.background_service", MODE_PRIVATE);
@@ -249,6 +253,7 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
 
                 if (lockStatic != null) {
                     lockStatic.release();
+                    lockStatic = null;
                 }
                 return;
             }
