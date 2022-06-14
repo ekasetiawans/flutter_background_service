@@ -1,3 +1,7 @@
+## 2.0.3
+
+ - **FIX**: wakelock not released. ([e427f3b7](https://github.com/ekasetiawans/flutter_background_service/commit/e427f3b70138ec26f9671c2617f9061f25eade6f))
+
 ## 2.0.2
 
  - **FIX**: autoStartOnBootMode #160. ([16a785a3](https://github.com/ekasetiawans/flutter_background_service/commit/16a785a3cbcb4226321ddddf681b6554196fa4db))
