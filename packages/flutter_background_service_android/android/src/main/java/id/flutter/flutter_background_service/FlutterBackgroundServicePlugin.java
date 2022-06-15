@@ -53,6 +53,7 @@ public class FlutterBackgroundServicePlugin extends BroadcastReceiver implements
     channel.setMethodCallHandler(this);
   }
 
+  @SuppressWarnings("deprecation")
   public static void registerWith(Registrar registrar) {
     LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(registrar.context());
     final FlutterBackgroundServicePlugin plugin = new FlutterBackgroundServicePlugin();
@@ -124,14 +125,7 @@ public class FlutterBackgroundServicePlugin extends BroadcastReceiver implements
       }
 
       if (method.equalsIgnoreCase("isServiceRunning")) {
-        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-          if (BackgroundService.class.getName().equals(service.service.getClassName())) {
-            result.success(true);
-            return;
-          }
-        }
-        result.success(false);
+        result.success(isServiceRunning());
         return;
       }
 
@@ -139,6 +133,17 @@ public class FlutterBackgroundServicePlugin extends BroadcastReceiver implements
     } catch (Exception e) {
       result.error("100", "Failed read arguments", null);
     }
+  }
+
+  @SuppressWarnings("deprecation")
+  private boolean isServiceRunning() {
+    ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+    for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+      if (BackgroundService.class.getName().equals(service.service.getClassName())) {
+        return true;
+      }
+    }
+    return false;
   }
 
   @Override
