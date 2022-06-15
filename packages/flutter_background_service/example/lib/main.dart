@@ -48,6 +48,7 @@ bool onIosBackground(ServiceInstance service) {
   return true;
 }
 
+@pragma('vm:entry-point')
 void onStart(ServiceInstance service) async {
 
   // Only available for flutter 3.0.0 and later
