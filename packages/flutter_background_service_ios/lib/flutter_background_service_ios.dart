@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_background_service_platform_interface/flutter_background_service_platform_interface.dart';
 
+@pragma('vm:entry-point')
 Future<void> _foregroundEntrypoint() async {
   WidgetsFlutterBinding.ensureInitialized();
   final service = IOSServiceInstance._();
@@ -16,6 +17,7 @@ Future<void> _foregroundEntrypoint() async {
   }
 }
 
+@pragma('vm:entry-point')
 Future<void> _backgroundEntrypoint() async {
   WidgetsFlutterBinding.ensureInitialized();
   final service = IOSServiceInstance._();
