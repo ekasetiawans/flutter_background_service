@@ -23,6 +23,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.lang.UnsatisfiedLinkError;
 
@@ -39,11 +40,13 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
     private static final String TAG = "BackgroundService";
     private FlutterEngine backgroundEngine;
     private MethodChannel methodChannel;
-    private DartExecutor.DartCallback dartCallback;
+    private DartExecutor.DartEntrypoint dartEntrypoint;
     private boolean isManuallyStopped = false;
 
     String notificationTitle = "Background Service";
     String notificationContent = "Running";
+    String notificationChannelId = "FOREGROUND_DEFAULT";
+
     private static final String LOCK_NAME = BackgroundService.class.getName()
             + ".Lock";
     public static volatile WakeLock lockStatic = null; // notice static
@@ -74,6 +77,8 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
         }
 
         PendingIntent pIntent = PendingIntent.getBroadcast(context, 111, intent, flags);
+
+        // Check is background service every 5 seconds
         AlarmManagerCompat.setAndAllowWhileIdle(manager, AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, pIntent);
     }
 
@@ -110,8 +115,18 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
     @Override
     public void onCreate() {
         super.onCreate();
-        createNotificationChannel();
-        notificationContent = "Preparing";
+
+        SharedPreferences sharedPreferences = getSharedPreferences("id.flutter.background_service", MODE_PRIVATE);
+        String notificationChannelId = sharedPreferences.getString("notification_channel_id", null);
+        if (notificationChannelId == null){
+            this.notificationChannelId = "FOREGROUND_DEFAULT";
+            createNotificationChannel();
+        } else {
+            this.notificationChannelId = notificationChannelId;
+        }
+
+        notificationTitle = sharedPreferences.getString("initial_notification_title", "Background Service");
+        notificationContent = sharedPreferences.getString("initial_notification_content", "Preparing");
         updateNotificationInfo();
     }
 
@@ -132,7 +147,7 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
         }
 
         methodChannel = null;
-        dartCallback = null;
+        dartEntrypoint = null;
         super.onDestroy();
     }
 
@@ -142,7 +157,7 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
             String description = "Executing process in background";
 
             int importance = NotificationManager.IMPORTANCE_LOW;
-            NotificationChannel channel = new NotificationChannel("FOREGROUND_DEFAULT", name, importance);
+            NotificationChannel channel = new NotificationChannel(notificationChannelId, name, importance);
             channel.setDescription(description);
 
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
@@ -163,7 +178,7 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
 
             PendingIntent pi = PendingIntent.getActivity(BackgroundService.this, 99778, i, flags);
 
-            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, "FOREGROUND_DEFAULT")
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, notificationChannelId)
                     .setSmallIcon(R.drawable.ic_bg_service_small)
                     .setAutoCancel(true)
                     .setOngoing(true)
@@ -198,9 +213,6 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
 
             updateNotificationInfo();
 
-            SharedPreferences pref = getSharedPreferences("id.flutter.background_service", MODE_PRIVATE);
-            long entrypointHandle = pref.getLong("entrypoint_handle", 0);
-
             FlutterLoader flutterLoader = FlutterInjector.instance().flutterLoader();
             // initialize flutter if it's not initialized yet
             if (!flutterLoader.initialized()) {
@@ -208,11 +220,6 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
             }
 
             flutterLoader.ensureInitializationComplete(getApplicationContext(), null);
-            FlutterCallbackInformation callback = FlutterCallbackInformation.lookupCallbackInformation(entrypointHandle);
-            if (callback == null) {
-                Log.e(TAG, "callback handle not found");
-                return;
-            }
 
             isRunning.set(true);
             backgroundEngine = new FlutterEngine(this);
@@ -221,8 +228,9 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
             methodChannel = new MethodChannel(backgroundEngine.getDartExecutor().getBinaryMessenger(), "id.flutter/background_service_android_bg", JSONMethodCodec.INSTANCE);
             methodChannel.setMethodCallHandler(this);
 
-            dartCallback = new DartExecutor.DartCallback(getAssets(), flutterLoader.findAppBundlePath(), callback);
-            backgroundEngine.getDartExecutor().executeDartCallback(dartCallback);
+            dartEntrypoint = new DartExecutor.DartEntrypoint(flutterLoader.findAppBundlePath(), "package:flutter_background_service_android/flutter_background_service_android.dart", "entrypoint");
+            backgroundEngine.getDartExecutor().executeDartEntrypoint(dartEntrypoint);
+
         } catch (UnsatisfiedLinkError e) {
             notificationContent = "Error " + e.getMessage();
             updateNotificationInfo();
@@ -283,8 +291,10 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
                 setForegroundServiceMode(value);
                 if (value) {
                     updateNotificationInfo();
+                    backgroundEngine.getServiceControlSurface().onMoveToForeground();
                 } else {
                     stopForeground(true);
+                    backgroundEngine.getServiceControlSurface().onMoveToBackground();
                 }
 
                 result.success(true);

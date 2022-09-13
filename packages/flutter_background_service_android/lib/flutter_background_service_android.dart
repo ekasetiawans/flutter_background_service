@@ -1,3 +1,5 @@
+library flutter_background_service_android;
+
 import 'dart:async';
 import 'dart:ui';
 
@@ -6,7 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_background_service_platform_interface/flutter_background_service_platform_interface.dart';
 
 @pragma('vm:entry-point')
-Future<void> _entrypoint() async {
+Future<void> entrypoint() async {
   WidgetsFlutterBinding.ensureInitialized();
   final service = AndroidServiceInstance._();
   final int handle = await service._getHandler();
@@ -51,23 +53,24 @@ class FlutterBackgroundServiceAndroid extends FlutterBackgroundServicePlatform {
   }) async {
     _channel.setMethodCallHandler(_handle);
 
-    final CallbackHandle? entryPointHandle =
-        PluginUtilities.getCallbackHandle(_entrypoint);
-
     final CallbackHandle? handle =
         PluginUtilities.getCallbackHandle(androidConfiguration.onStart);
 
-    if (entryPointHandle == null || handle == null) {
-      return false;
+    if (handle == null) {
+      throw 'onStart method must be a top-level or static function';
     }
 
     final result = await _channel.invokeMethod(
       "configure",
       {
-        "entrypoint_handle": entryPointHandle.toRawHandle(),
         "background_handle": handle.toRawHandle(),
         "is_foreground_mode": androidConfiguration.isForegroundMode,
         "auto_start_on_boot": androidConfiguration.autoStart,
+        "initial_notification_content":
+            androidConfiguration.initialNotificationContent,
+        "initial_notification_title":
+            androidConfiguration.initialNotificationTitle,
+        "notification_channel_id": androidConfiguration.notificationChannelId,
       },
     );
 

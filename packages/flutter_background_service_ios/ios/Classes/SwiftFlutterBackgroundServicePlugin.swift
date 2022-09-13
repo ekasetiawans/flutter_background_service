@@ -13,8 +13,16 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
     var tmpChannel: FlutterMethodChannel? = nil
     var tmpCompletionHandler: ((UIBackgroundFetchResult) -> Void)? = nil
 
-    @available(iOS 13.0, *)
-    private(set) lazy var tmpTask: BGAppRefreshTask? = nil
+    private(set) lazy var _tmpTask: Any? = nil
+    
+    @available(iOS 13, *)
+    weak open var tmpTask: BGAppRefreshTask? {
+        get {
+            return _tmpTask as? BGAppRefreshTask
+        } set {
+            _tmpTask = newValue
+        }
+    }
     
     public override func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) -> Bool {
         // execute callback handle
@@ -207,33 +215,28 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
         }
         
         let defaults = UserDefaults.standard
-        let callbackHandle = isForeground ? defaults.object(forKey: "foreground_entrypoint_callback_handle") : defaults.object(forKey: "background_entrypoint_callback_handle")
+        let entrypointName = isForeground ? "foregroundEntrypoint" : "backgroundEntrypoint"
+        let uri = "package:flutter_background_service_ios/flutter_background_service_ios.dart"
         
-        if let callbackHandleID = callbackHandle as? Int64 {
-            let callbackHandle = FlutterCallbackCache.lookupCallbackInformation(callbackHandleID)
+        let backgroundEngine = FlutterEngine(name: "FlutterService")
+        let isRunning = backgroundEngine.run(withEntrypoint: entrypointName, libraryURI: uri)
+        
+        if (isRunning) {
+            FlutterBackgroundServicePlugin.register(backgroundEngine)
             
-            let callbackName = callbackHandle?.callbackName
-            let uri = callbackHandle?.callbackLibraryPath
+            let binaryMessenger = backgroundEngine.binaryMessenger
+            let backgroundChannel = FlutterMethodChannel(name: "id.flutter/background_service_ios_bg", binaryMessenger: binaryMessenger, codec: FlutterJSONMethodCodec())
             
-            let backgroundEngine = FlutterEngine(name: "FlutterService")
-            let isRunning = backgroundEngine.run(withEntrypoint: callbackName, libraryURI: uri)
+            backgroundChannel.setMethodCallHandler(self.handleBackgroundMethodCall)
             
-            if (isRunning) {
-                FlutterBackgroundServicePlugin.register(backgroundEngine)
-                
-                let binaryMessenger = backgroundEngine.binaryMessenger
-                let backgroundChannel = FlutterMethodChannel(name: "id.flutter/background_service_ios_bg", binaryMessenger: binaryMessenger, codec: FlutterJSONMethodCodec())
-                
-                backgroundChannel.setMethodCallHandler(self.handleBackgroundMethodCall)
-                
-                if (isForeground) {
-                    self.foregroundEngine = backgroundEngine
-                    self.foregroundChannel = backgroundChannel
-                } else {
-                    self.tmpEngine = backgroundEngine
-                    self.tmpChannel = backgroundChannel
-                }
+            if (isForeground) {
+                self.foregroundEngine = backgroundEngine
+                self.foregroundChannel = backgroundChannel
+            } else {
+                self.tmpEngine = backgroundEngine
+                self.tmpChannel = backgroundChannel
             }
         }
+        
     }
 }

@@ -64,13 +64,15 @@ public class FlutterBackgroundServicePlugin extends BroadcastReceiver implements
     plugin.channel = channel;
   }
 
-  private static void configure(Context context, long entrypointHandle, long backgroundHandle, boolean isForeground, boolean autoStartOnBoot) {
+  private static void configure(Context context, long backgroundHandle, boolean isForeground, boolean autoStartOnBoot, String initialNotificationContent, String initialNotificationTitle, String notificationChannelId) {
     SharedPreferences pref = context.getSharedPreferences("id.flutter.background_service", MODE_PRIVATE);
     pref.edit()
-            .putLong("entrypoint_handle", entrypointHandle)
             .putLong("background_handle", backgroundHandle)
             .putBoolean("is_foreground", isForeground)
             .putBoolean("auto_start_on_boot", autoStartOnBoot)
+            .putString("initial_notification_content", initialNotificationContent)
+            .putString("initial_notification_title", initialNotificationTitle)
+            .putString("notification_channel_id", notificationChannelId)
             .apply();
   }
 
@@ -92,12 +94,14 @@ public class FlutterBackgroundServicePlugin extends BroadcastReceiver implements
 
     try {
       if ("configure".equals(method)) {
-        long entrypointHandle = arg.getLong("entrypoint_handle");
         long backgroundHandle = arg.getLong("background_handle");
         boolean isForeground = arg.getBoolean("is_foreground_mode");
         boolean autoStartOnBoot = arg.getBoolean("auto_start_on_boot");
+        String initialNotificationTitle = arg.getString("initial_notification_title");
+        String initialNotificationContent = arg.getString("initial_notification_content");
+        String notificationChannelId = arg.isNull("notification_channel_id") ? null : arg.getString("notification_channel_id");
 
-        configure(context, entrypointHandle, backgroundHandle, isForeground, autoStartOnBoot);
+        configure(context, backgroundHandle, isForeground, autoStartOnBoot, initialNotificationContent, initialNotificationTitle, notificationChannelId);
         if (autoStartOnBoot) {
           start();
         }

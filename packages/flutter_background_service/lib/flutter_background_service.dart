@@ -1,3 +1,5 @@
+library flutter_background_service;
+
 import 'dart:async';
 
 import 'package:flutter_background_service_platform_interface/flutter_background_service_platform_interface.dart';

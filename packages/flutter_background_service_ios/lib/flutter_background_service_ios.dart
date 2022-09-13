@@ -1,3 +1,5 @@
+library flutter_background_service_ios;
+
 import 'dart:async';
 import 'dart:ui';
 
@@ -6,7 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_background_service_platform_interface/flutter_background_service_platform_interface.dart';
 
 @pragma('vm:entry-point')
-Future<void> _foregroundEntrypoint() async {
+Future<void> foregroundEntrypoint() async {
   WidgetsFlutterBinding.ensureInitialized();
   final service = IOSServiceInstance._();
   final int handle = await service._getForegroundHandler();
@@ -18,7 +20,7 @@ Future<void> _foregroundEntrypoint() async {
 }
 
 @pragma('vm:entry-point')
-Future<void> _backgroundEntrypoint() async {
+Future<void> backgroundEntrypoint() async {
   WidgetsFlutterBinding.ensureInitialized();
   final service = IOSServiceInstance._();
   final int handle = await service._getBackgroundHandler();
@@ -65,18 +67,6 @@ class FlutterBackgroundServiceIOS extends FlutterBackgroundServicePlatform {
   }) async {
     _channel.setMethodCallHandler(_handle);
 
-    final CallbackHandle? foregroundEntrypointHandle =
-        PluginUtilities.getCallbackHandle(_foregroundEntrypoint);
-    if (foregroundEntrypointHandle == null) {
-      return false;
-    }
-
-    final CallbackHandle? backgroundEntrypointHandle =
-        PluginUtilities.getCallbackHandle(_backgroundEntrypoint);
-    if (backgroundEntrypointHandle == null) {
-      return false;
-    }
-
     final CallbackHandle? foregroundHandle =
         PluginUtilities.getCallbackHandle(iosConfiguration.onForeground);
     if (foregroundHandle == null) {
@@ -93,10 +83,6 @@ class FlutterBackgroundServiceIOS extends FlutterBackgroundServicePlatform {
     final result = await _channel.invokeMethod(
       "configure",
       {
-        "foreground_entrypoint_handle":
-            foregroundEntrypointHandle.toRawHandle(),
-        "background_entrypoint_handle":
-            backgroundEntrypointHandle.toRawHandle(),
         "background_handle": backgroundHandle.toRawHandle(),
         "foreground_handle": foregroundHandle.toRawHandle(),
         "auto_start": iosConfiguration.autoStart,
