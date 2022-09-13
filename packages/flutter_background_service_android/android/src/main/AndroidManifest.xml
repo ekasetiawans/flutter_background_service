@@ -11,6 +11,7 @@
             android:enabled="true"
             android:exported="true"
             android:name=".BackgroundService"
+            android:stopWithTask="false"
             />
 
         <receiver 

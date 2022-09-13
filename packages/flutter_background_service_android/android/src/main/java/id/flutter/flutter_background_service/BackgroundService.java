@@ -2,6 +2,7 @@ package id.flutter.flutter_background_service;
 
 import static android.os.Build.VERSION.SDK_INT;
 
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -14,6 +15,7 @@ import android.os.Build;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
+import android.os.SystemClock;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.core.app.AlarmManagerCompat;
@@ -55,11 +57,12 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
         if (lockStatic == null) {
             PowerManager mgr = (PowerManager) context
                     .getSystemService(Context.POWER_SERVICE);
-            lockStatic = mgr.newWakeLock(PowerManager.FULL_WAKE_LOCK,
+            lockStatic = mgr.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
                     LOCK_NAME);
             lockStatic.setReferenceCounted(true);
         }
-        return (lockStatic);
+
+        return lockStatic;
     }
 
     @Override
@@ -201,15 +204,14 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
 
     AtomicBoolean isRunning = new AtomicBoolean(false);
 
+    @SuppressLint("WakelockTimeout")
     private void runService() {
         try {
             Log.d(TAG, "runService");
             if (isRunning.get() || (backgroundEngine != null && !backgroundEngine.getDartExecutor().isExecutingDart()))
                 return;
 
-            if (lockStatic == null){
-                getLock(getApplicationContext()).acquire(10*60*1000L /*10 minutes*/);
-            }
+            getLock(getApplicationContext()).acquire();
 
             updateNotificationInfo();
 
@@ -250,6 +252,22 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
     }
 
     @Override
+    public void onTaskRemoved(Intent rootIntent) {
+
+        /// Restart service when user swipe the application from Recent Task
+        Intent restartServiceIntent = new Intent(getApplicationContext(), BackgroundService.class);
+        restartServiceIntent.setPackage(getPackageName());
+
+        int flags = PendingIntent.FLAG_ONE_SHOT;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            flags |= PendingIntent.FLAG_MUTABLE;
+        }
+        PendingIntent pi = PendingIntent.getService(this, 1, restartServiceIntent, flags);
+        AlarmManager alarmManager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + 1000, pi);
+    }
+
+    @Override
     public void onMethodCall(@NonNull MethodCall call, @NonNull MethodChannel.Result result) {
         String method = call.method;
 
@@ -258,11 +276,6 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
                 SharedPreferences pref = getSharedPreferences("id.flutter.background_service", MODE_PRIVATE);
                 long backgroundHandle = pref.getLong("background_handle", 0);
                 result.success(backgroundHandle);
-
-                if (lockStatic != null) {
-                    lockStatic.release();
-                    lockStatic = null;
-                }
                 return;
             }
 
