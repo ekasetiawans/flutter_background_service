@@ -3,6 +3,43 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-09-14
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`flutter_background_service` - `v2.2.0`](#flutter_background_service---v220)
+ - [`flutter_background_service_android` - `v2.1.0`](#flutter_background_service_android---v210)
+ - [`flutter_background_service_ios` - `v2.2.0`](#flutter_background_service_ios---v220)
+ - [`flutter_background_service_platform_interface` - `v2.1.0`](#flutter_background_service_platform_interface---v210)
+
+---
+
+#### `flutter_background_service` - `v2.2.0`
+
+ - **FEAT**: using entrypoint instead of dart callback and added initial notification info for android. ([b0fc8f32](https://github.com/ekasetiawans/flutter_background_service/commit/b0fc8f32d59fa582c37fcd6e2349fab32aac245b))
+
+#### `flutter_background_service_android` - `v2.1.0`
+
+ - **FEAT**: using entrypoint instead of dart callback and added initial notification info for android. ([b0fc8f32](https://github.com/ekasetiawans/flutter_background_service/commit/b0fc8f32d59fa582c37fcd6e2349fab32aac245b))
+
+#### `flutter_background_service_ios` - `v2.2.0`
+
+ - **FIX**: added pragma vm:entry-point to ios. ([7b44a2a4](https://github.com/ekasetiawans/flutter_background_service/commit/7b44a2a4ae977bd723874900eca689435989cfcd))
+ - **FEAT**: using entrypoint instead of dart callback and added initial notification info for android. ([b0fc8f32](https://github.com/ekasetiawans/flutter_background_service/commit/b0fc8f32d59fa582c37fcd6e2349fab32aac245b))
+
+#### `flutter_background_service_platform_interface` - `v2.1.0`
+
+ - **FEAT**: using entrypoint instead of dart callback and added initial notification info for android. ([b0fc8f32](https://github.com/ekasetiawans/flutter_background_service/commit/b0fc8f32d59fa582c37fcd6e2349fab32aac245b))
+
+
 ## 2022-06-14
 
 ### Changes

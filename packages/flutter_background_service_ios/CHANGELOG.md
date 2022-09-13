@@ -1,3 +1,8 @@
+## 2.2.0
+
+ - **FIX**: added pragma vm:entry-point to ios. ([7b44a2a4](https://github.com/ekasetiawans/flutter_background_service/commit/7b44a2a4ae977bd723874900eca689435989cfcd))
+ - **FEAT**: using entrypoint instead of dart callback and added initial notification info for android. ([b0fc8f32](https://github.com/ekasetiawans/flutter_background_service/commit/b0fc8f32d59fa582c37fcd6e2349fab32aac245b))
+
 ## 2.1.0
 
  - **FEAT**: automatically register plugins. ([3a0d0d53](https://github.com/ekasetiawans/flutter_background_service/commit/3a0d0d53110cdaf92caf4f329cd80034121c9ea6))
