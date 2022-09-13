@@ -15,6 +15,34 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`flutter_background_service_android` - `v2.1.1`](#flutter_background_service_android---v211)
+ - [`flutter_background_service` - `v2.2.1`](#flutter_background_service---v221)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `flutter_background_service` - `v2.2.1`
+
+---
+
+#### `flutter_background_service_android` - `v2.1.1`
+
+ - **PERF**: improve android background service. ([e01a3fa2](https://github.com/ekasetiawans/flutter_background_service/commit/e01a3fa2938479f31a525c23ff888c03b496fa70))
+
+
+## 2022-09-14
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`flutter_background_service` - `v2.2.0`](#flutter_background_service---v220)
  - [`flutter_background_service_android` - `v2.1.0`](#flutter_background_service_android---v210)
  - [`flutter_background_service_ios` - `v2.2.0`](#flutter_background_service_ios---v220)
