@@ -1,3 +1,7 @@
+## 2.1.1
+
+ - **FIX**: missing foregroundServiceNotificationId. ([e49f6137](https://github.com/ekasetiawans/flutter_background_service/commit/e49f613726120f144b04e2246c43360756d57e5b))
+
 ## 2.1.0
 
  - **FEAT**: using entrypoint instead of dart callback and added initial notification info for android. ([b0fc8f32](https://github.com/ekasetiawans/flutter_background_service/commit/b0fc8f32d59fa582c37fcd6e2349fab32aac245b))

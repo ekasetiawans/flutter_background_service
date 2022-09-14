@@ -1,3 +1,7 @@
+## 2.2.1
+
+ - Update a dependency to the latest release.
+
 ## 2.2.0
 
  - **FIX**: added pragma vm:entry-point to ios. ([7b44a2a4](https://github.com/ekasetiawans/flutter_background_service/commit/7b44a2a4ae977bd723874900eca689435989cfcd))

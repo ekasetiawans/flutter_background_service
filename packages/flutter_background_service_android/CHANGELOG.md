@@ -1,3 +1,7 @@
+## 2.2.1
+
+ - Update a dependency to the latest release.
+
 ## 2.2.0
 
  - **FEAT**: expose notification id for foreground service. ([47b7089c](https://github.com/ekasetiawans/flutter_background_service/commit/47b7089c5e4ab18f3a35558d6c7ec2d50fc8d3f1))
