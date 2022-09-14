@@ -64,7 +64,7 @@ public class FlutterBackgroundServicePlugin extends BroadcastReceiver implements
     plugin.channel = channel;
   }
 
-  private static void configure(Context context, long backgroundHandle, boolean isForeground, boolean autoStartOnBoot, String initialNotificationContent, String initialNotificationTitle, String notificationChannelId) {
+  private static void configure(Context context, long backgroundHandle, boolean isForeground, boolean autoStartOnBoot, String initialNotificationContent, String initialNotificationTitle, String notificationChannelId, int foregroundNotificationId) {
     SharedPreferences pref = context.getSharedPreferences("id.flutter.background_service", MODE_PRIVATE);
     pref.edit()
             .putLong("background_handle", backgroundHandle)
@@ -73,6 +73,7 @@ public class FlutterBackgroundServicePlugin extends BroadcastReceiver implements
             .putString("initial_notification_content", initialNotificationContent)
             .putString("initial_notification_title", initialNotificationTitle)
             .putString("notification_channel_id", notificationChannelId)
+            .putInt("foreground_notification_id", foregroundNotificationId)
             .apply();
   }
 
@@ -100,8 +101,9 @@ public class FlutterBackgroundServicePlugin extends BroadcastReceiver implements
         String initialNotificationTitle = arg.getString("initial_notification_title");
         String initialNotificationContent = arg.getString("initial_notification_content");
         String notificationChannelId = arg.isNull("notification_channel_id") ? null : arg.getString("notification_channel_id");
+        int foregroundNotificationId = arg.getInt("foreground_notification_id");
 
-        configure(context, backgroundHandle, isForeground, autoStartOnBoot, initialNotificationContent, initialNotificationTitle, notificationChannelId);
+        configure(context, backgroundHandle, isForeground, autoStartOnBoot, initialNotificationContent, initialNotificationTitle, notificationChannelId, foregroundNotificationId);
         if (autoStartOnBoot) {
           start();
         }

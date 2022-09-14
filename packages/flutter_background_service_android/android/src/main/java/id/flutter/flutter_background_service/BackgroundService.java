@@ -17,6 +17,7 @@ import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.os.SystemClock;
 import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.core.app.AlarmManagerCompat;
 import androidx.core.app.NotificationCompat;
@@ -25,9 +26,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.lang.UnsatisfiedLinkError;
 
 import io.flutter.FlutterInjector;
 import io.flutter.embedding.engine.FlutterEngine;
@@ -36,18 +35,21 @@ import io.flutter.embedding.engine.loader.FlutterLoader;
 import io.flutter.plugin.common.JSONMethodCodec;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
-import io.flutter.view.FlutterCallbackInformation;
 
 public class BackgroundService extends Service implements MethodChannel.MethodCallHandler {
     private static final String TAG = "BackgroundService";
+    private static final int QUEUE_REQUEST_ID = 111;
+
     private FlutterEngine backgroundEngine;
     private MethodChannel methodChannel;
+
     private DartExecutor.DartEntrypoint dartEntrypoint;
     private boolean isManuallyStopped = false;
 
-    String notificationTitle = "Background Service";
-    String notificationContent = "Running";
-    String notificationChannelId = "FOREGROUND_DEFAULT";
+    private String notificationTitle = "Background Service";
+    private String notificationContent = "Running";
+    private String notificationChannelId = "FOREGROUND_DEFAULT";
+    private int notificationId = 112233;
 
     private static final String LOCK_NAME = BackgroundService.class.getName()
             + ".Lock";
@@ -79,7 +81,7 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
             flags |= PendingIntent.FLAG_MUTABLE;
         }
 
-        PendingIntent pIntent = PendingIntent.getBroadcast(context, 111, intent, flags);
+        PendingIntent pIntent = PendingIntent.getBroadcast(context, QUEUE_REQUEST_ID, intent, flags);
 
         // Check is background service every 5 seconds
         AlarmManagerCompat.setAndAllowWhileIdle(manager, AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, pIntent);
@@ -130,6 +132,7 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
 
         notificationTitle = sharedPreferences.getString("initial_notification_title", "Background Service");
         notificationContent = sharedPreferences.getString("initial_notification_content", "Preparing");
+        notificationId = sharedPreferences.getInt("foreground_notification_id", 112233);
         updateNotificationInfo();
     }
 
@@ -179,8 +182,7 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
                 flags |= PendingIntent.FLAG_MUTABLE;
             }
 
-            PendingIntent pi = PendingIntent.getActivity(BackgroundService.this, 99778, i, flags);
-
+            PendingIntent pi = PendingIntent.getActivity(BackgroundService.this, 11, i, flags);
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, notificationChannelId)
                     .setSmallIcon(R.drawable.ic_bg_service_small)
                     .setAutoCancel(true)
@@ -189,7 +191,7 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
                     .setContentText(notificationContent)
                     .setContentIntent(pi);
 
-            startForeground(99778, mBuilder.build());
+            startForeground(notificationId, mBuilder.build());
         }
     }
 
@@ -323,8 +325,7 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
                     flags |= PendingIntent.FLAG_MUTABLE;
                 }
 
-                PendingIntent pi = PendingIntent.getBroadcast(getApplicationContext(), 111, intent, flags);
-
+                PendingIntent pi = PendingIntent.getBroadcast(getApplicationContext(), QUEUE_REQUEST_ID, intent, flags);
                 AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
                 alarmManager.cancel(pi);
                 stopSelf();
