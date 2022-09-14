@@ -45,6 +45,9 @@ class AndroidConfiguration {
   /// you must to create the notification channel before you run configure() method.
   final String? notificationChannelId;
 
+  /// notification id will be used by foreground service
+  final int foregroundServiceNotificationId;
+
   AndroidConfiguration({
     required this.onStart,
     this.autoStart = true,
@@ -54,5 +57,6 @@ class AndroidConfiguration {
     this.initialNotificationContent = 'Preparing',
     this.initialNotificationTitle = 'Background Service',
     this.notificationChannelId,
+    this.foregroundServiceNotificationId = 112233,
   });
 }
