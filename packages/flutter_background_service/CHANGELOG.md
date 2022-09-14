@@ -1,3 +1,7 @@
+## 2.2.4
+
+ - **DOCS**: update example project for custom notification. ([d1e90d86](https://github.com/ekasetiawans/flutter_background_service/commit/d1e90d864d281747ab40170e22d91601b29927a6))
+
 ## 2.2.3
 
  - Update a dependency to the latest release.

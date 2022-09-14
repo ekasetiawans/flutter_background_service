@@ -15,6 +15,41 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`flutter_background_service` - `v2.2.4`](#flutter_background_service---v224)
+ - [`flutter_background_service_platform_interface` - `v2.1.2`](#flutter_background_service_platform_interface---v212)
+ - [`flutter_background_service_ios` - `v2.2.2`](#flutter_background_service_ios---v222)
+ - [`flutter_background_service_android` - `v2.2.2`](#flutter_background_service_android---v222)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `flutter_background_service_ios` - `v2.2.2`
+ - `flutter_background_service_android` - `v2.2.2`
+
+---
+
+#### `flutter_background_service` - `v2.2.4`
+
+ - **DOCS**: update example project for custom notification. ([d1e90d86](https://github.com/ekasetiawans/flutter_background_service/commit/d1e90d864d281747ab40170e22d91601b29927a6))
+
+#### `flutter_background_service_platform_interface` - `v2.1.2`
+
+ - **FIX**: remove duplicated properties. ([891c2029](https://github.com/ekasetiawans/flutter_background_service/commit/891c20291df9612810035219af98d732d99d200c))
+
+
+## 2022-09-14
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`flutter_background_service_platform_interface` - `v2.1.1`](#flutter_background_service_platform_interface---v211)
  - [`flutter_background_service_android` - `v2.2.1`](#flutter_background_service_android---v221)
  - [`flutter_background_service_ios` - `v2.2.1`](#flutter_background_service_ios---v221)

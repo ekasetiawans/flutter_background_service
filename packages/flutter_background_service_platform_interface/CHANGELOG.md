@@ -1,3 +1,7 @@
+## 2.1.2
+
+ - **FIX**: remove duplicated properties. ([891c2029](https://github.com/ekasetiawans/flutter_background_service/commit/891c20291df9612810035219af98d732d99d200c))
+
 ## 2.1.1
 
  - **FIX**: missing foregroundServiceNotificationId. ([e49f6137](https://github.com/ekasetiawans/flutter_background_service/commit/e49f613726120f144b04e2246c43360756d57e5b))
