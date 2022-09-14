@@ -119,6 +119,7 @@ void onStart(ServiceInstance service) async {
             'my_foreground',
             'MY FOREGROUND SERVICE',
             icon: 'ic_bg_service_small',
+            ongoing: true,
           ),
         ),
       );
