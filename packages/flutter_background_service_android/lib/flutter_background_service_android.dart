@@ -71,7 +71,8 @@ class FlutterBackgroundServiceAndroid extends FlutterBackgroundServicePlatform {
         "initial_notification_title":
             androidConfiguration.initialNotificationTitle,
         "notification_channel_id": androidConfiguration.notificationChannelId,
-        "foreground_notification_id": androidConfiguration.foregroundServiceNotificationId,
+        "foreground_notification_id":
+            androidConfiguration.foregroundServiceNotificationId,
       },
     );
 
@@ -177,6 +178,12 @@ class AndroidServiceInstance extends ServiceInstance {
     await _channel.invokeMethod("setForegroundMode", {
       'value': false,
     });
+  }
+
+  /// returns true when the current Service instance is in foreground mode.
+  Future<bool> isForegroundService() async {
+    final result = await _channel.invokeMethod<bool>('isForegroundMode');
+    return result ?? false;
   }
 
   Future<int> _getHandler() async {

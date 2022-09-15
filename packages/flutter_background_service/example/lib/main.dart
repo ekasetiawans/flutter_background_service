@@ -104,31 +104,30 @@ void onStart(ServiceInstance service) async {
 
   // bring to foreground
   Timer.periodic(const Duration(seconds: 1), (timer) async {
-    final hello = preferences.getString("hello");
-    print(hello);
-
     if (service is AndroidServiceInstance) {
-      /// OPTIONAL for use custom notification
-      /// the notification id must be equals with AndroidConfiguration when you call configure() method.
-      flutterLocalNotificationsPlugin.show(
-        888,
-        'COOL SERVICE',
-        'Awesome ${DateTime.now()}',
-        const NotificationDetails(
-          android: AndroidNotificationDetails(
-            'my_foreground',
-            'MY FOREGROUND SERVICE',
-            icon: 'ic_bg_service_small',
-            ongoing: true,
+      if (await service.isForegroundService()) {
+        /// OPTIONAL for use custom notification
+        /// the notification id must be equals with AndroidConfiguration when you call configure() method.
+        flutterLocalNotificationsPlugin.show(
+          888,
+          'COOL SERVICE',
+          'Awesome ${DateTime.now()}',
+          const NotificationDetails(
+            android: AndroidNotificationDetails(
+              'my_foreground',
+              'MY FOREGROUND SERVICE',
+              icon: 'ic_bg_service_small',
+              ongoing: true,
+            ),
           ),
-        ),
-      );
+        );
 
-      // if you don't using custom notification, uncomment this
-      // service.setForegroundNotificationInfo(
-      //   title: "My App Service",
-      //   content: "Updated at ${DateTime.now()}",
-      // );
+        // if you don't using custom notification, uncomment this
+        // service.setForegroundNotificationInfo(
+        //   title: "My App Service",
+        //   content: "Updated at ${DateTime.now()}",
+        // );
+      }
     }
 
     /// you can see this log in logcat

@@ -7,20 +7,24 @@
 
 
     <application>
-        <service 
+        <service
+            android:process=":background"
             android:enabled="true"
             android:exported="true"
             android:name=".BackgroundService"
             android:stopWithTask="false"
             />
 
-        <receiver 
+        <receiver
+            android:process=":background"
             android:name=".WatchdogReceiver"
             android:enabled="true"
             android:exported="true"
             />
 
-        <receiver android:name=".BootReceiver"
+        <receiver
+            android:process=":background"
+            android:name=".BootReceiver"
             android:enabled="true"
             android:exported="true">
 
