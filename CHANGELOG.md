@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`flutter_background_service` - `v2.3.3`](#flutter_background_service---v233)
+
+---
+
+#### `flutter_background_service` - `v2.3.3`
+
+ - **FIX**: wrong dependency version. ([34e66e13](https://github.com/ekasetiawans/flutter_background_service/commit/34e66e13f04afe760d7b4087cc7052756dcb2a9c))
+
+
+## 2022-09-15
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`flutter_background_service` - `v2.3.2`](#flutter_background_service---v232)
 
 ---

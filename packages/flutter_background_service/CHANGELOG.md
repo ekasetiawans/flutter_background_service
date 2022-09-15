@@ -1,3 +1,7 @@
+## 2.3.3
+
+ - **FIX**: wrong dependency version. ([34e66e13](https://github.com/ekasetiawans/flutter_background_service/commit/34e66e13f04afe760d7b4087cc7052756dcb2a9c))
+
 ## 2.3.2
 
  - **DOCS**: updated README. ([2fc9ae66](https://github.com/ekasetiawans/flutter_background_service/commit/2fc9ae66f5538ab45f3690cdaee94f89b31f16e2))
