@@ -17,14 +17,12 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
-import android.os.RemoteException;
 import android.os.SystemClock;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.AlarmManagerCompat;
 import androidx.core.app.NotificationCompat;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -74,31 +72,29 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
         return lockStatic;
     }
 
-    final Map<Integer, IBackgroundService> listeners = new HashMap<Integer, IBackgroundService>();
+    final Map<Integer, IBackgroundService> listeners = new HashMap<>();
     private final IBackgroundServiceBinder.Stub binder = new IBackgroundServiceBinder.Stub() {
 
         @Override
-        public void bind(int id, IBackgroundService service) throws RemoteException {
-            synchronized (listeners){
+        public void bind(int id, IBackgroundService service) {
+            synchronized (listeners) {
                 listeners.put(id, service);
             }
         }
 
         @Override
-        public void unbind(int id) throws RemoteException {
-            synchronized (listeners){
-                if (listeners.containsKey(id)){
-                    listeners.remove(id);
-                }
+        public void unbind(int id) {
+            synchronized (listeners) {
+                listeners.remove(id);
             }
         }
 
         @Override
-        public void invoke(String data) throws RemoteException {
+        public void invoke(String data) {
             try {
                 JSONObject call = new JSONObject(data);
                 receiveData(call);
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -106,14 +102,14 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
 
     @Override
     public IBinder onBind(Intent intent) {
-        return (IBinder) binder;
+        return binder;
     }
 
     @Override
     public boolean onUnbind(Intent intent) {
         final int binderId = intent.getIntExtra("binder_id", 0);
-        if (binderId != 0){
-            synchronized (listeners){
+        if (binderId != 0) {
+            synchronized (listeners) {
                 listeners.remove(binderId);
             }
         }
@@ -174,7 +170,7 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
 
         SharedPreferences sharedPreferences = getSharedPreferences("id.flutter.background_service", MODE_PRIVATE);
         String notificationChannelId = sharedPreferences.getString("notification_channel_id", null);
-        if (notificationChannelId == null){
+        if (notificationChannelId == null) {
             this.notificationChannelId = "FOREGROUND_DEFAULT";
             createNotificationChannel();
         } else {
@@ -260,7 +256,7 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
     private void runService() {
         try {
 
-            if (isRunning.get() || (backgroundEngine != null && !backgroundEngine.getDartExecutor().isExecutingDart())){
+            if (isRunning.get() || (backgroundEngine != null && !backgroundEngine.getDartExecutor().isExecutingDart())) {
                 Log.d(TAG, "Service already running, using existing service");
                 return;
             }
@@ -300,8 +296,11 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
     public void receiveData(JSONObject data) {
         if (methodChannel != null) {
             try {
-                mainHandler.post(() -> {
-                    methodChannel.invokeMethod("onReceiveData", data);
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        methodChannel.invokeMethod("onReceiveData", data);
+                    }
                 });
             } catch (Exception e) {
                 e.printStackTrace();
@@ -311,7 +310,7 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
 
     @Override
     public void onTaskRemoved(Intent rootIntent) {
-        if (isRunning.get()){
+        if (isRunning.get()) {
             /// Restart service when user swipe the application from Recent Task
             Intent restartServiceIntent = new Intent(getApplicationContext(), BackgroundService.class);
             restartServiceIntent.setPackage(getPackageName());
@@ -373,7 +372,7 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
                 return;
             }
 
-            if (method.equalsIgnoreCase("isForegroundMode")){
+            if (method.equalsIgnoreCase("isForegroundMode")) {
                 boolean value = isForegroundService(this);
                 result.success(value);
                 return;
@@ -396,12 +395,12 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
                     synchronized (listeners) {
                         for (Integer key : listeners.keySet()) {
                             IBackgroundService listener = listeners.get(key);
-                            if (listener != null){
+                            if (listener != null) {
                                 listener.stop();
                             }
                         }
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -415,14 +414,14 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
                     synchronized (listeners) {
                         for (Integer key : listeners.keySet()) {
                             IBackgroundService listener = listeners.get(key);
-                            if (listener != null){
+                            if (listener != null) {
                                 listener.invoke(call.arguments.toString());
                             }
                         }
                     }
 
                     result.success(true);
-                }catch (Exception e){
+                } catch (Exception e) {
                     result.error("send-data-failure", e.getMessage(), e);
                 }
                 return;
