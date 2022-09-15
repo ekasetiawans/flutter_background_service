@@ -1,3 +1,8 @@
+## 2.3.2
+
+ - **DOCS**: updated README. ([2fc9ae66](https://github.com/ekasetiawans/flutter_background_service/commit/2fc9ae66f5538ab45f3690cdaee94f89b31f16e2))
+ - **DOCS**: updated README. ([3885e301](https://github.com/ekasetiawans/flutter_background_service/commit/3885e3017729a557b0b0b7ccdb968692ba7c8a52))
+
 ## 2.3.0
 
  - **FEAT**: move android service to separated process. ([bd2e6f07](https://github.com/ekasetiawans/flutter_background_service/commit/bd2e6f075ea8a7db231c7586b8f6244bb0399ff4))
