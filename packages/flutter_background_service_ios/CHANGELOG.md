@@ -1,3 +1,7 @@
+## 2.2.3
+
+ - **DOCS**: update license. ([0c17e5de](https://github.com/ekasetiawans/flutter_background_service/commit/0c17e5dee091daa622470c8e3ba16c22ae03f8b3))
+
 ## 2.2.2
 
  - Update a dependency to the latest release.

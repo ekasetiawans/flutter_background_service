@@ -1,3 +1,7 @@
+## 2.1.3
+
+ - **DOCS**: update license. ([0c17e5de](https://github.com/ekasetiawans/flutter_background_service/commit/0c17e5dee091daa622470c8e3ba16c22ae03f8b3))
+
 ## 2.1.2
 
  - **FIX**: remove duplicated properties. ([891c2029](https://github.com/ekasetiawans/flutter_background_service/commit/891c20291df9612810035219af98d732d99d200c))

@@ -1,3 +1,7 @@
+## 2.3.1
+
+ - **DOCS**: update license. ([0c17e5de](https://github.com/ekasetiawans/flutter_background_service/commit/0c17e5dee091daa622470c8e3ba16c22ae03f8b3))
+
 ## 2.3.0
 
  - **FEAT**: move android service to separated process. ([bd2e6f07](https://github.com/ekasetiawans/flutter_background_service/commit/bd2e6f075ea8a7db231c7586b8f6244bb0399ff4))
