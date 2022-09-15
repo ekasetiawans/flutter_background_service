@@ -15,6 +15,34 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`flutter_background_service` - `v2.3.5`](#flutter_background_service---v235)
+ - [`flutter_background_service_android` - `v2.3.2`](#flutter_background_service_android---v232)
+
+---
+
+#### `flutter_background_service` - `v2.3.5`
+
+ - **FIX**: using Runnable instead of lambda. ([9cda867d](https://github.com/ekasetiawans/flutter_background_service/commit/9cda867d8f2dc84cf1f7f112a3e87b1fa7dc1d3d))
+
+#### `flutter_background_service_android` - `v2.3.2`
+
+ - **FIX**: using Runnable instead of lambda. ([9cda867d](https://github.com/ekasetiawans/flutter_background_service/commit/9cda867d8f2dc84cf1f7f112a3e87b1fa7dc1d3d))
+ - **DOCS**: update license. ([0c17e5de](https://github.com/ekasetiawans/flutter_background_service/commit/0c17e5dee091daa622470c8e3ba16c22ae03f8b3))
+ - **DOCS**: updated README. ([3885e301](https://github.com/ekasetiawans/flutter_background_service/commit/3885e3017729a557b0b0b7ccdb968692ba7c8a52))
+
+
+## 2022-09-15
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`flutter_background_service` - `v2.3.4`](#flutter_background_service---v234)
  - [`flutter_background_service_android` - `v2.3.1`](#flutter_background_service_android---v231)
  - [`flutter_background_service_ios` - `v2.2.3`](#flutter_background_service_ios---v223)

@@ -1,3 +1,7 @@
+## 2.3.5
+
+ - **FIX**: using Runnable instead of lambda. ([9cda867d](https://github.com/ekasetiawans/flutter_background_service/commit/9cda867d8f2dc84cf1f7f112a3e87b1fa7dc1d3d))
+
 ## 2.3.4
 
  - **DOCS**: update license. ([0c17e5de](https://github.com/ekasetiawans/flutter_background_service/commit/0c17e5dee091daa622470c8e3ba16c22ae03f8b3))
