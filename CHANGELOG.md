@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-09-19
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`flutter_background_service_android` - `v2.3.3`](#flutter_background_service_android---v233)
+ - [`flutter_background_service` - `v2.3.6`](#flutter_background_service---v236)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `flutter_background_service` - `v2.3.6`
+
+---
+
+#### `flutter_background_service_android` - `v2.3.3`
+
+ - **FIX**: make final variable for backward compatibility of gradle. ([d7087ba0](https://github.com/ekasetiawans/flutter_background_service/commit/d7087ba07a580e7d16d4e416cde43ddfb531e664))
+
+
 ## 2022-09-15
 
 ### Changes
