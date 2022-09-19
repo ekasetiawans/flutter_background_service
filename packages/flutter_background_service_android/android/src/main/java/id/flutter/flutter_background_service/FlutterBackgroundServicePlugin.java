@@ -201,11 +201,12 @@ public class FlutterBackgroundServicePlugin implements FlutterPlugin, MethodCall
   }
 
   private void receiveData(JSONObject data){
+    final JSONObject arg = data;
     mainHandler.post(new Runnable() {
       @Override
       public void run() {
         if (channel != null){
-          channel.invokeMethod("onReceiveData", data);
+          channel.invokeMethod("onReceiveData", arg);
         }
       }
     });

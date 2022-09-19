@@ -296,10 +296,11 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
     public void receiveData(JSONObject data) {
         if (methodChannel != null) {
             try {
+                final JSONObject arg = data;
                 mainHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        methodChannel.invokeMethod("onReceiveData", data);
+                        methodChannel.invokeMethod("onReceiveData", arg);
                     }
                 });
             } catch (Exception e) {
