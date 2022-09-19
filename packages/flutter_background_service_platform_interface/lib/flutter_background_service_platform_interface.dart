@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter_background_service_platform_interface/src/configs.dart';
-import 'package:flutter_background_service_platform_interface/src/method_channel_flutter_background_service.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 export 'src/configs.dart';
@@ -16,10 +15,15 @@ abstract class FlutterBackgroundServicePlatform extends PlatformInterface
   FlutterBackgroundServicePlatform() : super(token: _token);
   static final Object _token = Object();
 
-  static FlutterBackgroundServicePlatform _instance =
-      MethodChannelFlutterBackgroundService();
+  static FlutterBackgroundServicePlatform? _instance;
 
-  static FlutterBackgroundServicePlatform get instance => _instance;
+  static FlutterBackgroundServicePlatform get instance {
+    if (_instance == null) {
+      throw 'FlutterBackgroundService is currently supported for Android and iOS Platform only.';
+    }
+
+    return _instance!;
+  }
 
   /// Platform-specific plugins should set this with their own platform-specific
   /// class that extends [FlutterBackgroundServicePlatform] when they register themselves.
