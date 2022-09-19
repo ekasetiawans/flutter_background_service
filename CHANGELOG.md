@@ -15,6 +15,41 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`flutter_background_service_android` - `v2.3.4`](#flutter_background_service_android---v234)
+ - [`flutter_background_service_platform_interface` - `v2.1.4`](#flutter_background_service_platform_interface---v214)
+ - [`flutter_background_service` - `v2.3.7`](#flutter_background_service---v237)
+ - [`flutter_background_service_ios` - `v2.2.4`](#flutter_background_service_ios---v224)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `flutter_background_service` - `v2.3.7`
+ - `flutter_background_service_ios` - `v2.2.4`
+
+---
+
+#### `flutter_background_service_android` - `v2.3.4`
+
+ - **REFACTOR**: refactor java code. ([d7db0c09](https://github.com/ekasetiawans/flutter_background_service/commit/d7db0c092dcfc0af0bb8f1175ea82f3f0ccfe908))
+
+#### `flutter_background_service_platform_interface` - `v2.1.4`
+
+ - **REFACTOR**: refactor java code. ([d7db0c09](https://github.com/ekasetiawans/flutter_background_service/commit/d7db0c092dcfc0af0bb8f1175ea82f3f0ccfe908))
+
+
+## 2022-09-19
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`flutter_background_service_android` - `v2.3.3`](#flutter_background_service_android---v233)
  - [`flutter_background_service` - `v2.3.6`](#flutter_background_service---v236)
 
