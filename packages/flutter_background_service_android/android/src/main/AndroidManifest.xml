@@ -8,7 +8,6 @@
 
     <application>
         <service
-            android:process=":background"
             android:enabled="true"
             android:exported="true"
             android:name=".BackgroundService"
@@ -16,14 +15,12 @@
             />
 
         <receiver
-            android:process=":background"
             android:name=".WatchdogReceiver"
             android:enabled="true"
             android:exported="true"
             />
 
         <receiver
-            android:process=":background"
             android:name=".BootReceiver"
             android:enabled="true"
             android:exported="true">
