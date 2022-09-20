@@ -1,3 +1,7 @@
+## 2.4.0
+
+ - **FEAT**: revert to single process. ([515dde6a](https://github.com/ekasetiawans/flutter_background_service/commit/515dde6a49e50087c6f613ff0de8e1bd111a315b))
+
 ## 2.3.4
 
  - **REFACTOR**: refactor java code. ([d7db0c09](https://github.com/ekasetiawans/flutter_background_service/commit/d7db0c092dcfc0af0bb8f1175ea82f3f0ccfe908))

@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-09-20
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`flutter_background_service_android` - `v2.4.0`](#flutter_background_service_android---v240)
+ - [`flutter_background_service` - `v2.3.8`](#flutter_background_service---v238)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `flutter_background_service` - `v2.3.8`
+
+---
+
+#### `flutter_background_service_android` - `v2.4.0`
+
+ - **FEAT**: revert to single process. ([515dde6a](https://github.com/ekasetiawans/flutter_background_service/commit/515dde6a49e50087c6f613ff0de8e1bd111a315b))
+
+
 ## 2022-09-19
 
 ### Changes
