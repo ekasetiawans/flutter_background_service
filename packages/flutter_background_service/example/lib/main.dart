@@ -66,6 +66,8 @@ Future<void> initializeService() async {
 
 // to ensure this is executed
 // run app from xcode, then from xcode menu, select Simulate Background Fetch
+
+@pragma('vm:entry-point')
 bool onIosBackground(ServiceInstance service) {
   WidgetsFlutterBinding.ensureInitialized();
   print('FLUTTER BACKGROUND FETCH');
