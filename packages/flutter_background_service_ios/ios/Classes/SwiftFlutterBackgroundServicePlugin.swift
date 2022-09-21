@@ -103,20 +103,20 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
     private func handleBackgroundMethodCall(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
         if (call.method == "getForegroundHandler") {
             let defaults = UserDefaults.standard
-            let callbackHandle = defaults.object(forKey: "foreground_callback_handle") as! Int64
+            let callbackHandle = defaults.object(forKey: "foreground_callback_handle") as? Int64
             result(callbackHandle)
             return
         }
         
         if (call.method == "getBackgroundHandler") {
             let defaults = UserDefaults.standard
-            let callbackHandle = defaults.object(forKey: "background_callback_handle") as! Int64
+            let callbackHandle = defaults.object(forKey: "background_callback_handle") as? Int64
             result(callbackHandle)
             return
         }
         
         if (call.method == "setBackgroundFetchResult" && tmpCompletionHandler != nil) {
-            let result = call.arguments as! Bool
+            let result = call.arguments as? Bool ?? false
             
             if (result) {
                 self.tmpCompletionHandler?(.newData)
@@ -163,17 +163,11 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
         if (call.method == "configure") {
             let args = call.arguments as? Dictionary<String, Any>
-            let foregroundEntrypointCallbackHandleID = args?["foreground_entrypoint_handle"] as? NSNumber
-            let backgroundEntrypointCallbackHandleID = args?["background_entrypoint_handle"] as? NSNumber
             let foregroundCallbackHandleID = args?["foreground_handle"] as? NSNumber
             let backgroundCallbackHandleID = args?["background_handle"] as? NSNumber
             let autoStart = args?["auto_start"] as? Bool
             
             let defaults = UserDefaults.standard
-            defaults.set(foregroundEntrypointCallbackHandleID?.int64Value, forKey: "foreground_entrypoint_callback_handle")
-            
-            defaults.set(backgroundEntrypointCallbackHandleID?.int64Value, forKey: "background_entrypoint_callback_handle")
-            
             defaults.set(foregroundCallbackHandleID?.int64Value, forKey: "foreground_callback_handle")
             defaults.set(backgroundCallbackHandleID?.int64Value, forKey: "background_callback_handle")
             defaults.set(autoStart, forKey: "auto_start")

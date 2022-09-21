@@ -11,11 +11,13 @@ import 'package:flutter_background_service_platform_interface/flutter_background
 Future<void> foregroundEntrypoint() async {
   WidgetsFlutterBinding.ensureInitialized();
   final service = IOSServiceInstance._();
-  final int handle = await service._getForegroundHandler();
-  final callbackHandle = CallbackHandle.fromRawHandle(handle);
-  final onStart = PluginUtilities.getCallbackFromHandle(callbackHandle);
-  if (onStart != null) {
-    onStart(service);
+  final int? handle = await service._getForegroundHandler();
+  if (handle != null) {
+    final callbackHandle = CallbackHandle.fromRawHandle(handle);
+    final onStart = PluginUtilities.getCallbackFromHandle(callbackHandle);
+    if (onStart != null) {
+      onStart(service);
+    }
   }
 }
 
@@ -23,14 +25,17 @@ Future<void> foregroundEntrypoint() async {
 Future<void> backgroundEntrypoint() async {
   WidgetsFlutterBinding.ensureInitialized();
   final service = IOSServiceInstance._();
-  final int handle = await service._getBackgroundHandler();
-
-  final callbackHandle = CallbackHandle.fromRawHandle(handle);
-  final onStart = PluginUtilities.getCallbackFromHandle(callbackHandle)
-      as FutureOr<bool> Function(ServiceInstance instance)?;
-  if (onStart != null) {
-    final result = await onStart(service);
-    await service._setBackgroundFetchResult(result);
+  final int? handle = await service._getBackgroundHandler();
+  if (handle != null) {
+    final callbackHandle = CallbackHandle.fromRawHandle(handle);
+    final onStart = PluginUtilities.getCallbackFromHandle(callbackHandle)
+        as FutureOr<bool> Function(ServiceInstance instance)?;
+    if (onStart != null) {
+      final result = await onStart(service);
+      await service._setBackgroundFetchResult(result);
+    }
+  } else {
+    await service._setBackgroundFetchResult(false);
   }
 }
 
@@ -171,11 +176,11 @@ class IOSServiceInstance extends ServiceInstance {
     );
   }
 
-  Future<int> _getForegroundHandler() async {
+  Future<int?> _getForegroundHandler() async {
     return await _channel.invokeMethod('getForegroundHandler');
   }
 
-  Future<int> _getBackgroundHandler() async {
+  Future<int?> _getBackgroundHandler() async {
     return await _channel.invokeMethod('getBackgroundHandler');
   }
 
