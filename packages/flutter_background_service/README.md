@@ -140,3 +140,20 @@ Try to disable battery optimization for your app.
 ### My notification icon not changed, how to solve it?
 
 Make sure you had created notification icons named `ic_bg_service_small` and placed in res/drawable-mdpi, res/drawable-hdpi, res/drawable-hdpi, res/drawable-xxhdpi for PNGs file, and res/drawable-anydpi-v24 for XML (Vector) file (optional).
+
+### Service not running in Release Mode
+
+Add `@pragma('vm:entry-point')` to the `onStart()` method.
+Example:
+
+```dart
+
+@pragma('vm:entry-point')
+void onStart(ServiceInstance service){
+  ...
+}
+```
+
+### Service terminated when app is in background (minimized) on iOS
+
+Keep in your mind, iOS doesn't have a long running service feature like Android. So, it's not possible to keep your application running when it's in background because the OS will suspend your application soon. Currently, this plugin provide onBackground method, that will be executed periodically by `Background Fetch` capability provided by iOS. It cannot be faster than 15 minutes and only alive about 15-30 seconds. 
