@@ -3,6 +3,38 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-09-21
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`flutter_background_service` - `v2.3.9`](#flutter_background_service---v239)
+ - [`flutter_background_service_android` - `v2.5.0`](#flutter_background_service_android---v250)
+ - [`flutter_background_service_ios` - `v2.2.5`](#flutter_background_service_ios---v225)
+
+---
+
+#### `flutter_background_service` - `v2.3.9`
+
+ - **FIX**: added @pragma. ([0f90cc7d](https://github.com/ekasetiawans/flutter_background_service/commit/0f90cc7d6f1ae9b0e2ab6132151e27b88814afe1))
+ - **DOCS**: update FAQ. ([53215976](https://github.com/ekasetiawans/flutter_background_service/commit/532159768bc4a14701940c8166440bb1940aa1b5))
+
+#### `flutter_background_service_android` - `v2.5.0`
+
+ - **FEAT**: added QUICKBOOT_POWERON action to intent-filter. ([46f08173](https://github.com/ekasetiawans/flutter_background_service/commit/46f08173cfb54795fb707bd521d8ed94db75cad5))
+
+#### `flutter_background_service_ios` - `v2.2.5`
+
+ - **FIX**: handle null safety. ([77513387](https://github.com/ekasetiawans/flutter_background_service/commit/775133879a1693154cf14181c3ac780aa7001710))
+
+
 ## 2022-09-20
 
 ### Changes

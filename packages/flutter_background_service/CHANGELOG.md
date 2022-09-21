@@ -1,3 +1,8 @@
+## 2.3.9
+
+ - **FIX**: added @pragma. ([0f90cc7d](https://github.com/ekasetiawans/flutter_background_service/commit/0f90cc7d6f1ae9b0e2ab6132151e27b88814afe1))
+ - **DOCS**: update FAQ. ([53215976](https://github.com/ekasetiawans/flutter_background_service/commit/532159768bc4a14701940c8166440bb1940aa1b5))
+
 ## 2.3.8
 
  - Update a dependency to the latest release.

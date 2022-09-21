@@ -1,3 +1,7 @@
+## 2.2.5
+
+ - **FIX**: handle null safety. ([77513387](https://github.com/ekasetiawans/flutter_background_service/commit/775133879a1693154cf14181c3ac780aa7001710))
+
 ## 2.2.4
 
  - Update a dependency to the latest release.

@@ -1,3 +1,7 @@
+## 2.5.0
+
+ - **FEAT**: added QUICKBOOT_POWERON action to intent-filter. ([46f08173](https://github.com/ekasetiawans/flutter_background_service/commit/46f08173cfb54795fb707bd521d8ed94db75cad5))
+
 ## 2.4.0
 
  - **FEAT**: revert to single process. ([515dde6a](https://github.com/ekasetiawans/flutter_background_service/commit/515dde6a49e50087c6f613ff0de8e1bd111a315b))
