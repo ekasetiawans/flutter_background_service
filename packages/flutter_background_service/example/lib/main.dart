@@ -31,7 +31,7 @@ Future<void> initializeService() async {
       FlutterLocalNotificationsPlugin();
 
   if (Platform.isIOS) {
-    flutterLocalNotificationsPlugin.initialize(
+    await flutterLocalNotificationsPlugin.initialize(
       const InitializationSettings(
         iOS: IOSInitializationSettings(),
       ),

@@ -11,37 +11,21 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
     // in Outputs log after (lldb)
     // Resume debugger
     
-    var foregroundEngine: FlutterEngine? = nil
     var mainChannel: FlutterMethodChannel? = nil
-    var foregroundChannel: FlutterMethodChannel? = nil
-    
-    var tmpEngine: FlutterEngine? = nil
-    var tmpChannel: FlutterMethodChannel? = nil
-    var tmpCompletionHandler: ((UIBackgroundFetchResult) -> Void)? = nil
-    
-    private(set) lazy var _tmpTask: Any? = nil
-    
-    @available(iOS 13, *)
-    weak open var tmpTask: BGAppRefreshTask? {
-        get {
-            return _tmpTask as? BGAppRefreshTask
-        } set {
-            _tmpTask = newValue
-        }
-    }
     
     public override func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) -> Bool {
         // execute callback handle
         
-        tmpCompletionHandler = completionHandler
-        self.beginFetch(isForeground: false)
+        let worker = FlutterBackgroundFetchWorker(task: completionHandler)
+        worker.onCompleted = {
+            print("Background Fetch Completed")
+        }
+        worker.run()
         return true
     }
         
     public override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [AnyHashable : Any] = [:]) -> Bool {
-        
         UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplication.backgroundFetchIntervalMinimum)
-        
         if #available(iOS 13.0, *) {
             registerBackgroundTasks()
         }
@@ -76,23 +60,17 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
     
     @available(iOS 13.0, *)
     func handleAppRefresh(task: BGAppRefreshTask) {
-        task.expirationHandler = {
-            task.setTaskCompleted(success: false)
-            self.tmpEngine?.destroyContext()
-            self.tmpEngine = nil
-            self.tmpTask = nil
-            self.tmpChannel = nil
-            
+        let worker = FlutterBackgroundRefreshAppWorker(task: task)
+        worker.onCompleted = {
+            print("COMPLETED")
             self.scheduleAppRefresh()
         }
         
-        if (self.tmpTask == nil){
-            self.tmpTask = task
-            self.beginFetch(isForeground: false)
-        } else {
-            self.scheduleAppRefresh()
-            task.setTaskCompleted(success: true)
+        task.expirationHandler = {
+            worker.cancel()
         }
+        
+        worker.run()
     }
     
     public static func register(with registrar: FlutterPluginRegistrar) {
@@ -112,74 +90,23 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
         let defaults = UserDefaults.standard
         let autoStart = defaults.bool(forKey: "auto_start")
         if (autoStart) {
-            self.beginFetch(isForeground: isForeground)
+            self.runForegroundWorker()
         }
     }
     
-    private func handleBackgroundMethodCall(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-        if (call.method == "getForegroundHandler") {
-            let defaults = UserDefaults.standard
-            let callbackHandle = defaults.object(forKey: "foreground_callback_handle") as? Int64
-            result(callbackHandle)
+    fileprivate var foregroundWorker: FlutterForegroundWorker? = nil
+    private func runForegroundWorker(){
+        if (foregroundWorker != nil){
             return
         }
         
-        if (call.method == "getBackgroundHandler") {
-            let defaults = UserDefaults.standard
-            let callbackHandle = defaults.object(forKey: "background_callback_handle") as? Int64
-            result(callbackHandle)
-            return
+        foregroundWorker = FlutterForegroundWorker(mainChannel: self.mainChannel!)
+        foregroundWorker?.onTerminated = {
+            self.foregroundWorker = nil
         }
-        
-        if (call.method == "setBackgroundFetchResult") {
-            let result = call.arguments as? Bool ?? false
-            
-            if (result) {
-                self.tmpCompletionHandler?(.newData)
-
-                if #available(iOS 13.0, *) {
-                    self.tmpTask?.setTaskCompleted(success: true)
-                    scheduleAppRefresh()
-                }
-            } else {
-                self.tmpCompletionHandler?(.noData)
-
-                if #available(iOS 13.0, *) {
-                    self.tmpTask?.setTaskCompleted(success: false)
-                    scheduleAppRefresh()
-                }
-            }
-            
-            if (self.tmpEngine != nil) {
-                self.tmpEngine!.destroyContext()
-                self.tmpEngine = nil
-                self.tmpChannel = nil
-
-                if #available(iOS 13.0, *) {
-                    self.tmpTask = nil
-                    scheduleAppRefresh()
-                }
-            }
-            
-            print("Flutter Background Service Completed")
-        }
-        
-        if (call.method == "sendData") {
-            if (self.mainChannel != nil) {
-                self.mainChannel?.invokeMethod("onReceiveData", arguments: call.arguments)
-            }
-            
-            result(true);
-            return;
-        }
-        
-        if (call.method == "stopService") {
-            self.foregroundEngine?.destroyContext();
-            self.foregroundEngine = nil;
-            result(true);
-            return;
-        }
+        foregroundWorker?.run()
     }
+    
     
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
         if (call.method == "configure") {
@@ -200,57 +127,184 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
         }
         
         if (call.method == "start") {
-            self.beginFetch(isForeground: true)
+            runForegroundWorker()
             result(true)
         }
         
         if (call.method == "sendData") {
-            if (self.foregroundChannel != nil) {
-                self.foregroundChannel?.invokeMethod("onReceiveData", arguments: call.arguments)
-            }
-            
+            self.foregroundWorker?.onReceivedData(data: call.arguments)
             result(true);
         }
                 
         if (call.method == "isServiceRunning") {
-            let value = self.foregroundEngine != nil;
+            let value = self.foregroundWorker != nil;
             result(value);
             return;
         }
     }
+}
+
+typealias VoidInputVoidReturnBlock = () -> Void
+
+@available(iOS 13, *)
+private class FlutterBackgroundRefreshAppWorker {
+    let entrypointName = "backgroundEntrypoint"
+    let uri = "package:flutter_background_service_ios/flutter_background_service_ios.dart"
+    let engine = FlutterEngine(name: "BackgroundHandleFlutterEngine")
     
-    // isForeground will be false if this method is executed by background fetch.
-    private func beginFetch(isForeground: Bool) {
-        if (isForeground && self.foregroundEngine != nil) {
+    var onCompleted: VoidInputVoidReturnBlock?
+    var task: BGAppRefreshTask
+    var channel: FlutterMethodChannel?
+    
+    init(task: BGAppRefreshTask){
+        self.task = task
+    }
+    
+    public func run() {
+        let defaults = UserDefaults.standard
+        let callbackHandle = defaults.object(forKey: "background_callback_handle") as? Int64
+        if (callbackHandle == nil){
+            print("No callback handle for background")
             return
         }
         
-        if (!isForeground && self.tmpEngine != nil) {
-            self.tmpEngine?.destroyContext()
+        let isRunning = engine.run(withEntrypoint: entrypointName, libraryURI: uri, initialRoute: nil, entrypointArgs: [String(callbackHandle!)])
+        
+        if (isRunning){
+            FlutterBackgroundServicePlugin.register(engine)
+            
+            let binaryMessenger = engine.binaryMessenger
+            channel = FlutterMethodChannel(name: "id.flutter/background_service_ios_bg", binaryMessenger: binaryMessenger, codec: FlutterJSONMethodCodec())
+            channel?.setMethodCallHandler(handleMethodCall)
         }
-        
-        let entrypointName = isForeground ? "foregroundEntrypoint" : "backgroundEntrypoint"
-        let uri = "package:flutter_background_service_ios/flutter_background_service_ios.dart"
-        
-        let backgroundEngine = FlutterEngine(name: "FlutterService")
-        let isRunning = backgroundEngine.run(withEntrypoint: entrypointName, libraryURI: uri)
-        
-        if (isRunning) {
-            FlutterBackgroundServicePlugin.register(backgroundEngine)
+    }
+    
+    public func cancel(){
+        self.engine.destroyContext()
+        self.task.setTaskCompleted(success: false)
+        self.onCompleted?()
+    }
+    
+    private func handleMethodCall(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
+        if (call.method == "setBackgroundFetchResult") {
+            let result = call.arguments as? Bool ?? false
             
-            let binaryMessenger = backgroundEngine.binaryMessenger
-            let backgroundChannel = FlutterMethodChannel(name: "id.flutter/background_service_ios_bg", binaryMessenger: binaryMessenger, codec: FlutterJSONMethodCodec())
-            
-            backgroundChannel.setMethodCallHandler(self.handleBackgroundMethodCall)
-            
-            if (isForeground) {
-                self.foregroundEngine = backgroundEngine
-                self.foregroundChannel = backgroundChannel
+            if (result) {
+                self.task.setTaskCompleted(success: true)
             } else {
-                self.tmpEngine = backgroundEngine
-                self.tmpChannel = backgroundChannel
+                self.task.setTaskCompleted(success: false)
             }
+            
+            self.engine.destroyContext()
+            self.onCompleted?()
+            print("Flutter Background Service Completed")
+        }
+    }
+}
+
+private class FlutterBackgroundFetchWorker {
+    let entrypointName = "backgroundEntrypoint"
+    let uri = "package:flutter_background_service_ios/flutter_background_service_ios.dart"
+    let engine = FlutterEngine(name: "BackgroundHandleFlutterEngine")
+    
+    var onCompleted: VoidInputVoidReturnBlock?
+    var task: ((UIBackgroundFetchResult) -> Void)
+    var channel: FlutterMethodChannel?
+    
+    init(task: @escaping (UIBackgroundFetchResult) -> Void){
+        self.task = task
+    }
+    
+    public func run() {
+        let defaults = UserDefaults.standard
+        let callbackHandle = defaults.object(forKey: "background_callback_handle") as? Int64
+        if (callbackHandle == nil){
+            print("No callback handle for background")
+            return
         }
         
+        let isRunning = engine.run(withEntrypoint: entrypointName, libraryURI: uri, initialRoute: nil, entrypointArgs: [String(callbackHandle!)])
+        
+        if (isRunning){
+            FlutterBackgroundServicePlugin.register(engine)
+            
+            let binaryMessenger = engine.binaryMessenger
+            channel = FlutterMethodChannel(name: "id.flutter/background_service_ios_bg", binaryMessenger: binaryMessenger, codec: FlutterJSONMethodCodec())
+            channel?.setMethodCallHandler(handleMethodCall)
+        }
+    }
+    
+    public func cancel(){
+        self.engine.destroyContext()
+        self.task(.failed)
+        self.onCompleted?()
+    }
+    
+    private func handleMethodCall(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
+        if (call.method == "setBackgroundFetchResult") {
+            let result = call.arguments as? Bool ?? false
+            
+            if (result) {
+                self.task(.newData)
+            } else {
+                self.task(.noData)
+            }
+            
+            self.engine.destroyContext()
+            self.onCompleted?()
+            print("Flutter Background Service Completed")
+        }
+    }
+}
+
+private class FlutterForegroundWorker {
+    let entrypointName = "foregroundEntrypoint"
+    let uri = "package:flutter_background_service_ios/flutter_background_service_ios.dart"
+    let engine = FlutterEngine(name: "ForegroundHandleFlutterEngine")
+    
+    var channel: FlutterMethodChannel?
+    var mainChannel: FlutterMethodChannel
+    var onTerminated: VoidInputVoidReturnBlock?
+    
+    init(mainChannel: FlutterMethodChannel){
+        self.mainChannel = mainChannel
+    }
+    
+    public func run() {
+        let defaults = UserDefaults.standard
+        let callbackHandle = defaults.object(forKey: "foreground_callback_handle") as? Int64
+        if (callbackHandle == nil){
+            print("No callback handle for foreground")
+            return
+        }
+        
+        let isRunning = engine.run(withEntrypoint: entrypointName, libraryURI: uri, initialRoute: nil, entrypointArgs: [String(callbackHandle!)])
+        
+        if (isRunning){
+            FlutterBackgroundServicePlugin.register(engine)
+            
+            let binaryMessenger = engine.binaryMessenger
+            channel = FlutterMethodChannel(name: "id.flutter/background_service_ios_bg", binaryMessenger: binaryMessenger, codec: FlutterJSONMethodCodec())
+            channel?.setMethodCallHandler(handleMethodCall)
+        }
+    }
+    
+    public func onReceivedData(data: Any?) {
+        self.channel?.invokeMethod("onReceiveData", arguments: data)
+    }
+    
+    private func handleMethodCall(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
+        if (call.method == "sendData") {
+            self.mainChannel.invokeMethod("onReceiveData", arguments: call.arguments)
+            result(true);
+            return;
+        }
+        
+        if (call.method == "stopService") {
+            self.engine.destroyContext()
+            result(true)
+            self.onTerminated?()
+            return;
+        }
     }
 }

@@ -8,34 +8,28 @@ import 'package:flutter/services.dart';
 import 'package:flutter_background_service_platform_interface/flutter_background_service_platform_interface.dart';
 
 @pragma('vm:entry-point')
-Future<void> foregroundEntrypoint() async {
+Future<void> foregroundEntrypoint(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
   final service = IOSServiceInstance._();
-  final int? handle = await service._getForegroundHandler();
-  if (handle != null) {
-    final callbackHandle = CallbackHandle.fromRawHandle(handle);
-    final onStart = PluginUtilities.getCallbackFromHandle(callbackHandle);
-    if (onStart != null) {
-      onStart(service);
-    }
+  final int handle = int.parse(args.first);
+  final callbackHandle = CallbackHandle.fromRawHandle(handle);
+  final onStart = PluginUtilities.getCallbackFromHandle(callbackHandle);
+  if (onStart != null) {
+    onStart(service);
   }
 }
 
 @pragma('vm:entry-point')
-Future<void> backgroundEntrypoint() async {
+Future<void> backgroundEntrypoint(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
   final service = IOSServiceInstance._();
-  final int? handle = await service._getBackgroundHandler();
-  if (handle != null) {
-    final callbackHandle = CallbackHandle.fromRawHandle(handle);
-    final onStart = PluginUtilities.getCallbackFromHandle(callbackHandle)
-        as FutureOr<bool> Function(ServiceInstance instance)?;
-    if (onStart != null) {
-      final result = await onStart(service);
-      await service._setBackgroundFetchResult(result);
-    }
-  } else {
-    await service._setBackgroundFetchResult(false);
+  final int handle = int.parse(args.first);
+  final callbackHandle = CallbackHandle.fromRawHandle(handle);
+  final onStart = PluginUtilities.getCallbackFromHandle(callbackHandle)
+      as FutureOr<bool> Function(ServiceInstance instance)?;
+  if (onStart != null) {
+    final result = await onStart(service);
+    await service._setBackgroundFetchResult(result);
   }
 }
 
