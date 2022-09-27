@@ -52,6 +52,9 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
        request.earliestBeginDate = Date(timeIntervalSinceNow: 15 * 60)
             
        do {
+           // cancel old schedule
+           BGTaskScheduler.shared.cancel(taskRequestWithIdentifier: SwiftFlutterBackgroundServicePlugin.taskIdentifier)
+           
           try BGTaskScheduler.shared.submit(request)
        } catch {
           print("Could not schedule app refresh: \(error)")
