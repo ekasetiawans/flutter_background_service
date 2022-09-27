@@ -8,10 +8,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_background_service_platform_interface/flutter_background_service_platform_interface.dart';
 
 @pragma('vm:entry-point')
-Future<void> entrypoint() async {
+Future<void> entrypoint(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
   final service = AndroidServiceInstance._();
-  final int handle = await service._getHandler();
+  final int handle = int.parse(args.first);
   final callbackHandle = CallbackHandle.fromRawHandle(handle);
   final onStart = PluginUtilities.getCallbackFromHandle(callbackHandle);
   if (onStart != null) {

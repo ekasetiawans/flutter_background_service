@@ -25,7 +25,9 @@ import androidx.core.app.NotificationCompat;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -202,11 +204,11 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
     private void runService() {
         try {
             if (isRunning.get() || (backgroundEngine != null && !backgroundEngine.getDartExecutor().isExecutingDart())) {
-                Log.d(TAG, "Service already running, using existing service");
+                Log.v(TAG, "Service already running, using existing service");
                 return;
             }
 
-            Log.d(TAG, "runService");
+            Log.v(TAG, "Starting flutter engine for background service");
             getLock(getApplicationContext()).acquire();
 
             updateNotificationInfo();
@@ -227,7 +229,12 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
             methodChannel.setMethodCallHandler(this);
 
             dartEntrypoint = new DartExecutor.DartEntrypoint(flutterLoader.findAppBundlePath(), "package:flutter_background_service_android/flutter_background_service_android.dart", "entrypoint");
-            backgroundEngine.getDartExecutor().executeDartEntrypoint(dartEntrypoint);
+
+            final List<String> args = new ArrayList<>();
+            long backgroundHandle = config.getBackgroundHandle();
+            args.add(String.valueOf(backgroundHandle));
+
+            backgroundEngine.getDartExecutor().executeDartEntrypoint(dartEntrypoint, args);
 
         } catch (UnsatisfiedLinkError e) {
             notificationContent = "Error " + e.getMessage();
@@ -265,12 +272,6 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
         String method = call.method;
 
         try {
-            if (method.equalsIgnoreCase("getHandler")) {
-                long backgroundHandle = config.getBackgroundHandle();
-                result.success(backgroundHandle);
-                return;
-            }
-
             if (method.equalsIgnoreCase("setNotificationInfo")) {
                 JSONObject arg = (JSONObject) call.arguments;
                 if (arg.has("title")) {
