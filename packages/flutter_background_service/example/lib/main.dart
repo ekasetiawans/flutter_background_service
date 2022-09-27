@@ -30,6 +30,14 @@ Future<void> initializeService() async {
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
+  if (Platform.isIOS) {
+    flutterLocalNotificationsPlugin.initialize(
+      const InitializationSettings(
+        iOS: IOSInitializationSettings(),
+      ),
+    );
+  }
+
   await flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin>()
@@ -70,7 +78,23 @@ Future<void> initializeService() async {
 @pragma('vm:entry-point')
 bool onIosBackground(ServiceInstance service) {
   WidgetsFlutterBinding.ensureInitialized();
+  DartPluginRegistrant.ensureInitialized();
   print('FLUTTER BACKGROUND FETCH');
+
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+  flutterLocalNotificationsPlugin.show(
+    1,
+    'Hello',
+    'From Background',
+    const NotificationDetails(
+      iOS: IOSNotificationDetails(
+        presentAlert: true,
+        presentBadge: true,
+        presentSound: true,
+      ),
+    ),
+  );
 
   return true;
 }

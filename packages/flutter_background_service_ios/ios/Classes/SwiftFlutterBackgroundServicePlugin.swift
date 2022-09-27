@@ -4,6 +4,7 @@ import AVKit
 import BackgroundTasks
 
 public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDelegate, FlutterPlugin  {
+    static var taskIndentifier = "dev.flutter.background.refresh"
     
     var foregroundEngine: FlutterEngine? = nil
     var mainChannel: FlutterMethodChannel? = nil
@@ -12,7 +13,7 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
     var tmpEngine: FlutterEngine? = nil
     var tmpChannel: FlutterMethodChannel? = nil
     var tmpCompletionHandler: ((UIBackgroundFetchResult) -> Void)? = nil
-
+    
     private(set) lazy var _tmpTask: Any? = nil
     
     @available(iOS 13, *)
@@ -43,18 +44,22 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
         return true
     }
     
+    public func applicationDidEnterBackground(_ application: UIApplication) {
+        if #available(iOS 13.0, *){
+            self.scheduleAppRefresh()
+        }
+    }
+    
     @available(iOS 13.0, *)
     func registerBackgroundTasks() {
-        BGTaskScheduler.shared.register(forTaskWithIdentifier: "dev.flutter.background.refresh", using: nil) { task in
+        BGTaskScheduler.shared.register(forTaskWithIdentifier: SwiftFlutterBackgroundServicePlugin.taskIndentifier, using: nil) { task in
             self.handleAppRefresh(task: task as! BGAppRefreshTask)
         }
-        
-        scheduleAppRefresh()
     }
     
     @available(iOS 13.0, *)
     func scheduleAppRefresh() {
-       let request = BGAppRefreshTaskRequest(identifier: "dev.flutter.background.refresh")
+        let request = BGAppRefreshTaskRequest(identifier: SwiftFlutterBackgroundServicePlugin.taskIndentifier)
        request.earliestBeginDate = Date(timeIntervalSinceNow: 15 * 60)
             
        do {
@@ -66,16 +71,19 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
     
     @available(iOS 13.0, *)
     func handleAppRefresh(task: BGAppRefreshTask) {
-        scheduleAppRefresh()
-
-        self.tmpTask = task
-        self.beginFetch(isForeground: false)
-        
         task.expirationHandler = {
+            task.setTaskCompleted(success: false)
             self.tmpEngine?.destroyContext()
             self.tmpEngine = nil
             self.tmpTask = nil
             self.tmpChannel = nil
+        }
+        
+        scheduleAppRefresh()
+        
+        self.tmpTask = task
+        DispatchQueue.main.async {
+            self.beginFetch(isForeground: false)
         }
     }
     
@@ -208,7 +216,6 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
             self.tmpEngine?.destroyContext()
         }
         
-        let defaults = UserDefaults.standard
         let entrypointName = isForeground ? "foregroundEntrypoint" : "backgroundEntrypoint"
         let uri = "package:flutter_background_service_ios/flutter_background_service_ios.dart"
         
