@@ -27,7 +27,7 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
     public override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [AnyHashable : Any] = [:]) -> Bool {
         UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplication.backgroundFetchIntervalMinimum)
         if #available(iOS 13.0, *) {
-            registerBackgroundTasks()
+            SwiftFlutterBackgroundServicePlugin.registerTaskIdentifier(taskIdentifier: SwiftFlutterBackgroundServicePlugin.taskIdentifier)
         }
         
         return true
@@ -35,19 +35,19 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
     
     public func applicationDidEnterBackground(_ application: UIApplication) {
         if #available(iOS 13.0, *){
-            self.scheduleAppRefresh()
+            SwiftFlutterBackgroundServicePlugin.scheduleAppRefresh()
         }
     }
     
     @available(iOS 13.0, *)
-    func registerBackgroundTasks() {
-        BGTaskScheduler.shared.register(forTaskWithIdentifier: SwiftFlutterBackgroundServicePlugin.taskIdentifier, using: DispatchQueue.main) { task in
+    public static func registerTaskIdentifier(taskIdentifier: String) {
+        BGTaskScheduler.shared.register(forTaskWithIdentifier: taskIdentifier, using: nil) { task in
             self.handleAppRefresh(task: task as! BGAppRefreshTask)
         }
     }
     
     @available(iOS 13.0, *)
-    func scheduleAppRefresh() {
+    private static func scheduleAppRefresh() {
         let request = BGAppRefreshTaskRequest(identifier: SwiftFlutterBackgroundServicePlugin.taskIdentifier)
        request.earliestBeginDate = Date(timeIntervalSinceNow: 15 * 60)
             
@@ -62,18 +62,17 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
     }
     
     @available(iOS 13.0, *)
-    func handleAppRefresh(task: BGAppRefreshTask) {
-        let worker = FlutterBackgroundRefreshAppWorker(task: task)
-        worker.onCompleted = {
-            print("Flutter BGAppRefreshTask Completed!")
-            self.scheduleAppRefresh()
+    private static func handleAppRefresh(task: BGAppRefreshTask) {
+        let operationQueue = OperationQueue()
+        let operation = FlutterBackgroundRefreshAppOperation(
+            task: task
+        )
+
+        operation.completionBlock = {
+            scheduleAppRefresh()
         }
-        
-        task.expirationHandler = {
-            worker.cancel()
-        }
-        
-        worker.run()
+
+        operationQueue.addOperation(operation)
     }
     
     public static func register(with registrar: FlutterPluginRegistrar) {
@@ -147,6 +146,35 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
     }
 }
 
+@available(iOS 13, *)
+class FlutterBackgroundRefreshAppOperation: Operation {
+    var task: BGAppRefreshTask
+    fileprivate var worker: FlutterBackgroundRefreshAppWorker?
+    
+    init(task: BGAppRefreshTask) {
+        self.task = task
+    }
+    
+    override func main() {
+        let semaphore = DispatchSemaphore(value: 0)
+        
+        DispatchQueue.main.async {
+            self.worker = FlutterBackgroundRefreshAppWorker(task: self.task)
+            self.worker?.onCompleted = {
+                semaphore.signal()
+            }
+            
+            self.task.expirationHandler = {
+                self.worker?.cancel()
+            }
+                        
+            self.worker?.run()
+        }
+        
+        semaphore.wait()
+    }
+}
+
 typealias VoidInputVoidReturnBlock = () -> Void
 
 @available(iOS 13, *)
@@ -183,7 +211,10 @@ private class FlutterBackgroundRefreshAppWorker {
     }
     
     public func cancel(){
-        self.engine.destroyContext()
+        DispatchQueue.main.async {
+            self.engine.destroyContext()
+        }
+        
         self.task.setTaskCompleted(success: false)
         self.onCompleted?()
     }
@@ -191,14 +222,12 @@ private class FlutterBackgroundRefreshAppWorker {
     private func handleMethodCall(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
         if (call.method == "setBackgroundFetchResult") {
             let result = call.arguments as? Bool ?? false
+            self.task.setTaskCompleted(success: result)
             
-            if (result) {
-                self.task.setTaskCompleted(success: true)
-            } else {
-                self.task.setTaskCompleted(success: false)
+            DispatchQueue.main.async {
+                self.engine.destroyContext()
             }
             
-            self.engine.destroyContext()
             self.onCompleted?()
             print("Flutter Background Service Completed")
         }

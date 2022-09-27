@@ -76,25 +76,15 @@ Future<void> initializeService() async {
 // run app from xcode, then from xcode menu, select Simulate Background Fetch
 
 @pragma('vm:entry-point')
-bool onIosBackground(ServiceInstance service) {
+Future<bool> onIosBackground(ServiceInstance service) async {
   WidgetsFlutterBinding.ensureInitialized();
   DartPluginRegistrant.ensureInitialized();
-  print('FLUTTER BACKGROUND FETCH');
 
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
-  flutterLocalNotificationsPlugin.show(
-    1,
-    'Hello',
-    'From Background',
-    const NotificationDetails(
-      iOS: IOSNotificationDetails(
-        presentAlert: true,
-        presentBadge: true,
-        presentSound: true,
-      ),
-    ),
-  );
+  SharedPreferences preferences = await SharedPreferences.getInstance();
+  await preferences.reload();
+  final log = preferences.getStringList('log') ?? <String>[];
+  log.add(DateTime.now().toIso8601String());
+  await preferences.setStringList('log', log);
 
   return true;
 }
@@ -251,6 +241,9 @@ class _MyAppState extends State<MyApp> {
                 setState(() {});
               },
             ),
+            const Expanded(
+              child: LogView(),
+            ),
           ],
         ),
         floatingActionButton: FloatingActionButton(
@@ -258,6 +251,48 @@ class _MyAppState extends State<MyApp> {
           child: const Icon(Icons.play_arrow),
         ),
       ),
+    );
+  }
+}
+
+class LogView extends StatefulWidget {
+  const LogView({Key? key}) : super(key: key);
+
+  @override
+  State<LogView> createState() => _LogViewState();
+}
+
+class _LogViewState extends State<LogView> {
+  late final Timer timer;
+  List<String> logs = [];
+
+  @override
+  void initState() {
+    super.initState();
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
+      final SharedPreferences sp = await SharedPreferences.getInstance();
+      await sp.reload();
+      logs = sp.getStringList('log') ?? [];
+      if (mounted) {
+        setState(() {});
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: logs.length,
+      itemBuilder: (context, index) {
+        final log = logs.elementAt(index);
+        return Text(log);
+      },
     );
   }
 }
