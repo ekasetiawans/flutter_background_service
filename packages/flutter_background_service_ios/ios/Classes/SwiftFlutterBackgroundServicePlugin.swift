@@ -4,7 +4,7 @@ import AVKit
 import BackgroundTasks
 
 public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDelegate, FlutterPlugin  {
-    static var taskIndentifier = "dev.flutter.background.refresh"
+    public static var taskIdentifier = "dev.flutter.background.refresh"
     // For testing, run app, bring app to background to schedule the task
     // Pause debug in XCODE, then execute:
     // e -l objc -- (void)[[BGTaskScheduler sharedScheduler] _simulateLaunchForTaskWithIdentifier:@"dev.flutter.background.refresh"]
@@ -41,14 +41,14 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
     
     @available(iOS 13.0, *)
     func registerBackgroundTasks() {
-        BGTaskScheduler.shared.register(forTaskWithIdentifier: SwiftFlutterBackgroundServicePlugin.taskIndentifier, using: DispatchQueue.main) { task in
+        BGTaskScheduler.shared.register(forTaskWithIdentifier: SwiftFlutterBackgroundServicePlugin.taskIdentifier, using: DispatchQueue.main) { task in
             self.handleAppRefresh(task: task as! BGAppRefreshTask)
         }
     }
     
     @available(iOS 13.0, *)
     func scheduleAppRefresh() {
-        let request = BGAppRefreshTaskRequest(identifier: SwiftFlutterBackgroundServicePlugin.taskIndentifier)
+        let request = BGAppRefreshTaskRequest(identifier: SwiftFlutterBackgroundServicePlugin.taskIdentifier)
        request.earliestBeginDate = Date(timeIntervalSinceNow: 15 * 60)
             
        do {
@@ -62,7 +62,7 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
     func handleAppRefresh(task: BGAppRefreshTask) {
         let worker = FlutterBackgroundRefreshAppWorker(task: task)
         worker.onCompleted = {
-            print("COMPLETED")
+            print("Flutter BGAppRefreshTask Completed!")
             self.scheduleAppRefresh()
         }
         

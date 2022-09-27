@@ -106,13 +106,36 @@ Future<void> onStart(ServiceInstance service) async {
 
 - Enable `background_fetch` capability in xcode (optional), if you wish ios to execute `IosConfiguration.onBackground` callback.
 
-- For iOS 13 (using `BGTaskScheduler`), insert lines below into your ios/Runner/Info.plist
+- For iOS 13 and Later (using `BGTaskScheduler`), insert lines below into your ios/Runner/Info.plist
 
 ```plist
 <key>BGTaskSchedulerPermittedIdentifiers</key>
 <array>
     <string>dev.flutter.background.refresh</string>
 </array>
+```
+
+- You can also using your own custom identifier
+In `ios/Runner/AppDelegate.swift` add line below
+
+```swift
+import UIKit
+import Flutter
+import flutter_background_service_ios // add this
+
+@UIApplicationMain
+@objc class AppDelegate: FlutterAppDelegate {
+  override func application(
+    _ application: UIApplication,
+    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+  ) -> Bool {
+    /// Add this line
+    SwiftFlutterBackgroundServicePlugin.taskIdentifier = "your.custom.task.identifier"
+    
+    GeneratedPluginRegistrant.register(with: self)
+    return super.application(application, didFinishLaunchingWithOptions: launchOptions)
+  }
+}
 ```
 
 ## Usage
@@ -156,4 +179,4 @@ void onStart(ServiceInstance service){
 
 ### Service terminated when app is in background (minimized) on iOS
 
-Keep in your mind, iOS doesn't have a long running service feature like Android. So, it's not possible to keep your application running when it's in background because the OS will suspend your application soon. Currently, this plugin provide onBackground method, that will be executed periodically by `Background Fetch` capability provided by iOS. It cannot be faster than 15 minutes and only alive about 15-30 seconds. 
+Keep in your mind, iOS doesn't have a long running service feature like Android. So, it's not possible to keep your application running when it's in background because the OS will suspend your application soon. Currently, this plugin provide onBackground method, that will be executed periodically by `Background Fetch` capability provided by iOS. It cannot be faster than 15 minutes and only alive about 15-30 seconds.
