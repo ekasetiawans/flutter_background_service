@@ -1,3 +1,7 @@
+## 2.5.1
+
+- **FIX**: Android crash when unbinding service
+
 ## 2.5.0
 
  - **FEAT**: added QUICKBOOT_POWERON action to intent-filter. ([46f08173](https://github.com/ekasetiawans/flutter_background_service/commit/46f08173cfb54795fb707bd521d8ed94db75cad5))
