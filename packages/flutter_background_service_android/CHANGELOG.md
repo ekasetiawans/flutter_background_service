@@ -1,3 +1,7 @@
+## 2.5.2
+
+ - **PERF**: using exact alarm for watchdog receiver. ([6dba6670](https://github.com/ekasetiawans/flutter_background_service/commit/6dba6670965a24b9b0657ad0abc793db850a982b))
+
 ## 2.5.1
 
 - **FIX**: Android crash when unbinding service
