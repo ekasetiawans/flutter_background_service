@@ -5,6 +5,11 @@ import BackgroundTasks
 
 public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDelegate, FlutterPlugin  {
     static var taskIndentifier = "dev.flutter.background.refresh"
+    // For testing, run app, bring app to background to schedule the task
+    // Pause debug in XCODE, then execute:
+    // e -l objc -- (void)[[BGTaskScheduler sharedScheduler] _simulateLaunchForTaskWithIdentifier:@"dev.flutter.background.refresh"]
+    // in Outputs log after (lldb)
+    // Resume debugger
     
     var foregroundEngine: FlutterEngine? = nil
     var mainChannel: FlutterMethodChannel? = nil
@@ -52,7 +57,7 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
     
     @available(iOS 13.0, *)
     func registerBackgroundTasks() {
-        BGTaskScheduler.shared.register(forTaskWithIdentifier: SwiftFlutterBackgroundServicePlugin.taskIndentifier, using: nil) { task in
+        BGTaskScheduler.shared.register(forTaskWithIdentifier: SwiftFlutterBackgroundServicePlugin.taskIndentifier, using: DispatchQueue.main) { task in
             self.handleAppRefresh(task: task as! BGAppRefreshTask)
         }
     }
@@ -77,13 +82,16 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
             self.tmpEngine = nil
             self.tmpTask = nil
             self.tmpChannel = nil
+            
+            self.scheduleAppRefresh()
         }
         
-        scheduleAppRefresh()
-        
-        self.tmpTask = task
-        DispatchQueue.main.async {
+        if (self.tmpTask == nil){
+            self.tmpTask = task
             self.beginFetch(isForeground: false)
+        } else {
+            self.scheduleAppRefresh()
+            task.setTaskCompleted(success: true)
         }
     }
     
@@ -123,7 +131,7 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
             return
         }
         
-        if (call.method == "setBackgroundFetchResult" && tmpCompletionHandler != nil) {
+        if (call.method == "setBackgroundFetchResult") {
             let result = call.arguments as? Bool ?? false
             
             if (result) {
@@ -131,12 +139,14 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
 
                 if #available(iOS 13.0, *) {
                     self.tmpTask?.setTaskCompleted(success: true)
+                    scheduleAppRefresh()
                 }
             } else {
                 self.tmpCompletionHandler?(.noData)
 
                 if #available(iOS 13.0, *) {
                     self.tmpTask?.setTaskCompleted(success: false)
+                    scheduleAppRefresh()
                 }
             }
             
@@ -147,8 +157,11 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
 
                 if #available(iOS 13.0, *) {
                     self.tmpTask = nil
+                    scheduleAppRefresh()
                 }
             }
+            
+            print("Flutter Background Service Completed")
         }
         
         if (call.method == "sendData") {
