@@ -35,6 +35,7 @@ public class FlutterBackgroundServicePlugin implements FlutterPlugin, MethodCall
     private MethodChannel channel;
     private Context context;
     private IBackgroundServiceBinder serviceBinder;
+    private boolean mShouldUnbind = false;
 
     @SuppressWarnings("deprecation")
     public static void registerWith(Registrar registrar) {
@@ -107,7 +108,7 @@ public class FlutterBackgroundServicePlugin implements FlutterPlugin, MethodCall
             context.startService(intent);
         }
 
-        context.bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
+        mShouldUnbind = context.bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
     }
 
     @Override
@@ -184,8 +185,9 @@ public class FlutterBackgroundServicePlugin implements FlutterPlugin, MethodCall
         channel.setMethodCallHandler(null);
         channel = null;
 
-        if (serviceBinder != null) {
+        if (mShouldUnbind) {
             binding.getApplicationContext().unbindService(serviceConnection);
+            mShouldUnbind = false;
         }
     }
 
