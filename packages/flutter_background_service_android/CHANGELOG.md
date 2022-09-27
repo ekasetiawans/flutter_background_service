@@ -1,3 +1,7 @@
+## 2.5.3
+
+ - **PERF**: improve entrypoint with args. ([5abacbe5](https://github.com/ekasetiawans/flutter_background_service/commit/5abacbe57f239d9ce1667e643d81d6b17f873f5c))
+
 ## 2.5.2
 
  - **PERF**: using exact alarm for watchdog receiver. ([6dba6670](https://github.com/ekasetiawans/flutter_background_service/commit/6dba6670965a24b9b0657ad0abc793db850a982b))

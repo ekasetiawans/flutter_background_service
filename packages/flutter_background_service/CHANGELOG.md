@@ -1,3 +1,9 @@
+## 2.4.0
+
+ - **REFACTOR**: split code into separate class. ([678226ba](https://github.com/ekasetiawans/flutter_background_service/commit/678226ba08966303713faa718f5a9b46e448c5d1))
+ - **FIX**: ios onBackground. ([4eb6b70d](https://github.com/ekasetiawans/flutter_background_service/commit/4eb6b70d005d43079fa53989a1352ae153ea03ae))
+ - **FEAT**: allow using custom task identifier. ([555a0618](https://github.com/ekasetiawans/flutter_background_service/commit/555a06182230c126c7f0a43f6e94317e62ccb6c3))
+
 ## 2.3.10
 
  - Update a dependency to the latest release.

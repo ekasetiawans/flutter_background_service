@@ -1,3 +1,11 @@
+## 2.3.0
+
+ - **REFACTOR**: split code into separate class. ([678226ba](https://github.com/ekasetiawans/flutter_background_service/commit/678226ba08966303713faa718f5a9b46e448c5d1))
+ - **PERF**: cancel old schedule. ([bfca5773](https://github.com/ekasetiawans/flutter_background_service/commit/bfca577324345f64faca562e32bad42ed16e92b4))
+ - **FIX**: ios onBackground. ([0b1101be](https://github.com/ekasetiawans/flutter_background_service/commit/0b1101befa66f5d1f200c6a999f7e55c876f2a10))
+ - **FIX**: ios onBackground. ([4eb6b70d](https://github.com/ekasetiawans/flutter_background_service/commit/4eb6b70d005d43079fa53989a1352ae153ea03ae))
+ - **FEAT**: allow using custom task identifier. ([555a0618](https://github.com/ekasetiawans/flutter_background_service/commit/555a06182230c126c7f0a43f6e94317e62ccb6c3))
+
 ## 2.2.5
 
  - **FIX**: handle null safety. ([77513387](https://github.com/ekasetiawans/flutter_background_service/commit/775133879a1693154cf14181c3ac780aa7001710))
