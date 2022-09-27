@@ -1,3 +1,7 @@
+## 2.5.4
+
+ - **REFACTOR**: remove unused methods. ([ea79ceda](https://github.com/ekasetiawans/flutter_background_service/commit/ea79cedac08089a3d6dafb8d7c785d73b753f80c))
+
 ## 2.5.3
 
  - **PERF**: improve entrypoint with args. ([5abacbe5](https://github.com/ekasetiawans/flutter_background_service/commit/5abacbe57f239d9ce1667e643d81d6b17f873f5c))

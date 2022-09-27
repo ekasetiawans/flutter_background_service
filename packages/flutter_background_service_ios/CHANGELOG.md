@@ -1,3 +1,8 @@
+## 2.3.1
+
+ - **REFACTOR**: remove unused methods. ([ea79ceda](https://github.com/ekasetiawans/flutter_background_service/commit/ea79cedac08089a3d6dafb8d7c785d73b753f80c))
+ - **PERF**: improve handle app refresh ios. ([48e333d7](https://github.com/ekasetiawans/flutter_background_service/commit/48e333d708cb8296c8e6bf1bb151c7cbd95ea7ee))
+
 ## 2.3.0
 
  - **REFACTOR**: split code into separate class. ([678226ba](https://github.com/ekasetiawans/flutter_background_service/commit/678226ba08966303713faa718f5a9b46e448c5d1))

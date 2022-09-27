@@ -15,6 +15,38 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`flutter_background_service` - `v2.4.1`](#flutter_background_service---v241)
+ - [`flutter_background_service_android` - `v2.5.4`](#flutter_background_service_android---v254)
+ - [`flutter_background_service_ios` - `v2.3.1`](#flutter_background_service_ios---v231)
+
+---
+
+#### `flutter_background_service` - `v2.4.1`
+
+ - **PERF**: improve handle app refresh ios. ([48e333d7](https://github.com/ekasetiawans/flutter_background_service/commit/48e333d708cb8296c8e6bf1bb151c7cbd95ea7ee))
+
+#### `flutter_background_service_android` - `v2.5.4`
+
+ - **REFACTOR**: remove unused methods. ([ea79ceda](https://github.com/ekasetiawans/flutter_background_service/commit/ea79cedac08089a3d6dafb8d7c785d73b753f80c))
+
+#### `flutter_background_service_ios` - `v2.3.1`
+
+ - **REFACTOR**: remove unused methods. ([ea79ceda](https://github.com/ekasetiawans/flutter_background_service/commit/ea79cedac08089a3d6dafb8d7c785d73b753f80c))
+ - **PERF**: improve handle app refresh ios. ([48e333d7](https://github.com/ekasetiawans/flutter_background_service/commit/48e333d708cb8296c8e6bf1bb151c7cbd95ea7ee))
+
+
+## 2022-09-28
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`flutter_background_service` - `v2.4.0`](#flutter_background_service---v240)
  - [`flutter_background_service_android` - `v2.5.3`](#flutter_background_service_android---v253)
  - [`flutter_background_service_ios` - `v2.3.0`](#flutter_background_service_ios---v230)

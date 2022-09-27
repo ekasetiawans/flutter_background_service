@@ -1,3 +1,7 @@
+## 2.4.1
+
+ - **PERF**: improve handle app refresh ios. ([48e333d7](https://github.com/ekasetiawans/flutter_background_service/commit/48e333d708cb8296c8e6bf1bb151c7cbd95ea7ee))
+
 ## 2.4.0
 
  - **REFACTOR**: split code into separate class. ([678226ba](https://github.com/ekasetiawans/flutter_background_service/commit/678226ba08966303713faa718f5a9b46e448c5d1))
