@@ -170,14 +170,6 @@ class IOSServiceInstance extends ServiceInstance {
     );
   }
 
-  Future<int?> _getForegroundHandler() async {
-    return await _channel.invokeMethod('getForegroundHandler');
-  }
-
-  Future<int?> _getBackgroundHandler() async {
-    return await _channel.invokeMethod('getBackgroundHandler');
-  }
-
   Future<void> _setBackgroundFetchResult(bool value) async {
     await _channel.invokeMethod('setBackgroundFetchResult', value);
   }
