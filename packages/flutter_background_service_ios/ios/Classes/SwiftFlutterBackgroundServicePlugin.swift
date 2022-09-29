@@ -14,6 +14,15 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
     var mainChannel: FlutterMethodChannel? = nil
     
     public override func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) -> Bool {
+        
+        let defaults = UserDefaults.standard
+        let callbackHandle = defaults.object(forKey: "background_callback_handle") as? Int64
+        if (callbackHandle == nil){
+            print("Background handler is disabled")
+            completionHandler(.noData)
+            return true
+        }
+        
         // execute callback handle
         
         let worker = FlutterBackgroundFetchWorker(task: completionHandler)
@@ -63,6 +72,13 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
     
     @available(iOS 13.0, *)
     private static func handleAppRefresh(task: BGAppRefreshTask) {
+        let defaults = UserDefaults.standard
+        let callbackHandle = defaults.object(forKey: "background_callback_handle") as? Int64
+        if (callbackHandle == nil){
+            print("Background handler is disabled")
+            return
+        }
+        
         let operationQueue = OperationQueue()
         let operation = FlutterBackgroundRefreshAppOperation(
             task: task
@@ -102,6 +118,13 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
             return
         }
         
+        let defaults = UserDefaults.standard
+        let callbackHandle = defaults.object(forKey: "foreground_callback_handle") as? Int64
+        if (callbackHandle == nil){
+            print("Foreground service is disabled")
+            return
+        }
+        
         foregroundWorker = FlutterForegroundWorker(mainChannel: self.mainChannel!)
         foregroundWorker?.onTerminated = {
             self.foregroundWorker = nil
@@ -115,14 +138,16 @@ public class SwiftFlutterBackgroundServicePlugin: FlutterPluginAppLifeCycleDeleg
             let args = call.arguments as? Dictionary<String, Any>
             let foregroundCallbackHandleID = args?["foreground_handle"] as? NSNumber
             let backgroundCallbackHandleID = args?["background_handle"] as? NSNumber
-            let autoStart = args?["auto_start"] as? Bool
+            let autoStart = args?["auto_start"] as? Bool ?? true
             
             let defaults = UserDefaults.standard
             defaults.set(foregroundCallbackHandleID?.int64Value, forKey: "foreground_callback_handle")
             defaults.set(backgroundCallbackHandleID?.int64Value, forKey: "background_callback_handle")
             defaults.set(autoStart, forKey: "auto_start")
             
-            self.autoStart(isForeground: true)
+            if (autoStart && (foregroundCallbackHandleID != nil)){
+                self.autoStart(isForeground: true)
+            }
             
             result(true)
             return

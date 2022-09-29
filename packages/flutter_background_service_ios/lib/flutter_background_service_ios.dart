@@ -67,23 +67,20 @@ class FlutterBackgroundServiceIOS extends FlutterBackgroundServicePlatform {
     _channel.setMethodCallHandler(_handle);
 
     final CallbackHandle? foregroundHandle =
-        PluginUtilities.getCallbackHandle(iosConfiguration.onForeground);
-    if (foregroundHandle == null) {
-      return false;
-    }
+        iosConfiguration.onForeground == null
+            ? null
+            : PluginUtilities.getCallbackHandle(iosConfiguration.onForeground!);
 
     final CallbackHandle? backgroundHandle =
-        PluginUtilities.getCallbackHandle(iosConfiguration.onBackground);
-
-    if (backgroundHandle == null) {
-      return false;
-    }
+        iosConfiguration.onBackground == null
+            ? null
+            : PluginUtilities.getCallbackHandle(iosConfiguration.onBackground!);
 
     final result = await _channel.invokeMethod(
       "configure",
       {
-        "background_handle": backgroundHandle.toRawHandle(),
-        "foreground_handle": foregroundHandle.toRawHandle(),
+        "background_handle": backgroundHandle?.toRawHandle(),
+        "foreground_handle": foregroundHandle?.toRawHandle(),
         "auto_start": iosConfiguration.autoStart,
       },
     );
