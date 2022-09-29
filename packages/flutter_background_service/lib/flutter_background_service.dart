@@ -11,6 +11,8 @@ class FlutterBackgroundService implements Observable {
   FlutterBackgroundServicePlatform get _platform =>
       FlutterBackgroundServicePlatform.instance;
 
+  /// configure the background service handler
+  /// it's highly recommended to call this method in main() method
   Future<bool> configure({
     required IosConfiguration iosConfiguration,
     required AndroidConfiguration androidConfiguration,
