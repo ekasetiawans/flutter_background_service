@@ -3,6 +3,41 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-09-29
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - [`flutter_background_service_android` - `v3.0.0`](#flutter_background_service_android---v300)
+
+Packages with other changes:
+
+ - [`flutter_background_service` - `v2.4.2`](#flutter_background_service---v242)
+ - [`flutter_background_service_ios` - `v2.4.0`](#flutter_background_service_ios---v240)
+ - [`flutter_background_service_platform_interface` - `v2.2.0`](#flutter_background_service_platform_interface---v220)
+
+---
+
+#### `flutter_background_service_android` - `v3.0.0`
+
+ - **BREAKING** **FEAT**: autoStartOnBoot now using it's own argument. ([036669dc](https://github.com/ekasetiawans/flutter_background_service/commit/036669dc4383e938f09f88d9d8a248afbf918cf8))
+
+#### `flutter_background_service` - `v2.4.2`
+
+ - **DOCS**: add documentation on configure method. ([b9612afe](https://github.com/ekasetiawans/flutter_background_service/commit/b9612afe593e766e740c69ee01a04b4f9d2ec83a))
+
+#### `flutter_background_service_ios` - `v2.4.0`
+
+ - **FEAT**: onForeground and onBackground now optional. ([9dfcc4d4](https://github.com/ekasetiawans/flutter_background_service/commit/9dfcc4d4f4fea0f3b8ca0fbb47e3d127af3bc68d))
+
+#### `flutter_background_service_platform_interface` - `v2.2.0`
+
+ - **FEAT**: Updated configs. ([7af1961d](https://github.com/ekasetiawans/flutter_background_service/commit/7af1961def1625d7a5314812c1f794e327f53ce7))
+
+
 ## 2022-09-28
 
 ### Changes

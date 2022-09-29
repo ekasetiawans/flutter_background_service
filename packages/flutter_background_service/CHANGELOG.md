@@ -1,3 +1,7 @@
+## 2.4.2
+
+ - **DOCS**: add documentation on configure method. ([b9612afe](https://github.com/ekasetiawans/flutter_background_service/commit/b9612afe593e766e740c69ee01a04b4f9d2ec83a))
+
 ## 2.4.1
 
  - **PERF**: improve handle app refresh ios. ([48e333d7](https://github.com/ekasetiawans/flutter_background_service/commit/48e333d708cb8296c8e6bf1bb151c7cbd95ea7ee))

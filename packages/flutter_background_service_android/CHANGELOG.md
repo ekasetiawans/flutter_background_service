@@ -1,3 +1,9 @@
+## 3.0.0
+
+> Note: This release has breaking changes.
+
+ - **BREAKING** **FEAT**: autoStartOnBoot now using it's own argument. ([036669dc](https://github.com/ekasetiawans/flutter_background_service/commit/036669dc4383e938f09f88d9d8a248afbf918cf8))
+
 ## 2.5.4
 
  - **REFACTOR**: remove unused methods. ([ea79ceda](https://github.com/ekasetiawans/flutter_background_service/commit/ea79cedac08089a3d6dafb8d7c785d73b753f80c))

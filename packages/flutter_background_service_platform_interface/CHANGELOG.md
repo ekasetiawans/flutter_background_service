@@ -1,3 +1,7 @@
+## 2.2.0
+
+ - **FEAT**: Updated configs. ([7af1961d](https://github.com/ekasetiawans/flutter_background_service/commit/7af1961def1625d7a5314812c1f794e327f53ce7))
+
 ## 2.1.4
 
  - **REFACTOR**: refactor java code. ([d7db0c09](https://github.com/ekasetiawans/flutter_background_service/commit/d7db0c092dcfc0af0bb8f1175ea82f3f0ccfe908))

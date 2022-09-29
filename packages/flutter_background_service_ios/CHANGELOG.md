@@ -1,3 +1,7 @@
+## 2.4.0
+
+ - **FEAT**: onForeground and onBackground now optional. ([9dfcc4d4](https://github.com/ekasetiawans/flutter_background_service/commit/9dfcc4d4f4fea0f3b8ca0fbb47e3d127af3bc68d))
+
 ## 2.3.1
 
  - **REFACTOR**: remove unused methods. ([ea79ceda](https://github.com/ekasetiawans/flutter_background_service/commit/ea79cedac08089a3d6dafb8d7c785d73b753f80c))
