@@ -1,5 +1,3 @@
-# flutter_background_service
-
 A flutter plugin for execute dart code in background.
 
 ## Support me to maintain this plugin continously with a cup of coffee.
@@ -10,8 +8,6 @@ A flutter plugin for execute dart code in background.
 
 - No additional setting is required.
 - To change notification icon, just add drawable icon with name `ic_bg_service_small`.
-
-> **WARNING**: Starting from 2.3.0 the Service instance will be running on it's own android process (e.g com.package.your:background). It might be more difficult to debugging with breakpoints. Learn more about android process, read https://developer.android.com/guide/components/processes-and-threads.
 
 ### Using custom notification for Foreground Service
 You can make your own custom notification for foreground service. It can give you more power to make notifications more attractive to users, for example adding progressbars, buttons, actions, etc. The example below is using [flutter_local_notifications](https://pub.dev/packages/flutter_local_notifications) plugin, but you can use any other notification plugin. You can follow how to make it below:
@@ -131,7 +127,7 @@ import flutter_background_service_ios // add this
   ) -> Bool {
     /// Add this line
     SwiftFlutterBackgroundServicePlugin.taskIdentifier = "your.custom.task.identifier"
-    
+
     GeneratedPluginRegistrant.register(with: self)
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
@@ -140,8 +136,12 @@ import flutter_background_service_ios // add this
 
 ## Usage
 
-- Call `FlutterBackgroundService.configure` to configure handler that will be executed by the Service.
+- Call `FlutterBackgroundService.configure()` to configure handler that will be executed by the Service.
+
+> It's highly recommended to call this method in `main()` method to ensure the callback handler updated.
+
 - Call `FlutterBackgroundService.start` to start the Service if `autoStart` is not enabled.
+
 - Since the Service using Isolates, You won't be able to share reference between UI and Service. You can communicate between UI and Service using `invoke()` and `on(String method)`.
 
 ## Migration
