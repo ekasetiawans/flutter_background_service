@@ -1,3 +1,7 @@
+## 2.4.3
+
+ - **DOCS**: update README. ([5fc18ced](https://github.com/ekasetiawans/flutter_background_service/commit/5fc18ced43cc7fc1df3209eaa21ef9d424d41779))
+
 ## 2.4.2
 
  - **DOCS**: add documentation on configure method. ([b9612afe](https://github.com/ekasetiawans/flutter_background_service/commit/b9612afe593e766e740c69ee01a04b4f9d2ec83a))

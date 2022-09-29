@@ -11,6 +11,27 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 Packages with breaking changes:
 
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`flutter_background_service` - `v2.4.3`](#flutter_background_service---v243)
+
+---
+
+#### `flutter_background_service` - `v2.4.3`
+
+ - **DOCS**: update README. ([5fc18ced](https://github.com/ekasetiawans/flutter_background_service/commit/5fc18ced43cc7fc1df3209eaa21ef9d424d41779))
+
+
+## 2022-09-29
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
  - [`flutter_background_service_android` - `v3.0.0`](#flutter_background_service_android---v300)
 
 Packages with other changes:
