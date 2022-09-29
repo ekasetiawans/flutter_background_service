@@ -43,7 +43,9 @@ public class FlutterBackgroundServicePlugin implements FlutterPlugin, MethodCall
         final MethodChannel channel = new MethodChannel(registrar.messenger(), "id.flutter/background_service_android", JSONMethodCodec.INSTANCE);
         channel.setMethodCallHandler(plugin);
         plugin.channel = channel;
-    }    private final ServiceConnection serviceConnection = new ServiceConnection() {
+    }
+
+    private final ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             serviceBinder = IBackgroundServiceBinder.Stub.asInterface(service);
@@ -121,6 +123,7 @@ public class FlutterBackgroundServicePlugin implements FlutterPlugin, MethodCall
                 long backgroundHandle = arg.getLong("background_handle");
                 boolean isForeground = arg.getBoolean("is_foreground_mode");
                 boolean autoStartOnBoot = arg.getBoolean("auto_start_on_boot");
+                boolean autoStart = arg.getBoolean("auto_start");
                 String initialNotificationTitle = arg.isNull("initial_notification_title") ? null : arg.getString("initial_notification_title");
                 String initialNotificationContent = arg.isNull("initial_notification_content") ? null : arg.getString("initial_notification_content");
                 String notificationChannelId = arg.isNull("notification_channel_id") ? null : arg.getString("notification_channel_id");
@@ -134,7 +137,7 @@ public class FlutterBackgroundServicePlugin implements FlutterPlugin, MethodCall
                 config.setNotificationChannelId(notificationChannelId);
                 config.setForegroundNotificationId(foregroundNotificationId);
 
-                if (autoStartOnBoot) {
+                if (autoStart) {
                     start();
                 }
 
@@ -166,7 +169,7 @@ public class FlutterBackgroundServicePlugin implements FlutterPlugin, MethodCall
 
             result.notImplemented();
         } catch (Exception e) {
-            result.error("100", "Failed read arguments", null);
+            result.error("100", "Failed while read arguments", e.getMessage());
         }
     }
 
