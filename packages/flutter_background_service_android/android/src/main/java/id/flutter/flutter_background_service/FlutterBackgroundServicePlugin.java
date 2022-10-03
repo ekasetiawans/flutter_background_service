@@ -81,6 +81,7 @@ public class FlutterBackgroundServicePlugin implements FlutterPlugin, MethodCall
             try {
                 serviceBinder.unbind(binderId);
                 serviceBinder = null;
+                mShouldUnbind = false;
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -91,6 +92,7 @@ public class FlutterBackgroundServicePlugin implements FlutterPlugin, MethodCall
     public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
         this.context = flutterPluginBinding.getApplicationContext();
         this.config = new Config(this.context);
+        mShouldUnbind = false;
 
         mainHandler = new Handler(context.getMainLooper());
 
