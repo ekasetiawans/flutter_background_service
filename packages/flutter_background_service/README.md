@@ -9,6 +9,12 @@ A flutter plugin for execute dart code in background.
 - No additional setting is required.
 - To change notification icon, just add drawable icon with name `ic_bg_service_small`.
 
+> **WARNING**:
+>
+> Please make sure your project already use the version of gradle tools below:
+> - in android/build.gradle ```classpath 'com.android.tools.build:gradle:7.1.2'```
+> - in android/gradle/wrapper/gradle-wrapper.properties ```distributionUrl=https\://services.gradle.org/distributions/gradle-7.4-all.zip```
+
 ### Using custom notification for Foreground Service
 You can make your own custom notification for foreground service. It can give you more power to make notifications more attractive to users, for example adding progressbars, buttons, actions, etc. The example below is using [flutter_local_notifications](https://pub.dev/packages/flutter_local_notifications) plugin, but you can use any other notification plugin. You can follow how to make it below:
 
