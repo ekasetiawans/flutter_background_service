@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-10-12
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`flutter_background_service_android` - `v3.0.2`](#flutter_background_service_android---v302)
+ - [`flutter_background_service` - `v2.4.4`](#flutter_background_service---v244)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `flutter_background_service` - `v2.4.4`
+
+---
+
+#### `flutter_background_service_android` - `v3.0.2`
+
+ - **FIX**: added proguard for android plugin. ([0d7ac8a6](https://github.com/ekasetiawans/flutter_background_service/commit/0d7ac8a698b339af5931cb3b3e18c4b7f2e2670f))
+
+
 ## 2022-09-29
 
 ### Changes

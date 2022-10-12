@@ -1,3 +1,7 @@
+## 3.0.2
+
+ - **FIX**: added proguard for android plugin. ([0d7ac8a6](https://github.com/ekasetiawans/flutter_background_service/commit/0d7ac8a698b339af5931cb3b3e18c4b7f2e2670f))
+
 ## 3.0.1
 
 - **FIX**: Android crash when unbinding service
