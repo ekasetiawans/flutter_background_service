@@ -79,9 +79,9 @@ public class FlutterBackgroundServicePlugin implements FlutterPlugin, MethodCall
         @Override
         public void onServiceDisconnected(ComponentName name) {
             try {
+                mShouldUnbind = false;
                 serviceBinder.unbind(binderId);
                 serviceBinder = null;
-                mShouldUnbind = false;
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -190,7 +190,7 @@ public class FlutterBackgroundServicePlugin implements FlutterPlugin, MethodCall
         channel.setMethodCallHandler(null);
         channel = null;
 
-        if (mShouldUnbind) {
+        if (mShouldUnbind && serviceBinder != null) {
             binding.getApplicationContext().unbindService(serviceConnection);
             mShouldUnbind = false;
         }
