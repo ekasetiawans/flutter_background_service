@@ -186,3 +186,7 @@ void onStart(ServiceInstance service){
 ### Service terminated when app is in background (minimized) on iOS
 
 Keep in your mind, iOS doesn't have a long running service feature like Android. So, it's not possible to keep your application running when it's in background because the OS will suspend your application soon. Currently, this plugin provide onBackground method, that will be executed periodically by `Background Fetch` capability provided by iOS. It cannot be faster than 15 minutes and only alive about 15-30 seconds.
+
+## Discord
+
+Click [here](https://discord.gg/aqk6JjBm) to join to my discord channels
