@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-12-14
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`flutter_background_service` - `v2.4.6`](#flutter_background_service---v246)
+
+---
+
+#### `flutter_background_service` - `v2.4.6`
+
+ - **DOCS**: updated README.md. ([9345b16f](https://github.com/ekasetiawans/flutter_background_service/commit/9345b16f7c69e7acac1ea5d8a5985b97092a1220))
+
+
 ## 2022-10-12
 
 ### Changes

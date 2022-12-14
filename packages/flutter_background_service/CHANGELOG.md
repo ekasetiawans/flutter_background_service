@@ -1,3 +1,7 @@
+## 2.4.6
+
+ - **DOCS**: updated README.md. ([9345b16f](https://github.com/ekasetiawans/flutter_background_service/commit/9345b16f7c69e7acac1ea5d8a5985b97092a1220))
+
 ## 2.4.5
 
  - **DOCS**: updated README. ([f9e96ab4](https://github.com/ekasetiawans/flutter_background_service/commit/f9e96ab4978f348342703cf1de011bc59f6b9e4c))
