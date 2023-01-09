@@ -65,6 +65,7 @@ public class FlutterBackgroundServicePlugin implements FlutterPlugin, MethodCall
                     @Override
                     public void stop() {
                         if (context != null && serviceBinder != null) {
+                            mShouldUnbind = false;
                             context.unbindService(serviceConnection);
                         }
                     }
