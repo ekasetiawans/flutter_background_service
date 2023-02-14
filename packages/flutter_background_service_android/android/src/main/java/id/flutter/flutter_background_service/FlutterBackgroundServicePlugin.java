@@ -167,6 +167,10 @@ public class FlutterBackgroundServicePlugin implements FlutterPlugin, MethodCall
         synchronized (eventSinks){
             eventSinks.clear();
         }
+        if (mShouldUnbind && serviceBinder != null) {
+            context.unbindService(serviceConnection);
+            mShouldUnbind = false;
+        }
         eventChannel.setStreamHandler(null);
         eventChannel = null;
     }
