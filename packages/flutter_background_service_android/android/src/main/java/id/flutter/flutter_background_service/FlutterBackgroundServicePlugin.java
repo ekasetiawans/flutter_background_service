@@ -35,7 +35,7 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
 public class FlutterBackgroundServicePlugin implements FlutterPlugin, MethodCallHandler, EventChannel.StreamHandler {
     private static final String TAG = "BackgroundServicePlugin";
     private Handler mainHandler;
-    private Config config;
+    private id.flutter.flutter_background_service.Config config;
     private MethodChannel channel;
     private EventChannel eventChannel;
     private final Map<Object, EventChannel.EventSink> eventSinks = new HashMap<>();
@@ -61,6 +61,7 @@ public class FlutterBackgroundServicePlugin implements FlutterPlugin, MethodCall
     public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
         this.context = flutterPluginBinding.getApplicationContext();
         this.config = new Config(this.context);
+        mShouldUnbind = false;
 
         mainHandler = new Handler(context.getMainLooper());
 
@@ -74,9 +75,10 @@ public class FlutterBackgroundServicePlugin implements FlutterPlugin, MethodCall
     }
 
     private void start() {
-        WatchdogReceiver.enqueue(context);
+        id.flutter.flutter_background_service.WatchdogReceiver.enqueue(context);
         boolean isForeground = config.isForeground();
         Intent intent = new Intent(context, BackgroundService.class);
+        intent.putExtra("binder_id", binderId);
 
         if (isForeground) {
             ContextCompat.startForegroundService(context, intent);
@@ -150,7 +152,7 @@ public class FlutterBackgroundServicePlugin implements FlutterPlugin, MethodCall
     private boolean isServiceRunning() {
         ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if (BackgroundService.class.getName().equals(service.service.getClassName())) {
+            if (id.flutter.flutter_background_service.BackgroundService.class.getName().equals(service.service.getClassName())) {
                 return true;
             }
         }
