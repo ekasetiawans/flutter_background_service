@@ -1,0 +1,248 @@
+{
+  "configVersion": 2,
+  "packages": [
+    {
+      "name": "ansi_styles",
+      "rootUri": "file:///Users/ekasetiawans/Development/pub-cache/hosted/pub.dev/ansi_styles-0.3.2+1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "args",
+      "rootUri": "file:///Users/ekasetiawans/Development/pub-cache/hosted/pub.dev/args-2.4.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
+      "name": "async",
+      "rootUri": "file:///Users/ekasetiawans/Development/pub-cache/hosted/pub.dev/async-2.11.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "boolean_selector",
+      "rootUri": "file:///Users/ekasetiawans/Development/pub-cache/hosted/pub.dev/boolean_selector-2.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "charcode",
+      "rootUri": "file:///Users/ekasetiawans/Development/pub-cache/hosted/pub.dev/charcode-1.3.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "cli_launcher",
+      "rootUri": "file:///Users/ekasetiawans/Development/pub-cache/hosted/pub.dev/cli_launcher-0.3.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "cli_util",
+      "rootUri": "file:///Users/ekasetiawans/Development/pub-cache/hosted/pub.dev/cli_util-0.4.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
+      "name": "collection",
+      "rootUri": "file:///Users/ekasetiawans/Development/pub-cache/hosted/pub.dev/collection-1.17.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "conventional_commit",
+      "rootUri": "file:///Users/ekasetiawans/Development/pub-cache/hosted/pub.dev/conventional_commit-0.6.0+1",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "file",
+      "rootUri": "file:///Users/ekasetiawans/Development/pub-cache/hosted/pub.dev/file-6.1.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "glob",
+      "rootUri": "file:///Users/ekasetiawans/Development/pub-cache/hosted/pub.dev/glob-2.1.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
+      "name": "graphs",
+      "rootUri": "file:///Users/ekasetiawans/Development/pub-cache/hosted/pub.dev/graphs-2.3.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "http",
+      "rootUri": "file:///Users/ekasetiawans/Development/pub-cache/hosted/pub.dev/http-0.13.6",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
+      "name": "http_parser",
+      "rootUri": "file:///Users/ekasetiawans/Development/pub-cache/hosted/pub.dev/http_parser-4.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "io",
+      "rootUri": "file:///Users/ekasetiawans/Development/pub-cache/hosted/pub.dev/io-1.0.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "json_annotation",
+      "rootUri": "file:///Users/ekasetiawans/Development/pub-cache/hosted/pub.dev/json_annotation-4.8.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
+      "name": "matcher",
+      "rootUri": "file:///Users/ekasetiawans/Development/pub-cache/hosted/pub.dev/matcher-0.12.16",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "melos",
+      "rootUri": "file:///Users/ekasetiawans/Development/pub-cache/hosted/pub.dev/melos-3.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "meta",
+      "rootUri": "file:///Users/ekasetiawans/Development/pub-cache/hosted/pub.dev/meta-1.9.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "mustache_template",
+      "rootUri": "file:///Users/ekasetiawans/Development/pub-cache/hosted/pub.dev/mustache_template-2.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "path",
+      "rootUri": "file:///Users/ekasetiawans/Development/pub-cache/hosted/pub.dev/path-1.8.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "platform",
+      "rootUri": "file:///Users/ekasetiawans/Development/pub-cache/hosted/pub.dev/platform-3.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "pool",
+      "rootUri": "file:///Users/ekasetiawans/Development/pub-cache/hosted/pub.dev/pool-1.5.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "process",
+      "rootUri": "file:///Users/ekasetiawans/Development/pub-cache/hosted/pub.dev/process-4.2.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
+      "name": "prompts",
+      "rootUri": "file:///Users/ekasetiawans/Development/pub-cache/hosted/pub.dev/prompts-2.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "pub_semver",
+      "rootUri": "file:///Users/ekasetiawans/Development/pub-cache/hosted/pub.dev/pub_semver-2.1.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "pub_updater",
+      "rootUri": "file:///Users/ekasetiawans/Development/pub-cache/hosted/pub.dev/pub_updater-0.2.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "pubspec",
+      "rootUri": "file:///Users/ekasetiawans/Development/pub-cache/hosted/pub.dev/pubspec-2.3.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "quiver",
+      "rootUri": "file:///Users/ekasetiawans/Development/pub-cache/hosted/pub.dev/quiver-3.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "source_span",
+      "rootUri": "file:///Users/ekasetiawans/Development/pub-cache/hosted/pub.dev/source_span-1.10.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "stack_trace",
+      "rootUri": "file:///Users/ekasetiawans/Development/pub-cache/hosted/pub.dev/stack_trace-1.11.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "stream_channel",
+      "rootUri": "file:///Users/ekasetiawans/Development/pub-cache/hosted/pub.dev/stream_channel-2.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
+      "name": "string_scanner",
+      "rootUri": "file:///Users/ekasetiawans/Development/pub-cache/hosted/pub.dev/string_scanner-1.2.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "term_glyph",
+      "rootUri": "file:///Users/ekasetiawans/Development/pub-cache/hosted/pub.dev/term_glyph-1.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "test_api",
+      "rootUri": "file:///Users/ekasetiawans/Development/pub-cache/hosted/pub.dev/test_api-0.6.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "typed_data",
+      "rootUri": "file:///Users/ekasetiawans/Development/pub-cache/hosted/pub.dev/typed_data-1.3.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "uri",
+      "rootUri": "file:///Users/ekasetiawans/Development/pub-cache/hosted/pub.dev/uri-1.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "yaml",
+      "rootUri": "file:///Users/ekasetiawans/Development/pub-cache/hosted/pub.dev/yaml-3.1.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
+      "name": "yaml_edit",
+      "rootUri": "file:///Users/ekasetiawans/Development/pub-cache/hosted/pub.dev/yaml_edit-2.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
+      "name": "flutter_background_service",
+      "rootUri": "../",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    }
+  ],
+  "generated": "2023-06-13T17:14:57.821470Z",
+  "generator": "pub",
+  "generatorVersion": "3.0.3"
+}

@@ -7,8 +7,8 @@ funding:
   - https://www.buymeacoffee.com/ekasetiawans
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
-  flutter: ">=2.0.0"
+  sdk: ">=2.17.5 <4.0.0"
+  flutter: ">=3.0.0"
 
 dependencies:
   flutter:
