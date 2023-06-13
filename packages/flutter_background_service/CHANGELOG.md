@@ -1,3 +1,11 @@
+## 3.0.0
+
+> Note: This release has breaking changes.
+
+ - **FEAT**: enhance notification icon readme. ([52e7e6ea](https://github.com/ekasetiawans/flutter_background_service/commit/52e7e6ea8bdff67924d93ce716b395bdbba2a48b))
+ - **FEAT**: enhance notification icon readme. ([4d699fb0](https://github.com/ekasetiawans/flutter_background_service/commit/4d699fb03b83eae09bc3696f443a8e36092c8789))
+ - **BREAKING** **FEAT**: updated dependency constraints. ([97ef7977](https://github.com/ekasetiawans/flutter_background_service/commit/97ef7977ff9a2cb31b1e29593b3a9cc725d89e27))
+
 ## 2.4.6
 
  - **DOCS**: updated README.md. ([9345b16f](https://github.com/ekasetiawans/flutter_background_service/commit/9345b16f7c69e7acac1ea5d8a5985b97092a1220))

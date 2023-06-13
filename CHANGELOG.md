@@ -3,6 +3,44 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-06-14
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - [`flutter_background_service` - `v3.0.0`](#flutter_background_service---v300)
+ - [`flutter_background_service_android` - `v4.0.0`](#flutter_background_service_android---v400)
+ - [`flutter_background_service_ios` - `v3.0.0`](#flutter_background_service_ios---v300)
+ - [`flutter_background_service_platform_interface` - `v3.0.0`](#flutter_background_service_platform_interface---v300)
+
+Packages with other changes:
+
+ - There are no other changes in this release.
+
+---
+
+#### `flutter_background_service` - `v3.0.0`
+
+ - **FEAT**: enhance notification icon readme. ([52e7e6ea](https://github.com/ekasetiawans/flutter_background_service/commit/52e7e6ea8bdff67924d93ce716b395bdbba2a48b))
+ - **FEAT**: enhance notification icon readme. ([4d699fb0](https://github.com/ekasetiawans/flutter_background_service/commit/4d699fb03b83eae09bc3696f443a8e36092c8789))
+ - **BREAKING** **FEAT**: updated dependency constraints. ([97ef7977](https://github.com/ekasetiawans/flutter_background_service/commit/97ef7977ff9a2cb31b1e29593b3a9cc725d89e27))
+
+#### `flutter_background_service_android` - `v4.0.0`
+
+ - **BREAKING** **FEAT**: updated dependency constraints. ([97ef7977](https://github.com/ekasetiawans/flutter_background_service/commit/97ef7977ff9a2cb31b1e29593b3a9cc725d89e27))
+
+#### `flutter_background_service_ios` - `v3.0.0`
+
+ - **BREAKING** **FEAT**: updated dependency constraints. ([97ef7977](https://github.com/ekasetiawans/flutter_background_service/commit/97ef7977ff9a2cb31b1e29593b3a9cc725d89e27))
+
+#### `flutter_background_service_platform_interface` - `v3.0.0`
+
+ - **BREAKING** **FEAT**: updated dependency constraints. ([97ef7977](https://github.com/ekasetiawans/flutter_background_service/commit/97ef7977ff9a2cb31b1e29593b3a9cc725d89e27))
+
+
 ## 2022-12-14
 
 ### Changes

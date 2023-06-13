@@ -1,3 +1,9 @@
+## 3.0.0
+
+> Note: This release has breaking changes.
+
+ - **BREAKING** **FEAT**: updated dependency constraints. ([97ef7977](https://github.com/ekasetiawans/flutter_background_service/commit/97ef7977ff9a2cb31b1e29593b3a9cc725d89e27))
+
 ## 2.2.0
 
  - **FEAT**: Updated configs. ([7af1961d](https://github.com/ekasetiawans/flutter_background_service/commit/7af1961def1625d7a5314812c1f794e327f53ce7))
