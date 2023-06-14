@@ -11,6 +11,32 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 Packages with breaking changes:
 
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`flutter_background_service` - `v3.0.1`](#flutter_background_service---v301)
+ - [`flutter_background_service_android` - `v4.0.1`](#flutter_background_service_android---v401)
+
+---
+
+#### `flutter_background_service` - `v3.0.1`
+
+ - **REFACTOR**: improve android performances. ([13f73a86](https://github.com/ekasetiawans/flutter_background_service/commit/13f73a86e9c1cc0c5fc46a757992e24219d03715))
+
+#### `flutter_background_service_android` - `v4.0.1`
+
+ - **REFACTOR**: improve android performances. ([13f73a86](https://github.com/ekasetiawans/flutter_background_service/commit/13f73a86e9c1cc0c5fc46a757992e24219d03715))
+
+
+## 2023-06-14
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
  - [`flutter_background_service` - `v3.0.0`](#flutter_background_service---v300)
  - [`flutter_background_service_android` - `v4.0.0`](#flutter_background_service_android---v400)
  - [`flutter_background_service_ios` - `v3.0.0`](#flutter_background_service_ios---v300)
