@@ -26,20 +26,20 @@ class FlutterBackgroundServiceAndroid extends FlutterBackgroundServicePlatform {
         FlutterBackgroundServiceAndroid();
   }
 
-  static const MethodChannel _channel = const MethodChannel(
-    'id.flutter/background_service_android',
-    JSONMethodCodec(),
-  );
+  FlutterBackgroundServiceAndroid._();
+  static final FlutterBackgroundServiceAndroid _instance =
+      FlutterBackgroundServiceAndroid._();
+  factory FlutterBackgroundServiceAndroid() => _instance;
 
-  Future<dynamic> _handle(MethodCall call) async {
+  Future<void> _handleMethodCall(MethodCall call) async {
+    debugPrint(call.method);
+
     switch (call.method) {
       case "onReceiveData":
         _controller.sink.add(call.arguments);
         break;
       default:
     }
-
-    return true;
   }
 
   Future<bool> start() async {
@@ -47,11 +47,28 @@ class FlutterBackgroundServiceAndroid extends FlutterBackgroundServicePlatform {
     return result ?? false;
   }
 
+  final MethodChannel _channel = MethodChannel(
+    'id.flutter/background_service/android/method',
+    JSONMethodCodec(),
+  );
+
+  final EventChannel _eventChannel = EventChannel(
+    'id.flutter/background_service/android/event',
+    JSONMethodCodec(),
+  );
+
+  StreamSubscription<dynamic>? _eventChannelListener;
   Future<bool> configure({
     required IosConfiguration iosConfiguration,
     required AndroidConfiguration androidConfiguration,
   }) async {
-    _channel.setMethodCallHandler(_handle);
+    _channel.setMethodCallHandler(_handleMethodCall);
+
+    _eventChannelListener?.cancel();
+    _eventChannelListener =
+        _eventChannel.receiveBroadcastStream().listen((event) {
+      _controller.sink.add(event);
+    });
 
     final CallbackHandle? handle =
         PluginUtilities.getCallbackHandle(androidConfiguration.onStart);

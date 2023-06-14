@@ -30,13 +30,15 @@ Future<void> initializeService() async {
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
-  if (Platform.isIOS) {
+  if (Platform.isIOS || Platform.isAndroid) {
     await flutterLocalNotificationsPlugin.initialize(
       const InitializationSettings(
-        iOS: IOSInitializationSettings(),
+        iOS: DarwinInitializationSettings(),
+        android: AndroidInitializationSettings('ic_bg_service_small'),
       ),
     );
   }
+
 
   await flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
@@ -139,10 +141,10 @@ void onStart(ServiceInstance service) async {
         );
 
         // if you don't using custom notification, uncomment this
-        // service.setForegroundNotificationInfo(
-        //   title: "My App Service",
-        //   content: "Updated at ${DateTime.now()}",
-        // );
+        service.setForegroundNotificationInfo(
+          title: "My App Service",
+          content: "Updated at ${DateTime.now()}",
+        );
       }
     }
 

@@ -8,6 +8,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -38,13 +39,13 @@ import io.flutter.embedding.engine.loader.FlutterLoader;
 import io.flutter.plugin.common.JSONMethodCodec;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
+import io.flutter.plugin.common.PluginRegistry;
 
 public class BackgroundService extends Service implements MethodChannel.MethodCallHandler {
     private static final String TAG = "BackgroundService";
     private static final String LOCK_NAME = BackgroundService.class.getName()
             + ".Lock";
     public static volatile WakeLock lockStatic = null; // notice static
-    final Map<Integer, IBackgroundService> listeners = new HashMap<>();
     AtomicBoolean isRunning = new AtomicBoolean(false);
     private FlutterEngine backgroundEngine;
     private MethodChannel methodChannel;
@@ -56,32 +57,6 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
     private String notificationChannelId;
     private int notificationId;
     private Handler mainHandler;
-    private final IBackgroundServiceBinder.Stub binder = new IBackgroundServiceBinder.Stub() {
-
-        @Override
-        public void bind(int id, IBackgroundService service) {
-            synchronized (listeners) {
-                listeners.put(id, service);
-            }
-        }
-
-        @Override
-        public void unbind(int id) {
-            synchronized (listeners) {
-                listeners.remove(id);
-            }
-        }
-
-        @Override
-        public void invoke(String data) {
-            try {
-                JSONObject call = new JSONObject(data);
-                receiveData(call);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    };
 
     synchronized public static PowerManager.WakeLock getLock(Context context) {
         if (lockStatic == null) {
@@ -97,24 +72,19 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
 
     @Override
     public IBinder onBind(Intent intent) {
-        return binder;
+        return null;
     }
 
     @Override
     public boolean onUnbind(Intent intent) {
-        final int binderId = intent.getIntExtra("binder_id", 0);
-        if (binderId != 0) {
-            synchronized (listeners) {
-                listeners.remove(binderId);
-            }
-        }
-
         return super.onUnbind(intent);
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
+
+        FlutterBackgroundServicePlugin.servicePipe.addListener(listener);
 
         config = new Config(this);
         mainHandler = new Handler(Looper.getMainLooper());
@@ -151,8 +121,16 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
 
         methodChannel = null;
         dartEntrypoint = null;
+        FlutterBackgroundServicePlugin.servicePipe.removeListener(listener);
         super.onDestroy();
     }
+
+    private final Pipe.PipeListener listener = new Pipe.PipeListener() {
+        @Override
+        public void onReceived(JSONObject object) {
+            receiveData(object);
+        }
+    };
 
     private void createNotificationChannel() {
         if (SDK_INT >= Build.VERSION_CODES.O) {
@@ -223,6 +201,10 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
 
             isRunning.set(true);
             backgroundEngine = new FlutterEngine(this);
+
+            // remove FlutterBackgroundServicePlugin (because its only for UI)
+            backgroundEngine.getPlugins().remove(FlutterBackgroundServicePlugin.class);
+
             backgroundEngine.getServiceControlSurface().attachToService(BackgroundService.this, null, config.isForeground());
 
             methodChannel = new MethodChannel(backgroundEngine.getDartExecutor().getBinaryMessenger(), "id.flutter/background_service_android_bg", JSONMethodCodec.INSTANCE);
@@ -233,6 +215,7 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
             final List<String> args = new ArrayList<>();
             long backgroundHandle = config.getBackgroundHandle();
             args.add(String.valueOf(backgroundHandle));
+
 
             backgroundEngine.getDartExecutor().executeDartEntrypoint(dartEntrypoint, args);
 
@@ -316,20 +299,6 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
             if (method.equalsIgnoreCase("stopService")) {
                 isManuallyStopped = true;
                 WatchdogReceiver.remove(this);
-
-                try {
-                    synchronized (listeners) {
-                        for (Integer key : listeners.keySet()) {
-                            IBackgroundService listener = listeners.get(key);
-                            if (listener != null) {
-                                listener.stop();
-                            }
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
                 stopSelf();
                 result.success(true);
                 return;
@@ -337,13 +306,8 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
 
             if (method.equalsIgnoreCase("sendData")) {
                 try {
-                    synchronized (listeners) {
-                        for (Integer key : listeners.keySet()) {
-                            IBackgroundService listener = listeners.get(key);
-                            if (listener != null) {
-                                listener.invoke(call.arguments.toString());
-                            }
-                        }
+                    if (FlutterBackgroundServicePlugin.mainPipe.hasListener()){
+                        FlutterBackgroundServicePlugin.mainPipe.invoke((JSONObject) call.arguments);
                     }
 
                     result.success(true);
