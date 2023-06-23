@@ -11,7 +11,7 @@ public class Config {
     }
 
     public boolean isAutoStartOnBoot() {
-        return pref.getBoolean("auto_start_on_boot", true);
+        return pref.getBoolean("auto_start_on_boot", false);
     }
 
     public void setAutoStartOnBoot(boolean value) {
