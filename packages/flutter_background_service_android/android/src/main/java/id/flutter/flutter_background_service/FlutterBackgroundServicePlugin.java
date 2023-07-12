@@ -78,7 +78,6 @@ public class FlutterBackgroundServicePlugin implements FlutterPlugin, MethodCall
         id.flutter.flutter_background_service.WatchdogReceiver.enqueue(context);
         boolean isForeground = config.isForeground();
         Intent intent = new Intent(context, BackgroundService.class);
-        intent.putExtra("binder_id", binderId);
 
         if (isForeground) {
             ContextCompat.startForegroundService(context, intent);
