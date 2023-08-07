@@ -17,14 +17,17 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: '>> Dart package <<'
-        uses: k-paxian/dart-package-publisher@master
+      - name: Prepare credentials
+        run: |
+          echo ${{ secrets.PUB_CREDENTIAL }} > ~/.config/dart/pub-credentials.json
+      - name: Install Flutter
+        id: install
+        continue-on-error: true
+        uses: subosito/flutter-action@v1
         with:
-          accessToken: ${{ secrets.OAUTH_ACCESS_TOKEN }}
-          refreshToken: ${{ secrets.OAUTH_REFRESH_TOKEN }}
-          dryRunOnly: true
+          channel: "stable"
       - name: 'Get Dependencies'
-        run: dart pub get
+        run: flutter pub get
       - name: 'Install melos'
         run: dart pub global activate melos
       - name: 'Update versions'
