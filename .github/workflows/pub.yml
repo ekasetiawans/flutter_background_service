@@ -22,3 +22,12 @@ jobs:
         with:
           accessToken: ${{ secrets.OAUTH_ACCESS_TOKEN }}
           refreshToken: ${{ secrets.OAUTH_REFRESH_TOKEN }}
+          dryRunOnly: true
+      - name: 'Get Dependencies'
+        run: dart pub get
+      - name: 'Install melos'
+        run: dart pub global activate melos
+      - name: 'Update versions'
+        run: melos version --yes
+      - name: 'Publish to pub.dev'
+        run: melos publish --no-dry-run -y
