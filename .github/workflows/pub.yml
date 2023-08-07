@@ -37,5 +37,13 @@ jobs:
         run: dart pub global activate melos
       - name: 'Update versions'
         run: melos version --yes
+        
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GIT_PAT }}
+          branch: master
+          tags: true
+          
       - name: 'Publish to pub.dev'
         run: melos publish --no-dry-run -y
