@@ -1,3 +1,8 @@
+## 4.0.2
+
+ - **FIX**: We still need to check service is running or not. ([280a603e](https://github.com/ekasetiawans/flutter_background_service/commit/280a603ee4fff39e2d0d0cd043dd6ba6f0941ee1))
+ - **FIX**: Issue created by [#336](https://github.com/ekasetiawans/flutter_background_service/issues/336). ([6fedeed2](https://github.com/ekasetiawans/flutter_background_service/commit/6fedeed253d2648d876b9a2e3e5a30967934a81a))
+
 ## 4.0.1
 
  - **REFACTOR**: improve android performances. ([13f73a86](https://github.com/ekasetiawans/flutter_background_service/commit/13f73a86e9c1cc0c5fc46a757992e24219d03715))

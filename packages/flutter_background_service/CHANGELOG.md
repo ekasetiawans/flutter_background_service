@@ -1,3 +1,7 @@
+## 3.0.2
+
+ - Update a dependency to the latest release.
+
 ## 3.0.1
 
  - **REFACTOR**: improve android performances. ([13f73a86](https://github.com/ekasetiawans/flutter_background_service/commit/13f73a86e9c1cc0c5fc46a757992e24219d03715))

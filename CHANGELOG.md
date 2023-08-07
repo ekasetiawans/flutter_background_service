@@ -3,6 +3,35 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-08-07
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`flutter_background_service_android` - `v4.0.2`](#flutter_background_service_android---v402)
+ - [`flutter_background_service` - `v3.0.2`](#flutter_background_service---v302)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `flutter_background_service` - `v3.0.2`
+
+---
+
+#### `flutter_background_service_android` - `v4.0.2`
+
+ - **FIX**: We still need to check service is running or not. ([280a603e](https://github.com/ekasetiawans/flutter_background_service/commit/280a603ee4fff39e2d0d0cd043dd6ba6f0941ee1))
+ - **FIX**: Issue created by [#336](https://github.com/ekasetiawans/flutter_background_service/issues/336). ([6fedeed2](https://github.com/ekasetiawans/flutter_background_service/commit/6fedeed253d2648d876b9a2e3e5a30967934a81a))
+
+
 ## 2023-06-14
 
 ### Changes
