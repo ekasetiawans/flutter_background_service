@@ -20,7 +20,7 @@ jobs:
       - name: Prepare credentials
         run: |
           mkdir ~/.config/dart
-          echo ${{ secrets.PUB_CREDENTIAL }} > ~/.config/dart/pub-credentials.json
+          echo ${{ secrets.PUB_CREDENTIAL }} | base64 --decode > ~/.config/dart/pub-credentials.json
       - name: Setup git
         run: |
           git config --local user.email "mr.poetra22@gmail.com"
