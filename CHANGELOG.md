@@ -3,6 +3,136 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-08-11
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - [`flutter_background_service` - `v5.0.0`](#flutter_background_service---v500)
+ - [`flutter_background_service_android` - `v6.0.0`](#flutter_background_service_android---v600)
+ - [`flutter_background_service_ios` - `v5.0.0`](#flutter_background_service_ios---v500)
+ - [`flutter_background_service_platform_interface` - `v5.0.0`](#flutter_background_service_platform_interface---v500)
+
+Packages with other changes:
+
+ - There are no other changes in this release.
+
+---
+
+#### `flutter_background_service` - `v5.0.0`
+
+ - **REFACTOR**: improve android performances. ([13f73a86](https://github.com/ekasetiawans/flutter_background_service/commit/13f73a86e9c1cc0c5fc46a757992e24219d03715))
+ - **REFACTOR**: split code into separate class. ([678226ba](https://github.com/ekasetiawans/flutter_background_service/commit/678226ba08966303713faa718f5a9b46e448c5d1))
+ - **REFACTOR**: fix sampe project dependency version. ([a83b9f62](https://github.com/ekasetiawans/flutter_background_service/commit/a83b9f62dd0d16f8bd23657ef1f36cb7d51fb0fa))
+ - **REFACTOR**: initialize melos. ([00bf06da](https://github.com/ekasetiawans/flutter_background_service/commit/00bf06da1ca1f4554edaabbd108c59f34b02c611))
+ - **PERF**: improve handle app refresh ios. ([48e333d7](https://github.com/ekasetiawans/flutter_background_service/commit/48e333d708cb8296c8e6bf1bb151c7cbd95ea7ee))
+ - **FIX**: ios onBackground. ([4eb6b70d](https://github.com/ekasetiawans/flutter_background_service/commit/4eb6b70d005d43079fa53989a1352ae153ea03ae))
+ - **FIX**: added @pragma. ([0f90cc7d](https://github.com/ekasetiawans/flutter_background_service/commit/0f90cc7d6f1ae9b0e2ab6132151e27b88814afe1))
+ - **FIX**: using Runnable instead of lambda. ([9cda867d](https://github.com/ekasetiawans/flutter_background_service/commit/9cda867d8f2dc84cf1f7f112a3e87b1fa7dc1d3d))
+ - **FIX**: wrong dependency version. ([34e66e13](https://github.com/ekasetiawans/flutter_background_service/commit/34e66e13f04afe760d7b4087cc7052756dcb2a9c))
+ - **FIX**: errors. ([13a6f841](https://github.com/ekasetiawans/flutter_background_service/commit/13a6f841f5d677ceb0010e8ba1bf9d7af53adbcf))
+ - **FIX**: podspec. ([b46f9a3f](https://github.com/ekasetiawans/flutter_background_service/commit/b46f9a3f425f66e6bda34650e713da299f922a73))
+ - **FIX**: dependencies version. ([4e89b5e9](https://github.com/ekasetiawans/flutter_background_service/commit/4e89b5e9e5aa55074e1b10b41ea057c4b1b0bfcb))
+ - **FEAT**: enhance notification icon readme. ([52e7e6ea](https://github.com/ekasetiawans/flutter_background_service/commit/52e7e6ea8bdff67924d93ce716b395bdbba2a48b))
+ - **FEAT**: enhance notification icon readme. ([4d699fb0](https://github.com/ekasetiawans/flutter_background_service/commit/4d699fb03b83eae09bc3696f443a8e36092c8789))
+ - **FEAT**: allow using custom task identifier. ([555a0618](https://github.com/ekasetiawans/flutter_background_service/commit/555a06182230c126c7f0a43f6e94317e62ccb6c3))
+ - **FEAT**: move android service to separated process. ([bd2e6f07](https://github.com/ekasetiawans/flutter_background_service/commit/bd2e6f075ea8a7db231c7586b8f6244bb0399ff4))
+ - **FEAT**: using entrypoint instead of dart callback and added initial notification info for android. ([b0fc8f32](https://github.com/ekasetiawans/flutter_background_service/commit/b0fc8f32d59fa582c37fcd6e2349fab32aac245b))
+ - **FEAT**: automatically register plugins. ([3a0d0d53](https://github.com/ekasetiawans/flutter_background_service/commit/3a0d0d53110cdaf92caf4f329cd80034121c9ea6))
+ - **FEAT**: update dependencies. ([afc90fcc](https://github.com/ekasetiawans/flutter_background_service/commit/afc90fcc07b39954147dd24915258c96863e573e))
+ - **FEAT**: managed with melos. ([2313273a](https://github.com/ekasetiawans/flutter_background_service/commit/2313273a3e728e37e2fb973ccc146841c8af48da))
+ - **DOCS**: updated README.md. ([9345b16f](https://github.com/ekasetiawans/flutter_background_service/commit/9345b16f7c69e7acac1ea5d8a5985b97092a1220))
+ - **DOCS**: updated README. ([f9e96ab4](https://github.com/ekasetiawans/flutter_background_service/commit/f9e96ab4978f348342703cf1de011bc59f6b9e4c))
+ - **DOCS**: update README. ([5fc18ced](https://github.com/ekasetiawans/flutter_background_service/commit/5fc18ced43cc7fc1df3209eaa21ef9d424d41779))
+ - **DOCS**: add documentation on configure method. ([b9612afe](https://github.com/ekasetiawans/flutter_background_service/commit/b9612afe593e766e740c69ee01a04b4f9d2ec83a))
+ - **DOCS**: update FAQ. ([53215976](https://github.com/ekasetiawans/flutter_background_service/commit/532159768bc4a14701940c8166440bb1940aa1b5))
+ - **DOCS**: update license. ([0c17e5de](https://github.com/ekasetiawans/flutter_background_service/commit/0c17e5dee091daa622470c8e3ba16c22ae03f8b3))
+ - **DOCS**: updated README. ([2fc9ae66](https://github.com/ekasetiawans/flutter_background_service/commit/2fc9ae66f5538ab45f3690cdaee94f89b31f16e2))
+ - **DOCS**: update example project for custom notification. ([d1e90d86](https://github.com/ekasetiawans/flutter_background_service/commit/d1e90d864d281747ab40170e22d91601b29927a6))
+ - **DOCS**: update README. ([caf8125c](https://github.com/ekasetiawans/flutter_background_service/commit/caf8125cf557b009e06995fcc7ea8a006eba3dae))
+ - **DOCS**: update README. ([88917672](https://github.com/ekasetiawans/flutter_background_service/commit/88917672c617b47691f71f964ee7ff8bd9f1d6f3))
+ - **DOCS**: change method name. ([9f05e7f6](https://github.com/ekasetiawans/flutter_background_service/commit/9f05e7f6a260d8f63788cb21e8e7c2cdc91769eb))
+ - **BREAKING** **FEAT**: updated dependency constraints. ([97ef7977](https://github.com/ekasetiawans/flutter_background_service/commit/97ef7977ff9a2cb31b1e29593b3a9cc725d89e27))
+ - **BREAKING** **FEAT**: implement new concept. ([c8ce9c0b](https://github.com/ekasetiawans/flutter_background_service/commit/c8ce9c0bab82137dea031af124b84510286661f7))
+
+#### `flutter_background_service_android` - `v6.0.0`
+
+ - **REFACTOR**: improve android performances. ([13f73a86](https://github.com/ekasetiawans/flutter_background_service/commit/13f73a86e9c1cc0c5fc46a757992e24219d03715))
+ - **REFACTOR**: remove unused methods. ([ea79ceda](https://github.com/ekasetiawans/flutter_background_service/commit/ea79cedac08089a3d6dafb8d7c785d73b753f80c))
+ - **REFACTOR**: refactor java code. ([d7db0c09](https://github.com/ekasetiawans/flutter_background_service/commit/d7db0c092dcfc0af0bb8f1175ea82f3f0ccfe908))
+ - **REFACTOR**: initialize melos. ([00bf06da](https://github.com/ekasetiawans/flutter_background_service/commit/00bf06da1ca1f4554edaabbd108c59f34b02c611))
+ - **PERF**: improve entrypoint with args. ([5abacbe5](https://github.com/ekasetiawans/flutter_background_service/commit/5abacbe57f239d9ce1667e643d81d6b17f873f5c))
+ - **PERF**: using exact alarm for watchdog receiver. ([6dba6670](https://github.com/ekasetiawans/flutter_background_service/commit/6dba6670965a24b9b0657ad0abc793db850a982b))
+ - **PERF**: improve android background service. ([e01a3fa2](https://github.com/ekasetiawans/flutter_background_service/commit/e01a3fa2938479f31a525c23ff888c03b496fa70))
+ - **FIX**: We still need to check service is running or not. ([280a603e](https://github.com/ekasetiawans/flutter_background_service/commit/280a603ee4fff39e2d0d0cd043dd6ba6f0941ee1))
+ - **FIX**: Issue created by [#336](https://github.com/ekasetiawans/flutter_background_service/issues/336). ([6fedeed2](https://github.com/ekasetiawans/flutter_background_service/commit/6fedeed253d2648d876b9a2e3e5a30967934a81a))
+ - **FIX**: added proguard for android plugin. ([0d7ac8a6](https://github.com/ekasetiawans/flutter_background_service/commit/0d7ac8a698b339af5931cb3b3e18c4b7f2e2670f))
+ - **FIX**: make final variable for backward compatibility of gradle. ([d7087ba0](https://github.com/ekasetiawans/flutter_background_service/commit/d7087ba07a580e7d16d4e416cde43ddfb531e664))
+ - **FIX**: using Runnable instead of lambda. ([9cda867d](https://github.com/ekasetiawans/flutter_background_service/commit/9cda867d8f2dc84cf1f7f112a3e87b1fa7dc1d3d))
+ - **FIX**: wakelock not released. ([e427f3b7](https://github.com/ekasetiawans/flutter_background_service/commit/e427f3b70138ec26f9671c2617f9061f25eade6f))
+ - **FIX**: autoStartOnBootMode [#160](https://github.com/ekasetiawans/flutter_background_service/issues/160). ([16a785a3](https://github.com/ekasetiawans/flutter_background_service/commit/16a785a3cbcb4226321ddddf681b6554196fa4db))
+ - **FIX**: release wakelock. ([c0830250](https://github.com/ekasetiawans/flutter_background_service/commit/c0830250b90a1ba6e2543a1bb25a13fba59a56b7))
+ - **FIX**: errors. ([13a6f841](https://github.com/ekasetiawans/flutter_background_service/commit/13a6f841f5d677ceb0010e8ba1bf9d7af53adbcf))
+ - **FEAT**: added QUICKBOOT_POWERON action to intent-filter. ([46f08173](https://github.com/ekasetiawans/flutter_background_service/commit/46f08173cfb54795fb707bd521d8ed94db75cad5))
+ - **FEAT**: revert to single process. ([515dde6a](https://github.com/ekasetiawans/flutter_background_service/commit/515dde6a49e50087c6f613ff0de8e1bd111a315b))
+ - **FEAT**: move android service to separated process. ([bd2e6f07](https://github.com/ekasetiawans/flutter_background_service/commit/bd2e6f075ea8a7db231c7586b8f6244bb0399ff4))
+ - **FEAT**(android): expose notification id for foreground service. ([47b7089c](https://github.com/ekasetiawans/flutter_background_service/commit/47b7089c5e4ab18f3a35558d6c7ec2d50fc8d3f1))
+ - **FEAT**: using entrypoint instead of dart callback and added initial notification info for android. ([b0fc8f32](https://github.com/ekasetiawans/flutter_background_service/commit/b0fc8f32d59fa582c37fcd6e2349fab32aac245b))
+ - **FEAT**: migrate to plugin platform interface. ([70e08ff0](https://github.com/ekasetiawans/flutter_background_service/commit/70e08ff03232c31946cc8eb7896f69c830f23322))
+ - **DOCS**: update license. ([0c17e5de](https://github.com/ekasetiawans/flutter_background_service/commit/0c17e5dee091daa622470c8e3ba16c22ae03f8b3))
+ - **DOCS**: readme link. ([1479b91c](https://github.com/ekasetiawans/flutter_background_service/commit/1479b91cd80d637335de1314a528bcf51ebb7c0f))
+ - **DOCS**: update README. ([fbf5e0ab](https://github.com/ekasetiawans/flutter_background_service/commit/fbf5e0abeeb9296ba32361b8af0a298ee9e71527))
+ - **BREAKING** **FEAT**: updated dependency constraints. ([97ef7977](https://github.com/ekasetiawans/flutter_background_service/commit/97ef7977ff9a2cb31b1e29593b3a9cc725d89e27))
+ - **BREAKING** **FEAT**: autoStartOnBoot now using it's own argument. ([036669dc](https://github.com/ekasetiawans/flutter_background_service/commit/036669dc4383e938f09f88d9d8a248afbf918cf8))
+ - **BREAKING** **FEAT**: implement new concept. ([c8ce9c0b](https://github.com/ekasetiawans/flutter_background_service/commit/c8ce9c0bab82137dea031af124b84510286661f7))
+
+#### `flutter_background_service_ios` - `v5.0.0`
+
+ - **REFACTOR**: remove unused methods. ([ea79ceda](https://github.com/ekasetiawans/flutter_background_service/commit/ea79cedac08089a3d6dafb8d7c785d73b753f80c))
+ - **REFACTOR**: split code into separate class. ([678226ba](https://github.com/ekasetiawans/flutter_background_service/commit/678226ba08966303713faa718f5a9b46e448c5d1))
+ - **REFACTOR**: update BGTaskScheduler flow. ([414bb21b](https://github.com/ekasetiawans/flutter_background_service/commit/414bb21b4d0af6112491fb81ee3246b7ef8a5c5b))
+ - **REFACTOR**: initialize melos. ([00bf06da](https://github.com/ekasetiawans/flutter_background_service/commit/00bf06da1ca1f4554edaabbd108c59f34b02c611))
+ - **PERF**: improve handle app refresh ios. ([48e333d7](https://github.com/ekasetiawans/flutter_background_service/commit/48e333d708cb8296c8e6bf1bb151c7cbd95ea7ee))
+ - **PERF**: cancel old schedule. ([bfca5773](https://github.com/ekasetiawans/flutter_background_service/commit/bfca577324345f64faca562e32bad42ed16e92b4))
+ - **FIX**: ios onBackground. ([0b1101be](https://github.com/ekasetiawans/flutter_background_service/commit/0b1101befa66f5d1f200c6a999f7e55c876f2a10))
+ - **FIX**: ios onBackground. ([4eb6b70d](https://github.com/ekasetiawans/flutter_background_service/commit/4eb6b70d005d43079fa53989a1352ae153ea03ae))
+ - **FIX**: handle null safety. ([77513387](https://github.com/ekasetiawans/flutter_background_service/commit/775133879a1693154cf14181c3ac780aa7001710))
+ - **FIX**: added pragma vm:entry-point to ios. ([7b44a2a4](https://github.com/ekasetiawans/flutter_background_service/commit/7b44a2a4ae977bd723874900eca689435989cfcd))
+ - **FIX**: swift compile error. ([b75128ad](https://github.com/ekasetiawans/flutter_background_service/commit/b75128ad3100b4e505e4a3f8a037b07b9be547ad))
+ - **FIX**: errors. ([13a6f841](https://github.com/ekasetiawans/flutter_background_service/commit/13a6f841f5d677ceb0010e8ba1bf9d7af53adbcf))
+ - **FIX**: podspec. ([b46f9a3f](https://github.com/ekasetiawans/flutter_background_service/commit/b46f9a3f425f66e6bda34650e713da299f922a73))
+ - **FEAT**: onForeground and onBackground now optional. ([9dfcc4d4](https://github.com/ekasetiawans/flutter_background_service/commit/9dfcc4d4f4fea0f3b8ca0fbb47e3d127af3bc68d))
+ - **FEAT**: allow using custom task identifier. ([555a0618](https://github.com/ekasetiawans/flutter_background_service/commit/555a06182230c126c7f0a43f6e94317e62ccb6c3))
+ - **FEAT**: using entrypoint instead of dart callback and added initial notification info for android. ([b0fc8f32](https://github.com/ekasetiawans/flutter_background_service/commit/b0fc8f32d59fa582c37fcd6e2349fab32aac245b))
+ - **FEAT**: automatically register plugins. ([3a0d0d53](https://github.com/ekasetiawans/flutter_background_service/commit/3a0d0d53110cdaf92caf4f329cd80034121c9ea6))
+ - **FEAT**: migrate to plugin platform interface. ([70e08ff0](https://github.com/ekasetiawans/flutter_background_service/commit/70e08ff03232c31946cc8eb7896f69c830f23322))
+ - **DOCS**: update license. ([0c17e5de](https://github.com/ekasetiawans/flutter_background_service/commit/0c17e5dee091daa622470c8e3ba16c22ae03f8b3))
+ - **DOCS**: readme link. ([1479b91c](https://github.com/ekasetiawans/flutter_background_service/commit/1479b91cd80d637335de1314a528bcf51ebb7c0f))
+ - **DOCS**: update README. ([fbf5e0ab](https://github.com/ekasetiawans/flutter_background_service/commit/fbf5e0abeeb9296ba32361b8af0a298ee9e71527))
+ - **BREAKING** **FEAT**: updated dependency constraints. ([97ef7977](https://github.com/ekasetiawans/flutter_background_service/commit/97ef7977ff9a2cb31b1e29593b3a9cc725d89e27))
+ - **BREAKING** **FEAT**: implement new concept. ([c8ce9c0b](https://github.com/ekasetiawans/flutter_background_service/commit/c8ce9c0bab82137dea031af124b84510286661f7))
+
+#### `flutter_background_service_platform_interface` - `v5.0.0`
+
+ - **REFACTOR**: refactor java code. ([d7db0c09](https://github.com/ekasetiawans/flutter_background_service/commit/d7db0c092dcfc0af0bb8f1175ea82f3f0ccfe908))
+ - **REFACTOR**: initialize melos. ([00bf06da](https://github.com/ekasetiawans/flutter_background_service/commit/00bf06da1ca1f4554edaabbd108c59f34b02c611))
+ - **FIX**: remove duplicated properties. ([891c2029](https://github.com/ekasetiawans/flutter_background_service/commit/891c20291df9612810035219af98d732d99d200c))
+ - **FIX**: missing foregroundServiceNotificationId. ([e49f6137](https://github.com/ekasetiawans/flutter_background_service/commit/e49f613726120f144b04e2246c43360756d57e5b))
+ - **FIX**: errors. ([13a6f841](https://github.com/ekasetiawans/flutter_background_service/commit/13a6f841f5d677ceb0010e8ba1bf9d7af53adbcf))
+ - **FIX**: method channel. ([1a1e3527](https://github.com/ekasetiawans/flutter_background_service/commit/1a1e3527465a4ede4c188b4e1aa51ce552e697c1))
+ - **FEAT**: Updated configs. ([7af1961d](https://github.com/ekasetiawans/flutter_background_service/commit/7af1961def1625d7a5314812c1f794e327f53ce7))
+ - **FEAT**: using entrypoint instead of dart callback and added initial notification info for android. ([b0fc8f32](https://github.com/ekasetiawans/flutter_background_service/commit/b0fc8f32d59fa582c37fcd6e2349fab32aac245b))
+ - **DOCS**: update license. ([0c17e5de](https://github.com/ekasetiawans/flutter_background_service/commit/0c17e5dee091daa622470c8e3ba16c22ae03f8b3))
+ - **DOCS**: readme link. ([1479b91c](https://github.com/ekasetiawans/flutter_background_service/commit/1479b91cd80d637335de1314a528bcf51ebb7c0f))
+ - **DOCS**: update README. ([fbf5e0ab](https://github.com/ekasetiawans/flutter_background_service/commit/fbf5e0abeeb9296ba32361b8af0a298ee9e71527))
+ - **BREAKING** **FEAT**: updated dependency constraints. ([97ef7977](https://github.com/ekasetiawans/flutter_background_service/commit/97ef7977ff9a2cb31b1e29593b3a9cc725d89e27))
+ - **BREAKING** **FEAT**: introduce ServiceInstance. ([425279b0](https://github.com/ekasetiawans/flutter_background_service/commit/425279b09378fbcd8e66295ce526f2c4f15d741c))
+ - **BREAKING** **CHANGE**: supported only flutter 2.0.0 and newer. ([be0c32f8](https://github.com/ekasetiawans/flutter_background_service/commit/be0c32f8200dcce44ddce67461c333d6d0ef287c))
+
+
 ## 2023-08-07
 
 ### Changes
