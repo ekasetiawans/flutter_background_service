@@ -11,7 +11,7 @@ public class Config {
     }
 
     public boolean isAutoStartOnBoot() {
-        return pref.getBoolean("auto_start_on_boot", true);
+        return pref.getBoolean("auto_start_on_boot", false);
     }
 
     public void setAutoStartOnBoot(boolean value) {
@@ -21,7 +21,7 @@ public class Config {
     }
 
     public boolean isForeground() {
-        return pref.getBoolean("is_foreground", true);
+        return pref.getBoolean("is_foreground", false);
     }
 
     public void setIsForeground(boolean value) {
