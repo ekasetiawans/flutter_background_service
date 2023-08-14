@@ -1,3 +1,7 @@
+## 6.0.1
+
+ - **FIX**: service do not connect to dart side after destroy by xiaomi boost memory. ([a04d3a75](https://github.com/ekasetiawans/flutter_background_service/commit/a04d3a75ca0a8e4683802b0a01e41b0dd50ba37b))
+
 ## 6.0.0
 
 > Note: This release has breaking changes.
