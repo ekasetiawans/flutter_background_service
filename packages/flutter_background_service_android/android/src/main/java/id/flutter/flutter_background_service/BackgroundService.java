@@ -101,6 +101,7 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
         notificationContent = config.getInitialNotificationContent();
         notificationId = config.getForegroundNotificationId();
         updateNotificationInfo();
+        onStartCommand(null, -1, -1);
     }
 
     @Override
