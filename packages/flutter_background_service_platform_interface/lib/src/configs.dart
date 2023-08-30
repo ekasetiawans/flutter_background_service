@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service_platform_interface/flutter_background_service_platform_interface.dart';
+//changed
 
 class IosConfiguration {
   /// must be a top level or static method
