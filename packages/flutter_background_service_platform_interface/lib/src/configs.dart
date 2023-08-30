@@ -1,11 +1,12 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_background_service_platform_interface/flutter_background_service_platform_interface.dart';
 
 class IosConfiguration {
   /// must be a top level or static method
   /// this method will be executed when app is in foreground
-  final Function(ServiceInstance service)? onForeground;
+  final Function(ServiceInstance service, BuildContext context)? onForeground;
 
   /// must be a top level or static method
   /// this method will be executed by background fetch
