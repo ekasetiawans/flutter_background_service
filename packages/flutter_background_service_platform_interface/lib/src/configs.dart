@@ -26,7 +26,7 @@ class IosConfiguration {
 
 class AndroidConfiguration {
   /// must be a top level or static method
-  final Function(ServiceInstance service) onStart;
+  final Function(ServiceInstance service, BuildContext context) onStart;
 
   /// whether service can start automatically after configure
   final bool autoStart;
