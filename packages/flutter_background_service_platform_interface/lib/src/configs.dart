@@ -5,7 +5,7 @@ import 'package:flutter_background_service_platform_interface/flutter_background
 class IosConfiguration {
   /// must be a top level or static method
   /// this method will be executed when app is in foreground
-  final Function(ServiceInstance service)? onForeground;
+  final Function(ServiceInstance service,BuildContext context)? onForeground;
 
   /// must be a top level or static method
   /// this method will be executed by background fetch
