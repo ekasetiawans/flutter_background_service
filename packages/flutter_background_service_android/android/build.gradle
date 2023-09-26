@@ -8,7 +8,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.1.2'
+        classpath 'com.android.tools.build:gradle:7.4.2'
     }
 }
 
@@ -22,8 +22,8 @@ rootProject.allprojects {
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 33
-
+    compileSdkVersion 34
+    namespace = "id.flutter.flutter_background_service"
     defaultConfig {
         minSdkVersion 16
         consumerProguardFiles 'proguard-rules.pro'
