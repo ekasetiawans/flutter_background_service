@@ -39,7 +39,6 @@ Future<void> initializeService() async {
     );
   }
 
-
   await flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin>()
@@ -70,8 +69,6 @@ Future<void> initializeService() async {
       onBackground: onIosBackground,
     ),
   );
-
-  service.startService();
 }
 
 // to ensure this is executed
