@@ -317,6 +317,26 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
                 }
                 return;
             }
+
+            if(method.equalsIgnoreCase("openApp")){
+                try{
+                    String packageName=  getPackageName();
+                    Intent launchIntent= getPackageManager().getLaunchIntentForPackage(packageName);
+                    if (launchIntent != null) {
+                        launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        launchIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+                        startActivity(launchIntent);
+                        result.success(true);
+
+                    }
+                }catch (Exception e){
+                    result.error("open app failure", e.getMessage(),e);
+
+                }
+                return;
+
+            }
         } catch (JSONException e) {
             Log.e(TAG, e.getMessage());
             e.printStackTrace();
