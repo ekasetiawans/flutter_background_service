@@ -222,4 +222,9 @@ class AndroidServiceInstance extends ServiceInstance {
       "value": value,
     });
   }
+
+  Future<bool> openApp() async {
+    final result = await _channel.invokeMethod('openApp');
+    return result ?? false;
+  }
 }
