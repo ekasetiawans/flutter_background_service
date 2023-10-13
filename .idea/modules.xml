@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/packages/flutter_background_service/example/melos_example.iml" filepath="$PROJECT_DIR$/packages/flutter_background_service/example/melos_example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/packages/flutter_background_service/melos_flutter_background_service.iml" filepath="$PROJECT_DIR$/packages/flutter_background_service/melos_flutter_background_service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/packages/flutter_background_service_android/melos_flutter_background_service_android.iml" filepath="$PROJECT_DIR$/packages/flutter_background_service_android/melos_flutter_background_service_android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/packages/flutter_background_service_ios/melos_flutter_background_service_ios.iml" filepath="$PROJECT_DIR$/packages/flutter_background_service_ios/melos_flutter_background_service_ios.iml" />
+      <module fileurl="file://$PROJECT_DIR$/packages/flutter_background_service_platform_interface/melos_flutter_background_service_platform_interface.iml" filepath="$PROJECT_DIR$/packages/flutter_background_service_platform_interface/melos_flutter_background_service_platform_interface.iml" />
+      <module fileurl="file://$PROJECT_DIR$/melos_flutter_background_service.iml" filepath="$PROJECT_DIR$/melos_flutter_background_service.iml" />
+    </modules>
+  </component>
+</project>
