@@ -16,7 +16,7 @@ dependencies:
 
   flutter_background_service_platform_interface: ^5.0.0
   flutter_background_service_android:
-    path: flutter_background_service_android
+    path: packages/flutter_background_service_android
   flutter_background_service_ios: ^5.0.0
 dev_dependencies:
   flutter_test:
