@@ -66,10 +66,14 @@ public class WatchdogReceiver extends BroadcastReceiver {
             }
 
             if (!config.isManuallyStopped() && !isRunning) {
-                if (config.isForeground()) {
-                    ContextCompat.startForegroundService(context, new Intent(context, BackgroundService.class));
-                } else {
-                    context.startService(new Intent(context, BackgroundService.class));
+                try {
+                    if (config.isForeground()) {
+                        ContextCompat.startForegroundService(context, new Intent(context, id.flutter.flutter_background_service.BackgroundService.class));
+                    } else {
+                        context.getApplicationContext().startService(new Intent(context, id.flutter.flutter_background_service.BackgroundService.class));
+                    }}
+                catch (Exception e){
+                    e.printStackTrace();
                 }
             }
         }
