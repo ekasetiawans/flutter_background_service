@@ -18,7 +18,7 @@ dependencies:
   flutter_background_service_android:
     git:
       url: https://github.com/ekasetiawans/flutter_background_service.git
-      ref: a4873564c3ad8d157ae1af8aa9f260f1db62a969
+      ref: 37200c0086ffd0284ffb18b033ef90e499536d28
       path: packages/flutter_background_service_android
   flutter_background_service_ios: ^5.0.0
 dev_dependencies:
