@@ -1,3 +1,7 @@
+## 6.1.0
+
+ - **FEAT**: throw an error if using FlutterBackgroundService class in worker isolate. ([d09843f8](https://github.com/ekasetiawans/flutter_background_service/commit/d09843f82a6d4a9ef19529ab27701ab68f68ee7c))
+
 ## 6.0.1
 
  - **FIX**: service do not connect to dart side after destroy by xiaomi boost memory. ([a04d3a75](https://github.com/ekasetiawans/flutter_background_service/commit/a04d3a75ca0a8e4683802b0a01e41b0dd50ba37b))
