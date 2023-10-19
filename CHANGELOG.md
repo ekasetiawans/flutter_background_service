@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-10-19
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`flutter_background_service_android` - `v6.1.0`](#flutter_background_service_android---v610)
+ - [`flutter_background_service` - `v5.0.2`](#flutter_background_service---v502)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `flutter_background_service` - `v5.0.2`
+
+---
+
+#### `flutter_background_service_android` - `v6.1.0`
+
+ - **FEAT**: throw an error if using FlutterBackgroundService class in worker isolate. ([d09843f8](https://github.com/ekasetiawans/flutter_background_service/commit/d09843f82a6d4a9ef19529ab27701ab68f68ee7c))
+
+
 ## 2023-08-14
 
 ### Changes
