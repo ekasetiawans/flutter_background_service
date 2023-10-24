@@ -1,0 +1,49 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Pub
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Prepare credentials
+        run: |
+          mkdir ~/.config/dart
+          echo ${{ secrets.PUB_CREDENTIAL }} | base64 --decode > ~/.config/dart/pub-credentials.json
+      - name: Setup git
+        run: |
+          git config --local user.email "mr.poetra22@gmail.com"
+          git config --local user.name "Eka Setiawan Saputra"
+      - name: Install Flutter
+        id: install
+        continue-on-error: true
+        uses: subosito/flutter-action@v1
+        with:
+          channel: "stable"
+      - name: 'Get Dependencies'
+        run: flutter pub get
+      - name: 'Install melos'
+        run: dart pub global activate melos
+      - name: 'Update versions'
+        run: melos version --yes
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GIT_PAT }}
+          branch: master
+          tags: true
+
+      - name: 'Publish to pub.dev'
+        run: melos publish --no-dry-run -y

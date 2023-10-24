@@ -6,6 +6,7 @@ import static android.os.Build.VERSION.SDK_INT;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -53,9 +54,18 @@ public class WatchdogReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (intent.getAction().equals(ACTION_RESPAWN)){
+        if (intent.getAction().equals(ACTION_RESPAWN)) {
             final Config config = new Config(context);
-            if (!config.isManuallyStopped()) {
+            boolean isRunning = false;
+
+            ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+            for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+                if (BackgroundService.class.getName().equals(service.service.getClassName())) {
+                    isRunning = true;
+                }
+            }
+
+            if (!config.isManuallyStopped() && !isRunning) {
                 if (config.isForeground()) {
                     ContextCompat.startForegroundService(context, new Intent(context, BackgroundService.class));
                 } else {

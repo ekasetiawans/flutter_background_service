@@ -7,9 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_background_service_platform_interface/flutter_background_service_platform_interface.dart';
 
+bool _isMainIsolate = true;
+
 @pragma('vm:entry-point')
 Future<void> entrypoint(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
+  _isMainIsolate = false;
+
   final service = AndroidServiceInstance._();
   final int handle = int.parse(args.first);
   final callbackHandle = CallbackHandle.fromRawHandle(handle);
@@ -29,7 +33,16 @@ class FlutterBackgroundServiceAndroid extends FlutterBackgroundServicePlatform {
   FlutterBackgroundServiceAndroid._();
   static final FlutterBackgroundServiceAndroid _instance =
       FlutterBackgroundServiceAndroid._();
-  factory FlutterBackgroundServiceAndroid() => _instance;
+
+  factory FlutterBackgroundServiceAndroid() {
+    if (!_isMainIsolate) {
+      throw Exception(
+        "This class should only be used in the main isolate (UI App)",
+      );
+    }
+
+    return _instance;
+  }
 
   Future<void> _handleMethodCall(MethodCall call) async {
     debugPrint(call.method);
@@ -208,5 +221,10 @@ class AndroidServiceInstance extends ServiceInstance {
     await _channel.invokeMethod("setAutoStartOnBootMode", {
       "value": value,
     });
+  }
+
+  Future<bool> openApp() async {
+    final result = await _channel.invokeMethod('openApp');
+    return result ?? false;
   }
 }

@@ -21,7 +21,7 @@ public class Config {
     }
 
     public boolean isForeground() {
-        return pref.getBoolean("is_foreground", true);
+        return pref.getBoolean("is_foreground", false);
     }
 
     public void setIsForeground(boolean value) {
