@@ -11,6 +11,7 @@ import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ServiceInfo;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
@@ -22,6 +23,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.ServiceCompat;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -166,7 +168,11 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
                     .setContentText(notificationContent)
                     .setContentIntent(pi);
 
-            startForeground(notificationId, mBuilder.build());
+            try {
+              ServiceCompat.startForeground(this, notificationId, mBuilder.build(), ServiceInfo.FOREGROUND_SERVICE_TYPE_MANIFEST);
+            } catch (SecurityException e) {
+              Log.w(TAG, "Failed to start foreground service due to SecurityException - have you forgotten to request a permission? - " + e.getMessage());
+            }
         }
     }
 

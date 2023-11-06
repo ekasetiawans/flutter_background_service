@@ -6,7 +6,6 @@ A flutter plugin for execute dart code in background.
 
 ## Android
 
-- No additional setting is required.
 - To change notification icon, just add drawable icon with name `ic_bg_service_small`.
 
 > **WARNING**:
@@ -14,6 +13,43 @@ A flutter plugin for execute dart code in background.
 > Please make sure your project already use the version of gradle tools below:
 > - in android/build.gradle ```classpath 'com.android.tools.build:gradle:7.1.2'```
 > - in android/gradle/wrapper/gradle-wrapper.properties ```distributionUrl=https\://services.gradle.org/distributions/gradle-7.4-all.zip```
+
+### Configuration required for Foreground Services on Android 14 (SDK 34)
+
+Applications that target SDK 34 and use foreground services need to include some additional configuration to declare the type of foreground service they use:
+
+* Determine the type of foreground service your app requires by consulting [the documentation](https://developer.android.com/about/versions/14/changes/fgs-types-required)
+* Update your `android/app/build.gradle` file to set the manifest placeholder to the value to use for `android:foregroundServiceType`:
+
+```gradle
+android {
+    ...
+
+    defaultConfig {
+        ...
+        // Replace this with the value to use for android:foregroundServiceType
+        // eg 'camera', 'connectedDevice', 'location', etc
+        manifestPlaceholders['foregroundServiceType'] = '...'
+    }
+}
+```
+
+* Add the corresponding permission to your `android/app/src/main/AndroidManifest.xml` file:
+
+```xml
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" package="com.example">
+  ...
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+  <!--
+    Permission to use here depends on the value you picked for foregroundServiceType - see the Android documentation.
+    Eg, if you picked 'location', use 'android.permission.FOREGROUND_SERVICE_LOCATION'
+  -->
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE_..." />
+  ...
+</manifest>
+```
+
+* Consult the documentation to determine if there are runtime permissions you need to request before you can start the service
 
 ### Using custom notification for Foreground Service
 You can make your own custom notification for foreground service. It can give you more power to make notifications more attractive to users, for example adding progressbars, buttons, actions, etc. The example below is using [flutter_local_notifications](https://pub.dev/packages/flutter_local_notifications) plugin, but you can use any other notification plugin. You can follow how to make it below:
