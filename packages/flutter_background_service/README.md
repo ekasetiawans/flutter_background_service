@@ -27,7 +27,9 @@ android {
 
     defaultConfig {
         ...
-        manifestPlaceholders['foregroundServiceType'] = 'connectedDevice'
+        // Replace this with the value to use for android:foregroundServiceType
+        // eg 'camera', 'connectedDevice', 'location', etc
+        manifestPlaceholders['foregroundServiceType'] = '...'
     }
 }
 ```
@@ -37,7 +39,12 @@ android {
 ```xml
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" package="com.example">
   ...
-  <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CONNECTED_DEVICE" />
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+  <!--
+    Permission to use here depends on the value you picked for foregroundServiceType - see the Android documentation.
+    Eg, if you picked 'location', use 'android.permission.FOREGROUND_SERVICE_LOCATION'
+  -->
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE_..." />
   ...
 </manifest>
 ```
