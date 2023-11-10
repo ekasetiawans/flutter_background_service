@@ -122,9 +122,9 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
             backgroundEngine = null;
         }
 
+        FlutterBackgroundServicePlugin.servicePipe.removeListener(listener);
         methodChannel = null;
         dartEntrypoint = null;
-        FlutterBackgroundServicePlugin.servicePipe.removeListener(listener);
         super.onDestroy();
     }
 
