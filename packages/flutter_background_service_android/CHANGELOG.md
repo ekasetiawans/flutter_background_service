@@ -1,3 +1,8 @@
+## 6.2.1
+
+ - **FIX**: checks methodChanel's nullabilty inside MainHandler.post. ([cd0d098f](https://github.com/ekasetiawans/flutter_background_service/commit/cd0d098f76fb9e211ab5db1a08f19cfd21827b30))
+ - **FIX**: removes listener before turn methodChannel null. ([7909b51c](https://github.com/ekasetiawans/flutter_background_service/commit/7909b51cafbf6e79ad0f875e73889ad1b2b5fc34))
+
 ## 6.2.0
 
  - **FEAT**: throw an error if using FlutterBackgroundService class in worker isolate. ([9a5732ce](https://github.com/ekasetiawans/flutter_background_service/commit/9a5732cef65ce5b33e699569cd88c98521c002ac))
