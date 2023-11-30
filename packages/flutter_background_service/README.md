@@ -11,28 +11,15 @@ A flutter plugin for execute dart code in background.
 > **WARNING**:
 >
 > Please make sure your project already use the version of gradle tools below:
-> - in android/build.gradle ```classpath 'com.android.tools.build:gradle:7.1.2'```
-> - in android/gradle/wrapper/gradle-wrapper.properties ```distributionUrl=https\://services.gradle.org/distributions/gradle-7.4-all.zip```
+> - in android/build.gradle ```classpath 'com.android.tools.build:gradle:7.4.2'```
+> - in android/build.gradle ```ext.kotlin_version = '1.8.10'```
+> - in android/gradle/wrapper/gradle-wrapper.properties ```distributionUrl=https\://services.gradle.org/distributions/gradle-7.5-all.zip```
 
 ### Configuration required for Foreground Services on Android 14 (SDK 34)
 
 Applications that target SDK 34 and use foreground services need to include some additional configuration to declare the type of foreground service they use:
 
 * Determine the type of foreground service your app requires by consulting [the documentation](https://developer.android.com/about/versions/14/changes/fgs-types-required)
-* Update your `android/app/build.gradle` file to set the manifest placeholder to the value to use for `android:foregroundServiceType`:
-
-```gradle
-android {
-    ...
-
-    defaultConfig {
-        ...
-        // Replace this with the value to use for android:foregroundServiceType
-        // eg 'camera', 'connectedDevice', 'location', etc
-        manifestPlaceholders['foregroundServiceType'] = '...'
-    }
-}
-```
 
 * Add the corresponding permission to your `android/app/src/main/AndroidManifest.xml` file:
 
@@ -45,11 +32,33 @@ android {
     Eg, if you picked 'location', use 'android.permission.FOREGROUND_SERVICE_LOCATION'
   -->
   <uses-permission android:name="android.permission.FOREGROUND_SERVICE_..." />
+  <application
+        android:label="example"
+        android:name="${applicationName}"
+        android:icon="@mipmap/ic_launcher"
+        ...>
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            ...>
+
+        <!--Add this-->
+        <service
+            android:name="id.flutter.flutter_background_service.BackgroundService"
+            android:foregroundServiceType="WhatForegroundServiceTypeDoYouWant"
+        />
+        <!--end-->
+
+        ...
   ...
+  </application>
 </manifest>
 ```
 
-* Consult the documentation to determine if there are runtime permissions you need to request before you can start the service
+> **WARNING**:
+> * YOU MUST MAKE SURE ANY REQUIRED PERMISSIONS TO BE GRANTED BEFORE YOU START THE SERVICE
+
 
 ### Using custom notification for Foreground Service
 You can make your own custom notification for foreground service. It can give you more power to make notifications more attractive to users, for example adding progressbars, buttons, actions, etc. The example below is using [flutter_local_notifications](https://pub.dev/packages/flutter_local_notifications) plugin, but you can use any other notification plugin. You can follow how to make it below:
