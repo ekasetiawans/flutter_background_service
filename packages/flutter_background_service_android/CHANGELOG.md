@@ -1,3 +1,7 @@
+## 6.2.2
+
+ - **FIX**: android build error. ([8102e015](https://github.com/ekasetiawans/flutter_background_service/commit/8102e01563b967cea588a09b8a9773fc56b0dd2c))
+
 ## 6.2.1
 
  - **FIX**: checks methodChanel's nullabilty inside MainHandler.post. ([cd0d098f](https://github.com/ekasetiawans/flutter_background_service/commit/cd0d098f76fb9e211ab5db1a08f19cfd21827b30))

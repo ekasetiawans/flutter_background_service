@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-11-30
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`flutter_background_service` - `v5.0.5`](#flutter_background_service---v505)
+ - [`flutter_background_service_android` - `v6.2.2`](#flutter_background_service_android---v622)
+
+---
+
+#### `flutter_background_service` - `v5.0.5`
+
+ - **FIX**: android build error. ([8102e015](https://github.com/ekasetiawans/flutter_background_service/commit/8102e01563b967cea588a09b8a9773fc56b0dd2c))
+
+#### `flutter_background_service_android` - `v6.2.2`
+
+ - **FIX**: android build error. ([8102e015](https://github.com/ekasetiawans/flutter_background_service/commit/8102e01563b967cea588a09b8a9773fc56b0dd2c))
+
+
 ## 2023-11-18
 
 ### Changes
