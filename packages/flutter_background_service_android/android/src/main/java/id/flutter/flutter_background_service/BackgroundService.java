@@ -155,7 +155,7 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
             Intent i = getPackageManager().getLaunchIntentForPackage(packageName);
 
             int flags = PendingIntent.FLAG_CANCEL_CURRENT;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (SDK_INT >= Build.VERSION_CODES.S) {
                 flags |= PendingIntent.FLAG_MUTABLE;
             }
 
@@ -169,7 +169,7 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
                     .setContentIntent(pi);
 
             try {
-              ServiceCompat.startForeground(this, notificationId, mBuilder.build(), ServiceInfo.FOREGROUND_SERVICE_TYPE_MANIFEST);
+                ServiceCompat.startForeground(this, notificationId, mBuilder.build(), ServiceInfo.FOREGROUND_SERVICE_TYPE_MANIFEST);
             } catch (SecurityException e) {
               Log.w(TAG, "Failed to start foreground service due to SecurityException - have you forgotten to request a permission? - " + e.getMessage());
             }
