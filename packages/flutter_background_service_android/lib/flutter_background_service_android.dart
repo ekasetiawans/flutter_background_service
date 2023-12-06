@@ -12,7 +12,10 @@ bool _isMainIsolate = true;
 @pragma('vm:entry-point')
 Future<void> entrypoint(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
-  _isMainIsolate = false;
+
+  /// I have commented this line because it is causing issue on line 40, everytime we run the app. 
+  /// Related to issue #375.
+  // _isMainIsolate = false;
 
   final service = AndroidServiceInstance._();
   final int handle = int.parse(args.first);
