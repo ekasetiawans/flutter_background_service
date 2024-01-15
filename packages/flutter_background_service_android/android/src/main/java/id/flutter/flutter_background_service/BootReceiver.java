@@ -12,7 +12,7 @@ public class BootReceiver extends BroadcastReceiver {
     @SuppressLint("WakelockTimeout")
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED) || intent.getAction().equals("android.intent.action.QUICKBOOT_POWERON")) {
+        if (intent.getAction().equals(Intent.ACTION_MY_PACKAGE_REPLACED) || intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED) || intent.getAction().equals("android.intent.action.QUICKBOOT_POWERON")) {
             final Config config = new Config(context);
             boolean autoStart = config.isAutoStartOnBoot();
             if (autoStart) {
