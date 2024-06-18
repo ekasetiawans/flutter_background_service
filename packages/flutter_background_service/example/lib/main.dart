@@ -154,9 +154,7 @@ void onStart(ServiceInstance service) async {
     if (Platform.isAndroid) {
       final androidInfo = await deviceInfo.androidInfo;
       device = androidInfo.model;
-    }
-
-    if (Platform.isIOS) {
+    } else if (Platform.isIOS) {
       final iosInfo = await deviceInfo.iosInfo;
       device = iosInfo.model;
     }
@@ -211,43 +209,32 @@ class _MyAppState extends State<MyApp> {
             ),
             ElevatedButton(
               child: const Text("Foreground Mode"),
-              onPressed: () {
-                FlutterBackgroundService().invoke("setAsForeground");
-              },
+              onPressed: () =>
+                  FlutterBackgroundService().invoke("setAsForeground"),
             ),
             ElevatedButton(
               child: const Text("Background Mode"),
-              onPressed: () {
-                FlutterBackgroundService().invoke("setAsBackground");
-              },
+              onPressed: () =>
+                  FlutterBackgroundService().invoke("setAsBackground"),
             ),
             ElevatedButton(
               child: Text(text),
               onPressed: () async {
                 final service = FlutterBackgroundService();
                 var isRunning = await service.isRunning();
-                if (isRunning) {
-                  service.invoke("stopService");
-                } else {
-                  service.startService();
-                }
+                isRunning
+                    ? service.invoke("stopService")
+                    : service.startService();
 
-                if (!isRunning) {
-                  text = 'Stop Service';
-                } else {
-                  text = 'Start Service';
-                }
-                setState(() {});
+                setState(() {
+                  text = isRunning ? 'Start Service' : 'Stop Service';
+                });
               },
             ),
             const Expanded(
               child: LogView(),
             ),
           ],
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          child: const Icon(Icons.play_arrow),
         ),
       ),
     );
