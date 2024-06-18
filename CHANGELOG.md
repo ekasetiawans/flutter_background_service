@@ -3,6 +3,38 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-06-18
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`flutter_background_service_platform_interface` - `v5.1.0`](#flutter_background_service_platform_interface---v510)
+ - [`flutter_background_service` - `v5.0.6`](#flutter_background_service---v506)
+ - [`flutter_background_service_android` - `v6.2.3`](#flutter_background_service_android---v623)
+ - [`flutter_background_service_ios` - `v5.0.1`](#flutter_background_service_ios---v501)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `flutter_background_service` - `v5.0.6`
+ - `flutter_background_service_android` - `v6.2.3`
+ - `flutter_background_service_ios` - `v5.0.1`
+
+---
+
+#### `flutter_background_service_platform_interface` - `v5.1.0`
+
+ - **FEAT**: updated dependencies. ([e90ad787](https://github.com/ekasetiawans/flutter_background_service/commit/e90ad787b3a7b157aeeec3a45920839aafe2933d))
+
+
 ## 2023-11-30
 
 ### Changes

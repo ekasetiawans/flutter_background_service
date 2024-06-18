@@ -1,3 +1,7 @@
+## 5.0.6
+
+ - Update a dependency to the latest release.
+
 ## 5.0.5
 
  - **FIX**: android build error. ([8102e015](https://github.com/ekasetiawans/flutter_background_service/commit/8102e01563b967cea588a09b8a9773fc56b0dd2c))

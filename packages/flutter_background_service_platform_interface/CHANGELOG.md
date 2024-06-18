@@ -1,3 +1,7 @@
+## 5.1.0
+
+ - **FEAT**: updated dependencies. ([e90ad787](https://github.com/ekasetiawans/flutter_background_service/commit/e90ad787b3a7b157aeeec3a45920839aafe2933d))
+
 ## 5.0.0
 
 > Note: This release has breaking changes.
