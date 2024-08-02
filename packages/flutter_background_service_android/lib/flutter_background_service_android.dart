@@ -104,6 +104,8 @@ class FlutterBackgroundServiceAndroid extends FlutterBackgroundServicePlatform {
         "notification_channel_id": androidConfiguration.notificationChannelId,
         "foreground_notification_id":
             androidConfiguration.foregroundServiceNotificationId,
+        "foreground_service_type":
+            androidConfiguration.foregroundServiceType?.name,
       },
     );
 

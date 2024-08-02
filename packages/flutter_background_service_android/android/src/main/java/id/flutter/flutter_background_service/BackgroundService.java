@@ -58,6 +58,7 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
     private String notificationContent;
     private String notificationChannelId;
     private int notificationId;
+    private String foregroundType;
     private Handler mainHandler;
 
     synchronized public static PowerManager.WakeLock getLock(Context context) {
@@ -102,6 +103,7 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
         notificationTitle = config.getInitialNotificationTitle();
         notificationContent = config.getInitialNotificationContent();
         notificationId = config.getForegroundNotificationId();
+        foregroundType = config.getForegroundServiceType();
         updateNotificationInfo();
         onStartCommand(null, -1, -1);
     }
@@ -169,7 +171,8 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
                     .setContentIntent(pi);
 
             try {
-                ServiceCompat.startForeground(this, notificationId, mBuilder.build(), ServiceInfo.FOREGROUND_SERVICE_TYPE_MANIFEST);
+                Integer serviceType = ForegroundTypeMapper.getForegroundServiceType(foregroundType);
+                ServiceCompat.startForeground(this, notificationId, mBuilder.build(), serviceType);
             } catch (SecurityException e) {
               Log.w(TAG, "Failed to start foreground service due to SecurityException - have you forgotten to request a permission? - " + e.getMessage());
             }

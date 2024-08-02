@@ -57,6 +57,7 @@ Future<void> initializeService() async {
       initialNotificationTitle: 'AWESOME SERVICE',
       initialNotificationContent: 'Initializing',
       foregroundServiceNotificationId: 888,
+      foregroundServiceType: AndroidForegroundType.location,
     ),
     iosConfiguration: IosConfiguration(
       // auto start service

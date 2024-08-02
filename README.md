@@ -15,7 +15,7 @@ A flutter plugin for execute dart code in background.
 > - in android/build.gradle ```ext.kotlin_version = '1.8.10'```
 > - in android/gradle/wrapper/gradle-wrapper.properties ```distributionUrl=https\://services.gradle.org/distributions/gradle-7.5-all.zip```
 
-### Configuration required for Foreground Services on Android 14 (SDK 34)
+### Configuration required for Foreground Services on Android 14+ (SDK 34)
 
 Applications that target SDK 34 and use foreground services need to include some additional configuration to declare the type of foreground service they use:
 
@@ -54,6 +54,20 @@ Applications that target SDK 34 and use foreground services need to include some
   ...
   </application>
 </manifest>
+```
+
+* Add the corresponding foreground service type to your AndroidConfiguration class:
+```dart
+await service.configure(
+    // IOS configuration
+    androidConfiguration: AndroidConfiguration(
+      ...
+      // Add this
+      foregroundServiceType: AndroidForegroundType.WhatForegroundServiceTypeDoYouWant
+      // Example:
+      // foregroundServiceType: AndroidForegroundType.mediaPlayback
+    ),
+  );
 ```
 
 > **WARNING**:
