@@ -77,4 +77,13 @@ public class Config {
     public void setForegroundNotificationId(int value) {
         pref.edit().putInt("foreground_notification_id", value).apply();
     }
+
+    public String getForegroundServiceType() {
+        return pref.getString("foreground_service_type", null);
+    }
+
+    public void setForegroundServiceType(String value) {
+        pref.edit().putString("foreground_service_type", value).apply();
+    }
+
 }

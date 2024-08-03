@@ -23,6 +23,22 @@ class IosConfiguration {
   });
 }
 
+enum AndroidForegroundType {
+  camera,
+  connectedDevice,
+  dataSync,
+  health,
+  location,
+  mediaPlayback,
+  mediaProjection,
+  microphone,
+  phoneCall,
+  remoteMessaging,
+  shortService,
+  specialUse,
+  systemExempted
+}
+
 class AndroidConfiguration {
   /// must be a top level or static method
   final Function(ServiceInstance service) onStart;
@@ -47,6 +63,7 @@ class AndroidConfiguration {
 
   /// notification id will be used by foreground service
   final int foregroundServiceNotificationId;
+  final AndroidForegroundType? foregroundServiceType;
 
   AndroidConfiguration({
     required this.onStart,
@@ -57,5 +74,6 @@ class AndroidConfiguration {
     this.initialNotificationTitle = 'Background Service',
     this.notificationChannelId,
     this.foregroundServiceNotificationId = 112233,
+    this.foregroundServiceType,
   });
 }
