@@ -1,3 +1,7 @@
+## 5.1.1
+
+ - **FIX**: fix crash on android 14 after starting foreground service. ([4bdc46d9](https://github.com/ekasetiawans/flutter_background_service/commit/4bdc46d951febafbcbb2b118324cddc2b30ad752))
+
 ## 5.1.0
 
  - **FEAT**: updated dependencies. ([e90ad787](https://github.com/ekasetiawans/flutter_background_service/commit/e90ad787b3a7b157aeeec3a45920839aafe2933d))

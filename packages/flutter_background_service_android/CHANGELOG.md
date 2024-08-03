@@ -1,3 +1,7 @@
+## 6.2.4
+
+ - **FIX**: fix crash on android 14 after starting foreground service. ([4bdc46d9](https://github.com/ekasetiawans/flutter_background_service/commit/4bdc46d951febafbcbb2b118324cddc2b30ad752))
+
 ## 6.2.3
 
  - Update a dependency to the latest release.
