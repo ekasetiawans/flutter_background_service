@@ -63,9 +63,9 @@ await service.configure(
     androidConfiguration: AndroidConfiguration(
       ...
       // Add this
-      foregroundServiceType: AndroidForegroundType.WhatForegroundServiceTypeDoYouWant
+      foregroundServiceTypes: [AndroidForegroundType.WhatForegroundServiceTypeDoYouWant]
       // Example:
-      // foregroundServiceType: AndroidForegroundType.mediaPlayback
+      // foregroundServiceTypes: [AndroidForegroundType.mediaPlayback]
     ),
   );
 ```
