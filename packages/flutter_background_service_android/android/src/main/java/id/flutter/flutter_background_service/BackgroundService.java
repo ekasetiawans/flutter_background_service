@@ -28,8 +28,6 @@ import androidx.core.app.ServiceCompat;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ObjectInputFilter.Config;
-import java.nio.channels.Pipe;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
