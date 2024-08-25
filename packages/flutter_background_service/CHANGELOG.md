@@ -1,3 +1,7 @@
+## 5.0.9
+
+ - Update a dependency to the latest release.
+
 ## 5.0.8
 
  - **FIX**: lints. ([7b63fca4](https://github.com/ekasetiawans/flutter_background_service/commit/7b63fca4e97941b2891570bd80701c7bb98cda23))

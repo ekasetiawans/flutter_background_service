@@ -1,3 +1,7 @@
+## 5.1.2
+
+ - **FIX**: fix lints. ([95186405](https://github.com/ekasetiawans/flutter_background_service/commit/95186405f2d60112ff83956bce345ebbbc332ad7))
+
 ## 5.1.1
 
  - **FIX**: fix crash on android 14 after starting foreground service. ([4bdc46d9](https://github.com/ekasetiawans/flutter_background_service/commit/4bdc46d951febafbcbb2b118324cddc2b30ad752))

@@ -38,8 +38,8 @@ dependencies:
     # the parent directory to use the current plugin's version.
     path: ../
 
-  flutter_background_service_ios: ^5.0.2
-  flutter_background_service_android: ^6.2.5
+  flutter_background_service_ios: ^5.0.3
+  flutter_background_service_android: ^6.2.6
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.5
