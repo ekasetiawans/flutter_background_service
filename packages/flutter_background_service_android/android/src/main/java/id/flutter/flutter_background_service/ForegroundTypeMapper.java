@@ -25,10 +25,14 @@ public class ForegroundTypeMapper {
         foregroundTypeMap.put("systemExempted", ServiceInfo.FOREGROUND_SERVICE_TYPE_SYSTEM_EXEMPTED);
     }
 
-    public static Integer getForegroundServiceType(String foregroundType) {
-        if (foregroundType == null) {
-            return ServiceInfo.FOREGROUND_SERVICE_TYPE_MANIFEST;
+    public static Integer getForegroundServiceType(String[] foregroundTypes) {
+        Integer foregroundServiceType = ServiceInfo.FOREGROUND_SERVICE_TYPE_MANIFEST;
+        if (foregroundTypes != null && foregroundTypes.length > 0) {
+            foregroundServiceType = 0;
+            for (String foregroundType : foregroundTypes) {
+                foregroundServiceType |= foregroundTypeMap.get(foregroundType);
+            }
         }
-        return foregroundTypeMap.get(foregroundType);
+        return foregroundServiceType;
     }
 }

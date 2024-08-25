@@ -90,6 +90,16 @@ class FlutterBackgroundServiceAndroid extends FlutterBackgroundServicePlatform {
       throw 'onStart method must be a top-level or static function';
     }
 
+    List<AndroidForegroundType>? configForegroundServiceTypes =
+        androidConfiguration.foregroundServiceTypes;
+    List<String>? foregroundServiceTypes;
+    if (configForegroundServiceTypes != null && configForegroundServiceTypes!.length > 0) {
+      foregroundServiceTypes = [];
+      androidConfiguration.foregroundServiceTypes!.forEach((foregroundServiceType) {
+        foregroundServiceTypes!.add(foregroundServiceType.name);
+      });
+    }
+
     final result = await _channel.invokeMethod(
       "configure",
       {
@@ -104,8 +114,7 @@ class FlutterBackgroundServiceAndroid extends FlutterBackgroundServicePlatform {
         "notification_channel_id": androidConfiguration.notificationChannelId,
         "foreground_notification_id":
             androidConfiguration.foregroundServiceNotificationId,
-        "foreground_service_type":
-            androidConfiguration.foregroundServiceType?.name,
+        "foreground_service_types": foregroundServiceTypes,
       },
     );
 

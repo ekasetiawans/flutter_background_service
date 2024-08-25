@@ -63,7 +63,9 @@ class AndroidConfiguration {
 
   /// notification id will be used by foreground service
   final int foregroundServiceNotificationId;
-  final AndroidForegroundType? foregroundServiceType;
+
+  /// foreground service types
+  final List<AndroidForegroundType>? foregroundServiceTypes;
 
   AndroidConfiguration({
     required this.onStart,
@@ -74,6 +76,6 @@ class AndroidConfiguration {
     this.initialNotificationTitle = 'Background Service',
     this.notificationChannelId,
     this.foregroundServiceNotificationId = 112233,
-    this.foregroundServiceType,
+    this.foregroundServiceTypes,
   });
 }
