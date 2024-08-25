@@ -93,9 +93,11 @@ class FlutterBackgroundServiceAndroid extends FlutterBackgroundServicePlatform {
     List<AndroidForegroundType>? configForegroundServiceTypes =
         androidConfiguration.foregroundServiceTypes;
     List<String>? foregroundServiceTypes;
-    if (configForegroundServiceTypes != null && configForegroundServiceTypes!.length > 0) {
+    if (configForegroundServiceTypes != null &&
+        configForegroundServiceTypes.length > 0) {
       foregroundServiceTypes = [];
-      androidConfiguration.foregroundServiceTypes!.forEach((foregroundServiceType) {
+      androidConfiguration.foregroundServiceTypes!
+          .forEach((foregroundServiceType) {
         foregroundServiceTypes!.add(foregroundServiceType.name);
       });
     }
