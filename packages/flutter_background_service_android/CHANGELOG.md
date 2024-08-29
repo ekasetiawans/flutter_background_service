@@ -1,3 +1,7 @@
+## 6.2.7
+
+ - **BUG**: service crash due to START_STICKY. ([a000a6ba](https://github.com/ekasetiawans/flutter_background_service/commit/a000a6bae974de543c9f37275e2aab177c197339))
+
 ## 6.2.6
 
  - Update a dependency to the latest release.
