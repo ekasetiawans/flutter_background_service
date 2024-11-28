@@ -11,6 +11,7 @@ import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.content.pm.ServiceInfo;
 import android.os.Build;
 import android.os.Handler;
@@ -32,6 +33,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import io.flutter.FlutterInjector;
@@ -190,7 +192,36 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
         WatchdogReceiver.enqueue(this);
         runService();
 
-        return START_NOT_STICKY;
+        if (intent == null || intent.getAction() == null) {
+            return START_STICKY;
+        }
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            String action = intent.getAction();
+            jsonObject.put("method", action);
+
+            Bundle extras = intent.getExtras();
+            JSONObject extrasJson = new JSONObject();
+            if (extras != null) {
+                Set<String> keys = extras.keySet();
+                for (String key : keys) {
+                    Object value = extras.get(key);
+                    extrasJson.put(key, value == null ? JSONObject.NULL : value.toString());
+                }
+            }
+            jsonObject.put("args", extrasJson);
+
+        } catch (JSONException e) {
+            Log.e(TAG, "JSON construction error: ", e);
+        }
+
+        mainHandler.post(() -> {
+            if (methodChannel == null) return;
+            methodChannel.invokeMethod("onReceiveData", jsonObject);
+        });
+
+        return START_STICKY;
     }
 
     @SuppressLint("WakelockTimeout")
