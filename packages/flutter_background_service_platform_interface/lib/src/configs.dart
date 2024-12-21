@@ -46,7 +46,7 @@ class AndroidConfiguration {
   /// whether service can start automatically after configure
   final bool autoStart;
 
-  /// wheter service can start automatically on boot
+  /// whether service can start automatically on boot
   final bool autoStartOnBoot;
 
   /// whether service is foreground or background mode
