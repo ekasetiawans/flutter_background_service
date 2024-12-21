@@ -29,6 +29,32 @@ Packages with other changes:
  - **FEAT**: remove unused imports. ([d0bbb433](https://github.com/ekasetiawans/flutter_background_service/commit/d0bbb43312877af51b5403c6fc42dd9ec2a44789))
 
 
+## 2024-12-21
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`flutter_background_service` - `v5.1.0`](#flutter_background_service---v510)
+ - [`flutter_background_service_android` - `v6.3.0`](#flutter_background_service_android---v630)
+
+---
+
+#### `flutter_background_service` - `v5.1.0`
+
+ - **FEAT**: remove unused imports. ([d0bbb433](https://github.com/ekasetiawans/flutter_background_service/commit/d0bbb43312877af51b5403c6fc42dd9ec2a44789))
+
+#### `flutter_background_service_android` - `v6.3.0`
+
+ - **FEAT**: remove unused imports. ([d0bbb433](https://github.com/ekasetiawans/flutter_background_service/commit/d0bbb43312877af51b5403c6fc42dd9ec2a44789))
+
+
 ## 2024-08-29
 
 ### Changes
