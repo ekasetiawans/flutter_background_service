@@ -1,3 +1,7 @@
+## 6.3.0
+
+ - **FEAT**: remove unused imports. ([d0bbb433](https://github.com/ekasetiawans/flutter_background_service/commit/d0bbb43312877af51b5403c6fc42dd9ec2a44789))
+
 ## 6.2.7
 
  - **BUG**: service crash due to START_STICKY. ([a000a6ba](https://github.com/ekasetiawans/flutter_background_service/commit/a000a6bae974de543c9f37275e2aab177c197339))
