@@ -1,7 +1,7 @@
 package id.flutter.flutter_background_service;
 
-import android.app.Service;
 import android.content.pm.ServiceInfo;
+
 import java.util.HashMap;
 import java.util.Map;
 
