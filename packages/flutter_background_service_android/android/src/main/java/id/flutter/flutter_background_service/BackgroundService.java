@@ -3,12 +3,10 @@ package id.flutter.flutter_background_service;
 import static android.os.Build.VERSION.SDK_INT;
 
 import android.annotation.SuppressLint;
-import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,7 +17,6 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
-import android.os.SystemClock;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -30,7 +27,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -43,7 +39,6 @@ import io.flutter.embedding.engine.loader.FlutterLoader;
 import io.flutter.plugin.common.JSONMethodCodec;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
-import io.flutter.plugin.common.PluginRegistry;
 
 public class BackgroundService extends Service implements MethodChannel.MethodCallHandler {
     private static final String TAG = "BackgroundService";
