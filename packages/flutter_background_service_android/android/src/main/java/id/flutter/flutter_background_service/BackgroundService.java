@@ -114,8 +114,6 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
 
         if (backgroundEngine != null) {
             backgroundEngine.getServiceControlSurface().detachFromService();
-            backgroundEngine.destroy();
-            backgroundEngine = null;
         }
 
         FlutterBackgroundServicePlugin.servicePipe.removeListener(listener);
