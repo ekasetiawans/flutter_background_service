@@ -40,9 +40,7 @@ public class WatchdogReceiver extends BroadcastReceiver {
         // by default.
         boolean isScheduleExactAlarmsGranted = true;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            isScheduleExactAlarmsGranted = PackageManager.PERMISSION_GRANTED == context.checkSelfPermission(
-                    Manifest.permission.SCHEDULE_EXACT_ALARM
-            );
+            isScheduleExactAlarmsGranted = manager.canScheduleExactAlarms();
         }
 
         // Check is background service every 5 seconds
