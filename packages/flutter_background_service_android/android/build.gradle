@@ -23,7 +23,9 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 34
+
     namespace = "id.flutter.flutter_background_service"
+    
     defaultConfig {
         minSdkVersion 16
         consumerProguardFiles 'proguard-rules.pro'
