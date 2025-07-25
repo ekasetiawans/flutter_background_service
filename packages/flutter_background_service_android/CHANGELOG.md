@@ -1,3 +1,8 @@
+## 6.3.1
+
+ - **FIX**(android): add namespace to support AGP 8.0+. ([76b0c396](https://github.com/ekasetiawans/flutter_background_service/commit/76b0c3960e2e65b5be8c60a2de0b7c0565691769))
+ - **FIX**: manually disabling Alarms & reminders permission on Android 12 causes an exception when starting service on reboot. ([135fed1f](https://github.com/ekasetiawans/flutter_background_service/commit/135fed1f3a49b5c674718a112beb2ca71a19d1b0))
+
 ## 6.3.0
 
  - **FEAT**: remove unused imports. ([d0bbb433](https://github.com/ekasetiawans/flutter_background_service/commit/d0bbb43312877af51b5403c6fc42dd9ec2a44789))
