@@ -55,6 +55,14 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
     private String[] foregroundTypes;
     private Handler mainHandler;
 
+    // Hook for allowing custom plugin registration
+    public static FlutterEngineHook engineHook;
+
+    public interface FlutterEngineHook {
+        void onEngineCreated(FlutterEngine engine);
+    }
+
+
     synchronized public static PowerManager.WakeLock getLock(Context context) {
         if (lockStatic == null) {
             PowerManager mgr = (PowerManager) context
@@ -209,6 +217,11 @@ public class BackgroundService extends Service implements MethodChannel.MethodCa
 
             isRunning.set(true);
             backgroundEngine = new FlutterEngine(this);
+
+            // Call the custom hook, if it's set
+            if (engineHook != null) {
+                engineHook.onEngineCreated(backgroundEngine);
+            }
 
             // remove FlutterBackgroundServicePlugin (because its only for UI)
             backgroundEngine.getPlugins().remove(FlutterBackgroundServicePlugin.class);
